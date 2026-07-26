@@ -1,0 +1,392 @@
+aid: pricefinder
+name: Pricefinder
+review:
+  question: Does Pricefinder publish a reachable machine-readable API contract, and
+    is the data behind it openly accessible?
+  answer: partial
+  date: '2026-07-26'
+  reviewer: API Evangelist
+  summary: |
+    Yes to the contract, no to the data. Pricefinder serves a complete Swagger 2.0
+    document and an interactive Swagger UI anonymously over the public internet from
+    api.pricefinder.com.au — no login, no key, no referrer check. Every data path
+    behind that contract returns HTTP 401 without an access token, and access tokens
+    are only issued to customers on a commercially negotiated, sales-led subscription
+    governed by the Domain Group API Terms and Conditions. This is the inverse of the
+    US RESO pattern: instead of a certified-but-undiscoverable endpoint, Pricefinder
+    offers a fully discoverable-but-licensed one.
+
+homeMarket:
+  country: Australia
+  countryCode: AU
+  scope: National — all states and territories (NSW, VIC, QLD, SA, WA, TAS, NT, ACT)
+  segment: Property data, market statistics and AVM/valuation supply to agents, brokers,
+    lenders, valuers, developers, advisory and government
+  ownership: |
+    Pricefinder is a brand of Domain Holdings Australia Limited. CoStar Group entered
+    a binding Scheme Implementation Deed in May 2025 and completed the acquisition of
+    Domain on 27 August 2025. The pricefinder.com.au footer now reads
+    "© 2025, CoStar Group Inc." (observed 2026-07-26), and the API's own Swagger
+    `info.license.url` points at https://www.domain.com.au/group/api-terms-and-conditions/.
+    Sibling brands in the same group: Domain, Allhomes, Commercial Real Estate,
+    Domain Insight.
+
+resoPosture:
+  verdict: no RESO reference found
+  certified: false
+  webApiCertification: none — no RESO Web API certification claimed, referenced or
+    discoverable for Pricefinder or for Domain Holdings Australia
+  dataDictionaryCertification: none — no RESO Data Dictionary certification and no
+    version (1.7, 2.0 or otherwise) referenced anywhere
+  certificationDirectoryEvidence: |
+    No RESO certification directory listing was found for Pricefinder or Domain.
+    RESO certification is an artifact of the US MLS system administered under the
+    National Association of REALTORS; Australia has no MLS, no board/association
+    licensing of listing data, and no RESO regime. The Australian market is a portal
+    duopoly — REA Group's realestate.com.au and Domain — sitting over privatised
+    state land registries, with PEXA as the electronic conveyancing rail. RESO is
+    simply absent from this market, and that absence is the honest finding.
+  odataSurface: |
+    None. The Pricefinder API is plain JSON-over-HTTPS described by Swagger 2.0, not
+    OData. Probed https://api.pricefinder.com.au/$metadata → HTTP 404. No $metadata
+    document is served at any probed path. The string "odata" appears zero times in
+    the 306,784-byte swagger.json.
+  universalPropertyIdentifier: |
+    No RESO Universal Property Identifier (UPI). The string "reso" appears zero times
+    and "universal property identifier" zero times in the harvested contract. (A
+    case-insensitive substring search for "upi" returns two hits, both inside the
+    property name "ownerOccupied" — not a UPI reference.) Pricefinder's identity model
+    is a proprietary integer `propertyId`, joined to Australian land-title references
+    through per-state plan / planType / lot / section / volume / folio / division
+    lookup paths under /references/states/{state}/...
+
+accessGate:
+  gate: application-approval
+  gated: true
+  selfServeSignup: false
+  whatADeveloperMustDoOrSign: |
+    1. There is no developer signup, no free tier, no sandbox and no trial key.
+    2. The only route in is the industry-segmented "Get started" funnel at
+       https://www.pricefinder.com.au/get-started/ (HTTP 200), which asks which
+       industry you are in — Investors & Individuals, Real Estate Agency, Mortgage
+       Brokerage, Finance, Property Development, Valuation, Advisory, Other — and
+       then presents "Custom plans designed to suit your business / Contact sales"
+       and a contact form. A human follows up.
+    3. The resulting subscription is a commercial contract with a stated minimum
+       subscription period of one month.
+    4. API use is governed by the Domain Group API Terms and Conditions, which the
+       API declares itself in its own Swagger `info.license` block:
+       name "Terms and Conditions", url
+       https://www.domain.com.au/group/api-terms-and-conditions/.
+    5. Once a customer, the API credentials are the customer's Pricefinder account
+       username and password used as OAuth2 client_id / client_secret. Pricefinder's
+       own help centre describes API users continuing to use their "Swagger page
+       credentials" after a login change.
+    6. There is no MLS, board or association membership requirement, and no
+       requirement to hold a real estate licence or be sponsored by a broker —
+       this is a straight commercial data licence, not a US-style membership gate.
+  notMembershipRequired: true
+  notBrokerOrAgentOnly: true
+  evidence:
+    - probe: GET https://api.pricefinder.com.au/v1/suggest/properties?q=1%20George%20St
+      status: 401
+      note: Anonymous data call rejected.
+    - probe: GET https://api.pricefinder.com.au/v1/features
+      status: 401
+      note: Anonymous data call rejected.
+    - probe: POST https://api.pricefinder.com.au/v1/oauth2/token (grant_type=client_credentials,
+        no credentials)
+      status: 401
+      note: Token endpoint itself rejects anonymous callers.
+    - probe: GET https://api.pricefinder.com.au/v1/swagger.json
+      status: 200
+      note: Full contract served anonymously — the gate is on data, not on the contract.
+
+openData:
+  hasOpenData: false
+  note: |
+    Nothing Pricefinder serves is open data. Pricefinder is a commercial aggregator:
+    it enriches Domain and Allhomes first-party listing feeds with state and territory
+    government land valuation data (its /our-data/ page names ACT, SA, QLD, NSW, TAS
+    and NT land valuation departments) and government sale transactions, then licenses
+    the result. The underlying government sources may be open in their own right, but
+    Pricefinder republishes them only under a paid licence, and its ownership-detail
+    product is explicitly restricted ("Available for WA, QLD, NSW, VIC. Restrictions
+    apply."). There is no unlicensed, publicly callable Pricefinder dataset.
+
+authModel:
+  scheme: OAuth 2.0
+  tokenEndpoint: POST https://api.pricefinder.com.au/v1/oauth2/token
+  grantTypes:
+    - client_credentials
+    - authorization_code
+    - refresh_token
+  credentialModel: |
+    client_id / client_secret are the API user's Pricefinder username and password.
+    HTTP Basic auth is documented as an accepted alternative to passing username and
+    password as form parameters.
+  tokenPresentation: |
+    "Authorization: Bearer <token>" request header, or "?access_token=<token>" query
+    parameter — both documented in the contract.
+  delegatedAuthorization: |
+    A hosted authorize page exists at
+    https://api.pricefinder.com.au/v1/auth/authorize.html (probed 2026-07-26, HTTP 200,
+    renders a "PriceFinder Login" page). The documented pattern is
+    /v1/auth/authorize.html?client_id=<username>&state=<random>&redirect_uri=<callback>,
+    HTTPS required, returning ?state=&code= on approval and ?error=access_denied on
+    refusal — a real three-legged OAuth flow for acting on another user's behalf.
+  openidConnect: |
+    Not offered. GET https://api.pricefinder.com.au/.well-known/openid-configuration
+    → HTTP 404 (probed anonymously, 2026-07-26). No OIDC discovery document is served.
+  securityDefinitionsInSpec: |
+    Notably absent — the Swagger 2.0 document declares no `securityDefinitions` and
+    no `security` block at all. The entire OAuth2 flow is described only in prose in
+    the description of POST /oauth2/token. A machine reading this contract cannot
+    derive the auth model from its security metadata; a human has to read the HTML in
+    the description field. This is a real governance gap in an otherwise strong spec.
+
+developerSurface:
+  developerPortal: https://api.pricefinder.com.au/v1/swagger/index.html
+  developerPortalStatus: 200
+  developerPortalNote: |
+    A live, anonymously reachable Swagger UI titled "Pricefinder Swagger UI" (a legacy
+    Swagger UI 2.x build — jQuery 1.8, Backbone, Handlebars, swagger-oauth.js). It is
+    a genuine public API reference, not a member login wall. It is NOT a self-serve
+    signup portal: you can read every operation but you cannot obtain a key from it.
+  subdomainsProbed:
+    - url: https://developer.pricefinder.com.au/
+      status: DNS NXDOMAIN
+    - url: https://developers.pricefinder.com.au/
+      status: DNS NXDOMAIN
+    - url: https://docs.pricefinder.com.au/
+      status: DNS NXDOMAIN
+    - url: https://api.pricefinder.com.au/
+      status: 200
+      note: Serves the DEFAULT Apache Tomcat 7.0.109 welcome page ("If you're seeing
+        this, you've successfully installed Tomcat. Congratulations!") with links to
+        /manager/html and /host-manager/html. The API itself lives under /v1. Server
+        hygiene finding, reported as observed; no manager application was probed.
+    - url: https://status.pricefinder.com.au/
+      status: DNS NXDOMAIN
+  pathsProbed:
+    - url: https://www.pricefinder.com.au/api/
+      status: 301 → https://www.pricefinder.com.au/get-started/
+      note: The marketing "API" page now redirects into the sales funnel.
+    - url: https://www.pricefinder.com.au/get-started/
+      status: 200
+    - url: https://www.pricefinder.com.au/our-data/
+      status: 200
+    - url: https://www.pricefinder.com.au/integrations/
+      status: 200
+    - url: https://api.pricefinder.com.au/v1/swagger
+      status: 302 → /v1/swagger/
+    - url: https://api.pricefinder.com.au/v1/swagger/
+      status: 404
+    - url: https://api.pricefinder.com.au/v1/swagger/index.html
+      status: 200
+    - url: https://api.pricefinder.com.au/v1/swagger.json
+      status: 200
+    - url: https://api.pricefinder.com.au/v1/swagger.yaml
+      status: 200
+    - url: https://api.pricefinder.com.au/v1/api-docs
+      status: 401
+    - url: https://api.pricefinder.com.au/v1/openapi.json
+      status: 401
+    - url: https://api.pricefinder.com.au/$metadata
+      status: 404
+    - url: https://api.pricefinder.com.au/.well-known/openid-configuration
+      status: 404
+    - url: https://www.pricefinder.com.au/sitemap_index.xml
+      status: 403
+      note: Akamai edge bot protection ("Access Denied", errors.edgesuite.net
+        reference). www.pricefinder.com.au returns 403 to default clients and 200 to
+        a full browser header set; recorded so future crawls do not misread it as
+        content-gone.
+  crawlNote: |
+    www.pricefinder.com.au sits behind Akamai Bot Manager. Plain curl and the standard
+    fetch agent both receive HTTP 403; a complete Chrome header set (User-Agent,
+    Accept, Accept-Language, Sec-Fetch-*, sec-ch-ua, Upgrade-Insecure-Requests)
+    receives HTTP 200. api.pricefinder.com.au is not behind that protection.
+
+harvestedSpecs:
+  - path: openapi/pricefinder-api-swagger.json
+    sourceURL: https://api.pricefinder.com.au/v1/swagger.json
+    httpStatus: 200
+    contentType: application/json
+    bytes: 306784
+    fetchedDate: '2026-07-26'
+    format: Swagger 2.0
+    specTitle: PriceFinder API v1.13.1
+    specVersion: 1.13.1
+    paths: 112
+    definitions: 188
+    parses: true
+    verbatim: true
+  - path: openapi/pricefinder-api-swagger.yml
+    sourceURL: https://api.pricefinder.com.au/v1/swagger.yaml
+    httpStatus: 200
+    contentType: application/yaml
+    bytes: 432953
+    fetchedDate: '2026-07-26'
+    format: Swagger 2.0 (YAML serialization of the same contract)
+    paths: 112
+    parses: true
+    verbatim: true
+    note: Same 112 paths as the JSON serialization; confirmed identical path set. Two
+      files, one contract.
+
+contractShape:
+  basePath: /v1
+  resolvedBaseURL: https://api.pricefinder.com.au/v1
+  baseURLNote: The spec declares no `host` and no `schemes`; the absolute base URL is
+    taken from the provider's own documented curl example in the /oauth2/token
+    description and confirmed by live probes.
+  httpMethods: Predominantly GET. POST appears only on /oauth2/token, event
+    subscriptions, /events/cmaEvent/{cmaId} and /properties/{id}/images/streetview;
+    DELETE only on event subscriptions. There is no write path into listings,
+    valuations or property records — this is a read/report API.
+  declaredTags:
+    subscriptions: 5
+    references: 25
+    sso: 9
+    properties: 22
+    postcodes: 4
+    images: 1
+    suburbs: 15
+    sales: 1
+    rentals: 1
+    listings: 1
+    spatial: 4
+    names: 3
+    suggest: 6
+    events: 1
+    appraisals: 11
+    stubs: 1
+    streets: 4
+    features: 1
+    oauth2: 1
+  productSegmentation: |
+    The segmentation in apis.yml mirrors the provider's own Swagger tags exactly — no
+    grouping was invented. Mapped to the sector taxonomy: listings/search = suggest,
+    spatial, names, listings; property records = properties, images, streets,
+    postcodes; valuation/AVM = /properties/{id}/avm and /avm/pdf plus autocma PDFs;
+    transactions = sales, rentals; documents = the PDF report endpoints and
+    appraisals (CMA, rental CMA, statement of information); title/land registry =
+    references. There is no tenancy/property-management surface and no payments
+    surface — Pricefinder does not touch money or conveyancing settlement (PEXA is
+    the Australian rail for that, and Pricefinder does not integrate with it in this
+    contract).
+
+webhooksEventsSdksPostman:
+  webhooks: |
+    None. Absence is the finding. The `subscriptions` tag looks like webhooks but is
+    not: POST /eventsubscriptions/properties states plainly that property event alerts
+    are "currently only available through email notifications". Event types are
+    ForSale, ForRent, Sold and SoldVerified. There is no callback URL parameter, no
+    signing secret, no delivery/retry semantics and no HTTP push anywhere in the
+    contract. The string "webhook" appears zero times in swagger.json.
+  streamingOrAsync: None. No WebSocket, SSE, or message-queue surface is documented.
+    No AsyncAPI.
+  officialSDKs: |
+    None published by Pricefinder. No SDK, client library, CLI or code-sample
+    repository was found on any Pricefinder or Domain property. A third-party Ruby
+    client exists at github.com/realhub/pricefinder-ruby, maintained by Realhub, not
+    by Pricefinder — recorded as community, not official.
+  postmanCollection: None found. No Postman workspace, collection or "Run in Postman"
+    button on any reachable Pricefinder surface.
+  changelog: None published. Version 1.13.1 is visible only in the spec's `info.version`;
+    no release notes, deprecation policy or version history is served.
+  statusPage: None. status.pricefinder.com.au does not resolve.
+  integrations: |
+    Pricefinder publishes a partner integrations directory at
+    https://www.pricefinder.com.au/integrations/ (HTTP 200) listing CRM, forms,
+    proposal and agreement partners — Rex Software, SalesTrekker, Realtair, LockedOn,
+    Aro Software, Engage, Real Time Agent, REI Forms Live, Realworks, Forms Live —
+    with a "Become an integration partner" call to action. These are commercial
+    partnerships built on the same gated API, not a public app marketplace.
+
+findings:
+  headline: |
+    Pricefinder is the cleanest example in this study of a provider whose CONTRACT is
+    open and whose DATA is closed. The 112-path Swagger 2.0 document is downloadable
+    by anyone, in two serializations, with no authentication — you can read every
+    operation, every one of 188 schemas, and the complete OAuth2 prose before you ever
+    speak to a salesperson. Then every call returns 401 and the only way forward is a
+    negotiated commercial subscription.
+  reso: |
+    RESO is absent, and that is the correct answer for Australia. There is no MLS to
+    certify against, no NAR, no IDX or VOW licence, and no association membership in
+    the path. What replaces RESO here is not a standard at all but a proprietary
+    integer propertyId, reconciled to eight different state and territory land-title
+    reference schemes through 25 bespoke lookup paths — a per-jurisdiction adapter
+    layer standing in for the interoperability RESO's Data Dictionary provides in the
+    United States.
+  gateVsCertification: |
+    The two facts to keep separate: reachability of the contract (excellent — 200,
+    anonymous, parses, complete) and reachability of the data (application-approval,
+    sales-led, minimum one-month commercial term, Domain Group API Terms and
+    Conditions). Neither implies the other.
+  governanceGaps:
+    - No `securityDefinitions` or `security` block in a spec whose entire auth model
+      is OAuth2 — the auth is documented in HTML prose inside an operation description.
+    - No `host` or `schemes` declared, so the contract is not self-locating.
+    - Swagger 2.0 in 2026, not OpenAPI 3.x.
+    - Vendor extension `pds` (hidden/extra/enumerate/deprecated) is attached to
+      parameters as a raw sibling key rather than an `x-` prefixed extension, which is
+      invalid under the Swagger 2.0 extension rules and will trip strict validators.
+    - "Deprecation is signalled only through that non-standard `pds` object; there
+      is no standard `deprecated: true` flag, no sunset headers, no changelog."
+    - No webhooks; event subscriptions deliver by email only.
+
+sources:
+  - url: https://api.pricefinder.com.au/v1/swagger.json
+    type: OpenAPI
+    status: 200
+    note: Full Swagger 2.0 contract, served anonymously. Primary evidence for every
+      endpoint, tag and auth claim above.
+  - url: https://api.pricefinder.com.au/v1/swagger.yaml
+    type: OpenAPI
+    status: 200
+    note: YAML serialization of the same contract.
+  - url: https://api.pricefinder.com.au/v1/swagger/index.html
+    type: APIReference
+    status: 200
+    note: Live public Swagger UI. The de facto developer portal.
+  - url: https://api.pricefinder.com.au/v1/auth/authorize.html
+    type: Authentication
+    status: 200
+    note: Hosted OAuth2 authorization page ("PriceFinder Login").
+  - url: https://www.pricefinder.com.au/api/
+    type: Documentation
+    status: 301
+    note: Redirects to /get-started/ — the marketing API page is now the sales funnel.
+  - url: https://www.pricefinder.com.au/get-started/
+    type: SignUp
+    status: 200
+    note: Industry-segmented contact funnel. "Custom plans designed to suit your
+      business / Contact sales". Evidence for the application-approval gate.
+  - url: https://www.pricefinder.com.au/our-data/
+    type: Documentation
+    status: 200
+    note: Data provenance — Domain and Allhomes first-party feeds, government land
+      valuation data for ACT/SA/QLD/NSW/TAS/NT, 14M+ properties, 30+ years of sales
+      history. Evidence for the no-open-data finding.
+  - url: https://www.pricefinder.com.au/integrations/
+    type: Integrations
+    status: 200
+    note: Partner directory; also carries the "© 2025, CoStar Group Inc." footer.
+  - url: https://www.domain.com.au/group/api-terms-and-conditions/
+    type: TermsOfService
+    status: 403
+    note: Declared by the API itself in `info.license.url`. Not directly retrievable
+      from this environment (domain.com.au also sits behind edge bot protection), but
+      it is the provider's own stated licence for API use.
+  - url: https://help.pricefinder.com.au/
+    type: Support
+    status: 403
+    note: Zendesk help centre; blocked to this crawler. Public articles reference API
+      users continuing to use their "Swagger page credentials" after a login change.
+  - url: https://github.com/realhub/pricefinder-ruby
+    type: SDK
+    note: Third-party Ruby client, not published or endorsed by Pricefinder. Confirms
+      the client_id/client_secret = username/password credential model.
