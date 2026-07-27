@@ -1,0 +1,153 @@
+generated: '2026-07-26'
+method: searched
+source: |
+  Registry probes (npm, PyPI, RubyGems, Packagist, crates.io, Maven Central, NuGet,
+  pkg.go.dev) plus the Pricefinder contract's own /stubs/{language} code-generation
+  operation, harvested 2026-07-26.
+
+summary: |
+  Pricefinder publishes no supported, versioned client library to any public package
+  registry under its own or Domain Group's name. What it does ship is a first-party
+  CLIENT-LIBRARY GENERATOR built into the API itself: GET /v1/stubs/{language}
+  (operationId generateStub) returns a swagger-codegen ZIP for any of 38 target
+  languages. It is first-party (served from api.pricefinder.com.au, described in
+  Pricefinder's own Swagger 2.0 contract), but the contract states plainly that
+  "Pricefinder is unable to provide support for this endpoint, it is provided as a
+  convenience. There is no guarantee of backwards compatibility for this method."
+  It is also auth-gated — an anonymous GET returns HTTP 401 (probed 2026-07-26).
+  Everything on a public registry is third-party.
+
+generator:
+  official: true
+  supported: false
+  operation: generateStub
+  method: GET
+  url: https://api.pricefinder.com.au/v1/stubs/{language}
+  source_operation: openapi/pricefinder-api-swagger.json#generateStub
+  produces: application/zip
+  toolchain: swagger-codegen (inferred from the target-language enum, which is the
+    swagger-codegen 2.x generator list verbatim)
+  anonymous_probe:
+    url: https://api.pricefinder.com.au/v1/stubs/java
+    status: 401
+    date: '2026-07-26'
+  provider_note: |
+    "Accepts a language and returns a set of stubs. Pricefinder is unable to provide
+    support for this endpoint, it is provided as a convenience. There is no guarantee
+    of backwards compatibility for this method." — verbatim from the operation
+    description in the Swagger 2.0 contract.
+  languages:
+  - android
+  - async-scala
+  - bash
+  - cwiki
+  - csharp
+  - cpprest
+  - dart
+  - elixir
+  - flash
+  - go
+  - groovy
+  - java
+  - jaxrs-cxf-client
+  - javascript
+  - javascript-closure-angular
+  - jmeter
+  - objc
+  - perl
+  - php
+  - python
+  - qt5cpp
+  - ruby
+  - scala
+  - dynamic-html
+  - html
+  - html2
+  - swagger
+  - swagger-yaml
+  - swift
+  - swift3
+  - tizen
+  - typescript-angular2
+  - typescript-angular
+  - typescript-node
+  - typescript-fetch
+  - akka-scala
+  - CsharpDotNet2
+  - clojure
+
+packages:
+- language: ruby
+  registry: rubygems
+  name: pricefinder
+  version: 1.0.1
+  url: https://rubygems.org/gems/pricefinder
+  repository: https://github.com/realhub/pricefinder-ruby
+  install: gem install pricefinder
+  license: MIT
+  author: Realhub Systems
+  downloads: 12770
+  official: false
+  note: |
+    Third-party. "Thin ruby bindings for the APM Pricefinder API", maintained by
+    Realhub (a Pricefinder integration partner), not by Pricefinder or Domain Group.
+    README states only GET requests are supported. Its gem description is copied
+    verbatim from the Pricefinder Swagger info.description.
+- language: javascript
+  registry: npm
+  name: domain-pricefinder
+  version: 0.2.1
+  url: https://www.npmjs.com/package/domain-pricefinder
+  install: npm install domain-pricefinder
+  author: David Howell <david@dynamicmethods.com.au>
+  published: '2019-03-17'
+  last_modified: '2022-04-29'
+  official: false
+  note: |
+    Third-party despite the "domain-" name prefix. Published by Dynamic Methods
+    (dynamicmethods.com.au), an Australian dev shop, not by Domain Holdings
+    Australia. No repository, homepage or description declared on the package.
+- language: javascript
+  registry: npm
+  name: domain-pricefinder-geocode
+  version: 0.3.0
+  url: https://www.npmjs.com/package/domain-pricefinder-geocode
+  install: npm install domain-pricefinder-geocode
+  author: David Howell <david@dynamicmethods.com.au>
+  published: '2019-03-18'
+  last_modified: '2022-04-29'
+  official: false
+  note: Third-party companion to domain-pricefinder, same publisher.
+
+registries_probed:
+- registry: npm
+  query: pricefinder
+  first_party_hits: 0
+  note: Only third-party packages returned (domain-pricefinder,
+    domain-pricefinder-geocode, price-finder, pricefinder-ecommerce). No
+    @pricefinder or @domain-group scope exists.
+- registry: pypi
+  query: pricefinder
+  status: 404
+  first_party_hits: 0
+- registry: rubygems
+  query: pricefinder
+  status: 200
+  first_party_hits: 0
+  note: The `pricefinder` gem name is held by Realhub, a third party.
+- registry: packagist
+  query: pricefinder/pricefinder
+  status: 404
+  first_party_hits: 0
+- registry: crates.io
+  query: pricefinder
+  first_party_hits: 0
+- registry: maven-central
+  query: pricefinder
+  first_party_hits: 0
+- registry: nuget
+  query: pricefinder
+  first_party_hits: 0
+- registry: pkg.go.dev
+  query: pricefinder
+  first_party_hits: 0

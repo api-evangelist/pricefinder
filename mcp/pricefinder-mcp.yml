@@ -1,0 +1,1236 @@
+generated: '2026-07-26'
+method: derived
+status: candidate
+source: openapi/pricefinder-api-swagger.json (Swagger 2.0 v1.13.1, 112 paths, 116
+  operations)
+
+published_server_search:
+  result: none
+  date: '2026-07-26'
+  searched:
+  - official MCP registry (io.modelcontextprotocol) — no pricefinder or domain-group
+    entry
+  - npm (@modelcontextprotocol scope and free-text "pricefinder") — no first-party
+    server
+  - pricefinder.com.au (all 11 pages in the sitemap) — no AI, agent or MCP page
+  - api.pricefinder.com.au — no /mcp, no /sse; /.well-known/ai-plugin.json → 404
+  - web search for "Pricefinder MCP server" — competitors in the same market have
+    shipped one (PriceHubble, Cotality, HtAG Analytics for Australian suburb data);
+    Pricefinder has not
+  note: |
+    No official hosted or remote MCP server exists. This file is therefore a DERIVED
+    CANDIDATE — a faithful projection of Pricefinder's own published contract into MCP
+    tool shape, produced by API Evangelist, not a Pricefinder product. Nothing here is
+    invented: every tool below binds 1:1 to a real operation in the contract, and each
+    tool's real input schema is that operation's `parameters` block.
+
+server:
+  name: pricefinder
+  transport: http
+  url: null
+  status: not published by the provider
+
+authentication:
+  model: OAuth 2.0 bearer token — see authentication/pricefinder-authentication.yml
+  gate: |
+    Every tool below would require a token issued under a negotiated commercial
+    subscription. There is no self-serve credential, no sandbox and no free tier, so a
+    hosted MCP server for Pricefinder could not be anonymously usable — it would have
+    to broker per-tenant credentials. Anonymous calls return 401 on every data path.
+  scopes: none — the API defines no OAuth scopes; entitlement is discovered at runtime
+    via the get_features tool (GET /features → UserFeatures).
+
+agent_design_notes:
+- |
+  OPERATION ID COLLISIONS FORCED RENAMING. 47 of the 116 operations share a
+  non-unique operationId (`properties` alone repeats across 14 paths). MCP tool names
+  must be unique, so tools derived from a colliding id are suffixed with their path
+  (e.g. properties_by_references_states_nsw_plans, properties_by_postcodes). Each such
+  tool carries operation_id_collision: true. Any forge that keys on operationId alone
+  will silently collapse these 47 operations into 13 tools and lose most of the
+  land-title reference surface.
+- |
+  NO PAGINATION. Collection tools accept `limit` but expose no cursor or page
+  parameter, so an agent cannot iterate past the cap — it must partition the query
+  (date window, price band, property_type, radius) and union client-side.
+- |
+  READ ALL MESSAGES. Most success payloads carry a `messages[]` array of code+text
+  notices covering data quality and jurisdictional suppression. A 200 does not mean a
+  complete answer.
+- |
+  ALWAYS PREFER min_*/max_* FILTERS. The parallel _gt/_lt filter generation is flagged
+  deprecated on 47 operations (see lifecycle/pricefinder-lifecycle.yml).
+- |
+  ONLY 5 WRITE TOOLS, NO IDEMPOTENCY. subscribe/unsubscribe, street-view request and
+  CMA event save are the only mutations, and none accepts an idempotency key. Do not
+  blind-retry a write — read state back first.
+
+coverage:
+  operations_in_contract: 116
+  tools_derived: 116
+  tools_with_collided_operation_id: 47
+  read_tools: 109
+  write_tools: 7
+  by_category:
+    references: 25
+    properties: 22
+    suburbs: 15
+    appraisals: 11
+    sso: 9
+    suggest: 6
+    subscriptions: 5
+    postcodes: 4
+    spatial: 4
+    streets: 4
+    names: 3
+    events: 1
+    features: 1
+    images: 1
+    listings: 1
+    oauth2: 1
+    rentals: 1
+    sales: 1
+    stubs: 1
+
+related:
+  authentication: authentication/pricefinder-authentication.yml
+  conventions: conventions/pricefinder-conventions.yml
+  errors: errors/pricefinder-problem-types.yml
+  data_model: data-model/pricefinder-data-model.yml
+
+tools:
+- name: appraisals
+  category: appraisals
+  method: GET
+  path: /appraisals
+  source_operation: openapi/pricefinder-api-swagger.json#appraisals
+  operationId: appraisals
+  input_schema_source: parameters of GET /appraisals in openapi/pricefinder-api-swagger.json
+- name: agent_image
+  category: appraisals
+  method: GET
+  path: /appraisals/agent/image/{agentId}
+  source_operation: openapi/pricefinder-api-swagger.json#agentImage
+  operationId: agentImage
+  input_schema_source: parameters of GET /appraisals/agent/image/{agentId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - agentId
+- name: get_insights
+  category: appraisals
+  method: GET
+  path: /appraisals/insights
+  source_operation: openapi/pricefinder-api-swagger.json#getInsights
+  operationId: getInsights
+  input_schema_source: parameters of GET /appraisals/insights in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - shareId
+- name: user_logo
+  category: appraisals
+  method: GET
+  path: /appraisals/logo/image/{userId}
+  source_operation: openapi/pricefinder-api-swagger.json#userLogo
+  operationId: userLogo
+  input_schema_source: parameters of GET /appraisals/logo/image/{userId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - userId
+- name: image_by_appraisals_office_image
+  category: appraisals
+  method: GET
+  path: /appraisals/office/image/{userId}
+  source_operation: openapi/pricefinder-api-swagger.json#image
+  operationId: image
+  input_schema_source: parameters of GET /appraisals/office/image/{userId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - userId
+  operation_id_collision: true
+- name: rental_cma_by_appraisals_rentalcma
+  category: appraisals
+  method: GET
+  path: /appraisals/rentalcma/{appraisalShareId}
+  source_operation: openapi/pricefinder-api-swagger.json#rentalCma
+  operationId: rentalCma
+  input_schema_source: parameters of GET /appraisals/rentalcma/{appraisalShareId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - appraisalShareId
+  operation_id_collision: true
+- name: rental_cma_by_appraisals_rentalcma_extended
+  category: appraisals
+  method: GET
+  path: /appraisals/rentalcma/{appraisalShareId}/extended
+  source_operation: openapi/pricefinder-api-swagger.json#rentalCma
+  operationId: rentalCma
+  input_schema_source: parameters of GET /appraisals/rentalcma/{appraisalShareId}/extended in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - appraisalShareId
+  operation_id_collision: true
+- name: sales_cma_by_appraisals_salescma
+  category: appraisals
+  method: GET
+  path: /appraisals/salescma/{appraisalShareId}
+  source_operation: openapi/pricefinder-api-swagger.json#salesCma
+  operationId: salesCma
+  input_schema_source: parameters of GET /appraisals/salescma/{appraisalShareId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - appraisalShareId
+  operation_id_collision: true
+- name: sales_cma_by_appraisals_salescma_extended
+  category: appraisals
+  method: GET
+  path: /appraisals/salescma/{appraisalShareId}/extended
+  source_operation: openapi/pricefinder-api-swagger.json#salesCma
+  operationId: salesCma
+  input_schema_source: parameters of GET /appraisals/salescma/{appraisalShareId}/extended in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - appraisalShareId
+  operation_id_collision: true
+- name: soi_by_appraisals_soi
+  category: appraisals
+  method: GET
+  path: /appraisals/soi/{appraisalShareId}
+  source_operation: openapi/pricefinder-api-swagger.json#soi
+  operationId: soi
+  input_schema_source: parameters of GET /appraisals/soi/{appraisalShareId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - appraisalShareId
+  operation_id_collision: true
+- name: soi_by_appraisals_soi_extended
+  category: appraisals
+  method: GET
+  path: /appraisals/soi/{appraisalShareId}/extended
+  source_operation: openapi/pricefinder-api-swagger.json#soi
+  operationId: soi
+  input_schema_source: parameters of GET /appraisals/soi/{appraisalShareId}/extended in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - appraisalShareId
+  operation_id_collision: true
+- name: save_event
+  category: events
+  method: POST
+  path: /events/cmaEvent/{cmaId}
+  source_operation: openapi/pricefinder-api-swagger.json#saveEvent
+  operationId: saveEvent
+  input_schema_source: parameters of POST /events/cmaEvent/{cmaId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - cmaId
+- name: user_events_subscription
+  category: subscriptions
+  method: GET
+  path: /eventsubscriptions/currentuser
+  source_operation: openapi/pricefinder-api-swagger.json#userEventsSubscription
+  operationId: userEventsSubscription
+  input_schema_source: parameters of GET /eventsubscriptions/currentuser in openapi/pricefinder-api-swagger.json
+- name: properties_events_subscribe
+  category: subscriptions
+  method: POST
+  path: /eventsubscriptions/properties
+  source_operation: openapi/pricefinder-api-swagger.json#propertiesEventsSubscribe
+  operationId: propertiesEventsSubscribe
+  input_schema_source: parameters of POST /eventsubscriptions/properties in openapi/pricefinder-api-swagger.json
+- name: property_event_subscription
+  category: subscriptions
+  method: GET
+  path: /eventsubscriptions/property/{propertyId}
+  source_operation: openapi/pricefinder-api-swagger.json#propertyEventSubscription
+  operationId: propertyEventSubscription
+  input_schema_source: parameters of GET /eventsubscriptions/property/{propertyId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: property_events_subscribe
+  category: subscriptions
+  method: POST
+  path: /eventsubscriptions/property/{propertyId}
+  source_operation: openapi/pricefinder-api-swagger.json#propertyEventsSubscribe
+  operationId: propertyEventsSubscribe
+  input_schema_source: parameters of POST /eventsubscriptions/property/{propertyId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: property_events_un_subscribe
+  category: subscriptions
+  method: DELETE
+  path: /eventsubscriptions/property/{propertyId}
+  source_operation: openapi/pricefinder-api-swagger.json#propertyEventsUnSubscribe
+  operationId: propertyEventsUnSubscribe
+  input_schema_source: parameters of DELETE /eventsubscriptions/property/{propertyId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: get_features
+  category: features
+  method: GET
+  path: /features
+  source_operation: openapi/pricefinder-api-swagger.json#getFeatures
+  operationId: getFeatures
+  input_schema_source: parameters of GET /features in openapi/pricefinder-api-swagger.json
+- name: image_by_images
+  category: images
+  method: GET
+  path: /images/{id}
+  source_operation: openapi/pricefinder-api-swagger.json#image
+  operationId: image
+  input_schema_source: parameters of GET /images/{id} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - id
+  operation_id_collision: true
+- name: listing
+  category: listings
+  method: GET
+  path: /listings/{listingId}
+  source_operation: openapi/pricefinder-api-swagger.json#listing
+  operationId: listing
+  input_schema_source: parameters of GET /listings/{listingId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - listingId
+- name: names
+  category: names
+  method: GET
+  path: /names
+  source_operation: openapi/pricefinder-api-swagger.json#names
+  operationId: names
+  input_schema_source: parameters of GET /names in openapi/pricefinder-api-swagger.json
+- name: names_properties
+  category: names
+  method: GET
+  path: /names/properties
+  source_operation: openapi/pricefinder-api-swagger.json#namesProperties
+  operationId: namesProperties
+  input_schema_source: parameters of GET /names/properties in openapi/pricefinder-api-swagger.json
+- name: names_sales
+  category: names
+  method: GET
+  path: /names/sales
+  source_operation: openapi/pricefinder-api-swagger.json#namesSales
+  operationId: namesSales
+  input_schema_source: parameters of GET /names/sales in openapi/pricefinder-api-swagger.json
+- name: get_token
+  category: oauth2
+  method: POST
+  path: /oauth2/token
+  source_operation: openapi/pricefinder-api-swagger.json#getToken
+  operationId: getToken
+  input_schema_source: parameters of POST /oauth2/token in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - grant_type
+  - client_id
+  - client_secret
+- name: listings_by_postcodes_listings
+  category: postcodes
+  method: GET
+  path: /postcodes/{postcode}/listings
+  source_operation: openapi/pricefinder-api-swagger.json#listings
+  operationId: listings
+  input_schema_source: parameters of GET /postcodes/{postcode}/listings in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - postcode
+  operation_id_collision: true
+- name: properties_by_postcodes_properties
+  category: postcodes
+  method: GET
+  path: /postcodes/{postcode}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /postcodes/{postcode}/properties in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - postcode
+  operation_id_collision: true
+- name: rentals_by_postcodes_rentals
+  category: postcodes
+  method: GET
+  path: /postcodes/{postcode}/rentals
+  source_operation: openapi/pricefinder-api-swagger.json#rentals
+  operationId: rentals
+  input_schema_source: parameters of GET /postcodes/{postcode}/rentals in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - postcode
+  operation_id_collision: true
+- name: sales_by_postcodes_sales
+  category: postcodes
+  method: GET
+  path: /postcodes/{postcode}/sales
+  source_operation: openapi/pricefinder-api-swagger.json#sales
+  operationId: sales
+  input_schema_source: parameters of GET /postcodes/{postcode}/sales in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - postcode
+  operation_id_collision: true
+- name: property_by_properties
+  category: properties
+  method: GET
+  path: /properties/{propertyId}
+  source_operation: openapi/pricefinder-api-swagger.json#property
+  operationId: property
+  input_schema_source: parameters of GET /properties/{propertyId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+  operation_id_collision: true
+- name: rental_cma_p_d_f
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/autocma/rental/pdf
+  source_operation: openapi/pricefinder-api-swagger.json#rentalCmaPDF
+  operationId: rentalCmaPDF
+  input_schema_source: parameters of GET /properties/{propertyId}/autocma/rental/pdf in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: sale_cma_p_d_f
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/autocma/sale/pdf
+  source_operation: openapi/pricefinder-api-swagger.json#saleCmaPDF
+  operationId: saleCmaPDF
+  input_schema_source: parameters of GET /properties/{propertyId}/autocma/sale/pdf in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: property_avm
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/avm
+  source_operation: openapi/pricefinder-api-swagger.json#propertyAvm
+  operationId: propertyAvm
+  input_schema_source: parameters of GET /properties/{propertyId}/avm in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: property_avm_report
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/avm/pdf
+  source_operation: openapi/pricefinder-api-swagger.json#propertyAvmReport
+  operationId: propertyAvmReport
+  input_schema_source: parameters of GET /properties/{propertyId}/avm/pdf in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: events_subscription
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/eventsubscription
+  source_operation: openapi/pricefinder-api-swagger.json#eventsSubscription
+  operationId: eventsSubscription
+  input_schema_source: parameters of GET /properties/{propertyId}/eventsubscription in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: events_subscribe
+  category: properties
+  method: POST
+  path: /properties/{propertyId}/eventsubscription
+  source_operation: openapi/pricefinder-api-swagger.json#eventsSubscribe
+  operationId: eventsSubscribe
+  input_schema_source: parameters of POST /properties/{propertyId}/eventsubscription in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: events_un_subscribe
+  category: properties
+  method: DELETE
+  path: /properties/{propertyId}/eventsubscription
+  source_operation: openapi/pricefinder-api-swagger.json#eventsUnSubscribe
+  operationId: eventsUnSubscribe
+  input_schema_source: parameters of DELETE /properties/{propertyId}/eventsubscription in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: property_extended
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/extended
+  source_operation: openapi/pricefinder-api-swagger.json#propertyExtended
+  operationId: propertyExtended
+  input_schema_source: parameters of GET /properties/{propertyId}/extended in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: images
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/images
+  source_operation: openapi/pricefinder-api-swagger.json#images
+  operationId: images
+  input_schema_source: parameters of GET /properties/{propertyId}/images in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: images_floorplan
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/images/floorplans
+  source_operation: openapi/pricefinder-api-swagger.json#imagesFloorplan
+  operationId: imagesFloorplan
+  input_schema_source: parameters of GET /properties/{propertyId}/images/floorplans in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: images_main
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/images/main
+  source_operation: openapi/pricefinder-api-swagger.json#imagesMain
+  operationId: imagesMain
+  input_schema_source: parameters of GET /properties/{propertyId}/images/main in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: street_view
+  category: properties
+  method: POST
+  path: /properties/{propertyId}/images/streetview
+  source_operation: openapi/pricefinder-api-swagger.json#streetView
+  operationId: streetView
+  input_schema_source: parameters of POST /properties/{propertyId}/images/streetview in openapi/pricefinder-api-swagger.json
+  description: Captures property street view and save as property main image
+  required_inputs:
+  - propertyId
+- name: map
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/map
+  source_operation: openapi/pricefinder-api-swagger.json#map
+  operationId: map
+  input_schema_source: parameters of GET /properties/{propertyId}/map in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: property_report
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/pdf
+  source_operation: openapi/pricefinder-api-swagger.json#propertyReport
+  operationId: propertyReport
+  input_schema_source: parameters of GET /properties/{propertyId}/pdf in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: radial_planning_alerts
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/radial/developmentapplications
+  source_operation: openapi/pricefinder-api-swagger.json#radialPlanningAlerts
+  operationId: radialPlanningAlerts
+  input_schema_source: parameters of GET /properties/{propertyId}/radial/developmentapplications in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: radial_listings
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/radial/listings
+  source_operation: openapi/pricefinder-api-swagger.json#radialListings
+  operationId: radialListings
+  input_schema_source: parameters of GET /properties/{propertyId}/radial/listings in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: radial_properties
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/radial/properties
+  source_operation: openapi/pricefinder-api-swagger.json#radialProperties
+  operationId: radialProperties
+  input_schema_source: parameters of GET /properties/{propertyId}/radial/properties in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: radial_rentals
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/radial/rentals
+  source_operation: openapi/pricefinder-api-swagger.json#radialRentals
+  operationId: radialRentals
+  input_schema_source: parameters of GET /properties/{propertyId}/radial/rentals in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: radial_sales_by_properties_radial_sales
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/radial/sales
+  source_operation: openapi/pricefinder-api-swagger.json#radialSales
+  operationId: radialSales
+  input_schema_source: parameters of GET /properties/{propertyId}/radial/sales in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+  operation_id_collision: true
+- name: property_schools
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/schools
+  source_operation: openapi/pricefinder-api-swagger.json#propertySchools
+  operationId: propertySchools
+  input_schema_source: parameters of GET /properties/{propertyId}/schools in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: streetview
+  category: properties
+  method: GET
+  path: /properties/{propertyId}/streetview
+  source_operation: openapi/pricefinder-api-swagger.json#streetview
+  operationId: streetview
+  input_schema_source: parameters of GET /properties/{propertyId}/streetview in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: division_properties
+  category: references
+  method: GET
+  path: /references/states/act/divisions/{division}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#divisionProperties
+  operationId: divisionProperties
+  input_schema_source: parameters of GET /references/states/act/divisions/{division}/properties in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - division
+- name: properties_by_references_states_act_divisions_sections_lots_prop
+  category: references
+  method: GET
+  path: /references/states/act/divisions/{division}/sections/{section}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/act/divisions/{division}/sections/{section}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - division
+  - lot
+  - section
+  operation_id_collision: true
+- name: properties_by_references_states_act_divisions_sections_propertie
+  category: references
+  method: GET
+  path: /references/states/act/divisions/{division}/sections/{section}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/act/divisions/{division}/sections/{section}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - division
+  - section
+  operation_id_collision: true
+- name: properties_by_references_states_act_divisions_lots_properties
+  category: references
+  method: GET
+  path: /references/states/act/divisions/{planNumber}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/act/divisions/{planNumber}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - lot
+  - planNumber
+  operation_id_collision: true
+- name: properties_by_references_states_nsw_plans_lots_properties
+  category: references
+  method: GET
+  path: /references/states/nsw/plans/{planType}/{planNumber}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/nsw/plans/{planType}/{planNumber}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - lot
+  - planNumber
+  - planType
+  operation_id_collision: true
+- name: plan_properties_by_references_states_nsw_plans_properties
+  category: references
+  method: GET
+  path: /references/states/nsw/plans/{planType}/{planNumber}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#planProperties
+  operationId: planProperties
+  input_schema_source: parameters of GET /references/states/nsw/plans/{planType}/{planNumber}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - planNumber
+  - planType
+  operation_id_collision: true
+- name: properties_by_references_states_nsw_plans_sections_lots_properti
+  category: references
+  method: GET
+  path: /references/states/nsw/plans/{planType}/{planNumber}/sections/{section}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/nsw/plans/{planType}/{planNumber}/sections/{section}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - lot
+  - planNumber
+  - planType
+  - section
+  operation_id_collision: true
+- name: properties_by_references_states_nsw_plans_sections_properties
+  category: references
+  method: GET
+  path: /references/states/nsw/plans/{planType}/{planNumber}/sections/{section}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/nsw/plans/{planType}/{planNumber}/sections/{section}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - planNumber
+  - planType
+  - section
+  operation_id_collision: true
+- name: properties_by_references_states_nt_plans_lots_properties
+  category: references
+  method: GET
+  path: /references/states/nt/plans/{planNumber}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/nt/plans/{planNumber}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - lot
+  - planNumber
+  operation_id_collision: true
+- name: plan_properties_by_references_states_nt_plans_properties
+  category: references
+  method: GET
+  path: /references/states/nt/plans/{planNumber}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#planProperties
+  operationId: planProperties
+  input_schema_source: parameters of GET /references/states/nt/plans/{planNumber}/properties in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - planNumber
+  operation_id_collision: true
+- name: properties_by_references_states_qld_plans_lots_properties
+  category: references
+  method: GET
+  path: /references/states/qld/plans/{planType}/{planNumber}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/qld/plans/{planType}/{planNumber}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - lot
+  - planNumber
+  - planType
+  operation_id_collision: true
+- name: plan_properties_by_references_states_qld_plans_properties
+  category: references
+  method: GET
+  path: /references/states/qld/plans/{planType}/{planNumber}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#planProperties
+  operationId: planProperties
+  input_schema_source: parameters of GET /references/states/qld/plans/{planType}/{planNumber}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - planNumber
+  - planType
+  operation_id_collision: true
+- name: property_title
+  category: references
+  method: GET
+  path: /references/states/qld/titles/{propertyId}
+  source_operation: openapi/pricefinder-api-swagger.json#propertyTitle
+  operationId: propertyTitle
+  input_schema_source: parameters of GET /references/states/qld/titles/{propertyId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: properties_by_references_states_sa_plans_lots_properties
+  category: references
+  method: GET
+  path: /references/states/sa/plans/{planType}/{planNumber}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/sa/plans/{planType}/{planNumber}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - lot
+  - planNumber
+  - planType
+  operation_id_collision: true
+- name: plan_properties_by_references_states_sa_plans_properties
+  category: references
+  method: GET
+  path: /references/states/sa/plans/{planType}/{planNumber}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#planProperties
+  operationId: planProperties
+  input_schema_source: parameters of GET /references/states/sa/plans/{planType}/{planNumber}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - planNumber
+  - planType
+  operation_id_collision: true
+- name: properties_by_references_states_tas_plans_lots_properties
+  category: references
+  method: GET
+  path: /references/states/tas/plans/{planNumber}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/tas/plans/{planNumber}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - lot
+  - planNumber
+  operation_id_collision: true
+- name: plan_properties_by_references_states_tas_plans_properties
+  category: references
+  method: GET
+  path: /references/states/tas/plans/{planNumber}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#planProperties
+  operationId: planProperties
+  input_schema_source: parameters of GET /references/states/tas/plans/{planNumber}/properties in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - planNumber
+  operation_id_collision: true
+- name: properties_by_references_states_vic_plans_lots_properties
+  category: references
+  method: GET
+  path: /references/states/vic/plans/{planType}/{planNumber}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/vic/plans/{planType}/{planNumber}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - lot
+  - planNumber
+  - planType
+  operation_id_collision: true
+- name: plan_properties_by_references_states_vic_plans_properties
+  category: references
+  method: GET
+  path: /references/states/vic/plans/{planType}/{planNumber}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#planProperties
+  operationId: planProperties
+  input_schema_source: parameters of GET /references/states/vic/plans/{planType}/{planNumber}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - planNumber
+  - planType
+  operation_id_collision: true
+- name: properties_by_references_states_vic_plans_sections_lots_properti
+  category: references
+  method: GET
+  path: /references/states/vic/plans/{planType}/{planNumber}/sections/{section}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/vic/plans/{planType}/{planNumber}/sections/{section}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - lot
+  - planNumber
+  - planType
+  - section
+  operation_id_collision: true
+- name: properties_by_references_states_vic_plans_sections_properties
+  category: references
+  method: GET
+  path: /references/states/vic/plans/{planType}/{planNumber}/sections/{section}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/vic/plans/{planType}/{planNumber}/sections/{section}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - planNumber
+  - planType
+  - section
+  operation_id_collision: true
+- name: volume_folio_properties_by_references_states_vic_volumes_folios_
+  category: references
+  method: GET
+  path: /references/states/vic/volumes/{volume}/folios/{folio}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#volumeFolioProperties
+  operationId: volumeFolioProperties
+  input_schema_source: parameters of GET /references/states/vic/volumes/{volume}/folios/{folio}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - folio
+  - volume
+  operation_id_collision: true
+- name: properties_by_references_states_wa_plans_lots_properties
+  category: references
+  method: GET
+  path: /references/states/wa/plans/{planType}/{planNumber}/lots/{lot}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /references/states/wa/plans/{planType}/{planNumber}/lots/{lot}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - lot
+  - planNumber
+  - planType
+  operation_id_collision: true
+- name: plan_properties_by_references_states_wa_plans_properties
+  category: references
+  method: GET
+  path: /references/states/wa/plans/{planType}/{planNumber}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#planProperties
+  operationId: planProperties
+  input_schema_source: parameters of GET /references/states/wa/plans/{planType}/{planNumber}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - planNumber
+  - planType
+  operation_id_collision: true
+- name: volume_folio_properties_by_references_states_wa_volumes_folios_p
+  category: references
+  method: GET
+  path: /references/states/wa/volumes/{volume}/folios/{folio}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#volumeFolioProperties
+  operationId: volumeFolioProperties
+  input_schema_source: parameters of GET /references/states/wa/volumes/{volume}/folios/{folio}/properties
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - folio
+  - volume
+  operation_id_collision: true
+- name: rental
+  category: rentals
+  method: GET
+  path: /rentals/{rentalId}
+  source_operation: openapi/pricefinder-api-swagger.json#rental
+  operationId: rental
+  input_schema_source: parameters of GET /rentals/{rentalId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - rentalId
+- name: sale
+  category: sales
+  method: GET
+  path: /sales/{saleId}
+  source_operation: openapi/pricefinder-api-swagger.json#sale
+  operationId: sale
+  input_schema_source: parameters of GET /sales/{saleId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - saleId
+- name: listings_by_spatial_listings
+  category: spatial
+  method: GET
+  path: /spatial/listings
+  source_operation: openapi/pricefinder-api-swagger.json#listings
+  operationId: listings
+  input_schema_source: parameters of GET /spatial/listings in openapi/pricefinder-api-swagger.json
+  operation_id_collision: true
+- name: properties_by_spatial_properties
+  category: spatial
+  method: GET
+  path: /spatial/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /spatial/properties in openapi/pricefinder-api-swagger.json
+  operation_id_collision: true
+- name: rentals_by_spatial_rentals
+  category: spatial
+  method: GET
+  path: /spatial/rentals
+  source_operation: openapi/pricefinder-api-swagger.json#rentals
+  operationId: rentals
+  input_schema_source: parameters of GET /spatial/rentals in openapi/pricefinder-api-swagger.json
+  operation_id_collision: true
+- name: sales_by_spatial_sales
+  category: spatial
+  method: GET
+  path: /spatial/sales
+  source_operation: openapi/pricefinder-api-swagger.json#sales
+  operationId: sales
+  input_schema_source: parameters of GET /spatial/sales in openapi/pricefinder-api-swagger.json
+  operation_id_collision: true
+- name: home
+  category: sso
+  method: GET
+  path: /sso
+  source_operation: openapi/pricefinder-api-swagger.json#home
+  operationId: home
+  input_schema_source: parameters of GET /sso in openapi/pricefinder-api-swagger.json
+- name: property_by_sso_properties
+  category: sso
+  method: GET
+  path: /sso/properties/{propertyId}
+  source_operation: openapi/pricefinder-api-swagger.json#property
+  operationId: property
+  input_schema_source: parameters of GET /sso/properties/{propertyId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+  operation_id_collision: true
+- name: appraisals_rental_cma
+  category: sso
+  method: GET
+  path: /sso/properties/{propertyId}/appraisals/rentalcma
+  source_operation: openapi/pricefinder-api-swagger.json#appraisalsRentalCma
+  operationId: appraisalsRentalCma
+  input_schema_source: parameters of GET /sso/properties/{propertyId}/appraisals/rentalcma in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: appraisals_sale_cma
+  category: sso
+  method: GET
+  path: /sso/properties/{propertyId}/appraisals/salecma
+  source_operation: openapi/pricefinder-api-swagger.json#appraisalsSaleCma
+  operationId: appraisalsSaleCma
+  input_schema_source: parameters of GET /sso/properties/{propertyId}/appraisals/salecma in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: appraisals_soi
+  category: sso
+  method: GET
+  path: /sso/properties/{propertyId}/appraisals/soi
+  source_operation: openapi/pricefinder-api-swagger.json#appraisalsSoi
+  operationId: appraisalsSoi
+  input_schema_source: parameters of GET /sso/properties/{propertyId}/appraisals/soi in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: cma
+  category: sso
+  method: GET
+  path: /sso/properties/{propertyId}/cma
+  source_operation: openapi/pricefinder-api-swagger.json#cma
+  operationId: cma
+  input_schema_source: parameters of GET /sso/properties/{propertyId}/cma in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: property_pricefinder
+  category: sso
+  method: GET
+  path: /sso/properties/{propertyId}/pricefinder
+  source_operation: openapi/pricefinder-api-swagger.json#propertyPricefinder
+  operationId: propertyPricefinder
+  input_schema_source: parameters of GET /sso/properties/{propertyId}/pricefinder in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: radial_sales_by_sso_properties_radial_sales
+  category: sso
+  method: GET
+  path: /sso/properties/{propertyId}/radial/sales
+  source_operation: openapi/pricefinder-api-swagger.json#radialSales
+  operationId: radialSales
+  input_schema_source: parameters of GET /sso/properties/{propertyId}/radial/sales in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+  operation_id_collision: true
+- name: titles
+  category: sso
+  method: GET
+  path: /sso/properties/{propertyId}/titles
+  source_operation: openapi/pricefinder-api-swagger.json#titles
+  operationId: titles
+  input_schema_source: parameters of GET /sso/properties/{propertyId}/titles in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyId
+- name: street_listings
+  category: streets
+  method: GET
+  path: /streets/{streetId}/listings
+  source_operation: openapi/pricefinder-api-swagger.json#streetListings
+  operationId: streetListings
+  input_schema_source: parameters of GET /streets/{streetId}/listings in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - streetId
+- name: street_properties
+  category: streets
+  method: GET
+  path: /streets/{streetId}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#streetProperties
+  operationId: streetProperties
+  input_schema_source: parameters of GET /streets/{streetId}/properties in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - streetId
+- name: street_rentals
+  category: streets
+  method: GET
+  path: /streets/{streetId}/rentals
+  source_operation: openapi/pricefinder-api-swagger.json#streetRentals
+  operationId: streetRentals
+  input_schema_source: parameters of GET /streets/{streetId}/rentals in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - streetId
+- name: street_sales
+  category: streets
+  method: GET
+  path: /streets/{streetId}/sales
+  source_operation: openapi/pricefinder-api-swagger.json#streetSales
+  operationId: streetSales
+  input_schema_source: parameters of GET /streets/{streetId}/sales in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - streetId
+- name: generate_stub
+  category: stubs
+  method: GET
+  path: /stubs/{language}
+  source_operation: openapi/pricefinder-api-swagger.json#generateStub
+  operationId: generateStub
+  input_schema_source: parameters of GET /stubs/{language} in openapi/pricefinder-api-swagger.json
+  description: Generates a client library
+  required_inputs:
+  - language
+- name: suburb
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}
+  source_operation: openapi/pricefinder-api-swagger.json#suburb
+  operationId: suburb
+  input_schema_source: parameters of GET /suburbs/{suburbId} in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - suburbId
+- name: demographics
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/demographics
+  source_operation: openapi/pricefinder-api-swagger.json#demographics
+  operationId: demographics
+  input_schema_source: parameters of GET /suburbs/{suburbId}/demographics in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - suburbId
+- name: flyover
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/flyover
+  source_operation: openapi/pricefinder-api-swagger.json#flyover
+  operationId: flyover
+  input_schema_source: parameters of GET /suburbs/{suburbId}/flyover in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - suburbId
+- name: flyover_report
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/flyover/pdf
+  source_operation: openapi/pricefinder-api-swagger.json#flyoverReport
+  operationId: flyoverReport
+  input_schema_source: parameters of GET /suburbs/{suburbId}/flyover/pdf in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - suburbId
+- name: listings_by_suburbs_listings
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/listings
+  source_operation: openapi/pricefinder-api-swagger.json#listings
+  operationId: listings
+  input_schema_source: parameters of GET /suburbs/{suburbId}/listings in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - suburbId
+  operation_id_collision: true
+- name: properties_by_suburbs_properties
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/properties
+  source_operation: openapi/pricefinder-api-swagger.json#properties
+  operationId: properties
+  input_schema_source: parameters of GET /suburbs/{suburbId}/properties in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - suburbId
+  operation_id_collision: true
+- name: rentals_by_suburbs_rentals
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/rentals
+  source_operation: openapi/pricefinder-api-swagger.json#rentals
+  operationId: rentals
+  input_schema_source: parameters of GET /suburbs/{suburbId}/rentals in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - suburbId
+  operation_id_collision: true
+- name: sales_by_suburbs_sales
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/sales
+  source_operation: openapi/pricefinder-api-swagger.json#sales
+  operationId: sales
+  input_schema_source: parameters of GET /suburbs/{suburbId}/sales in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - suburbId
+  operation_id_collision: true
+- name: peak_selling_periods
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/stats/peaksellingperiods/{propertyType}
+  source_operation: openapi/pricefinder-api-swagger.json#peakSellingPeriods
+  operationId: peakSellingPeriods
+  input_schema_source: parameters of GET /suburbs/{suburbId}/stats/peaksellingperiods/{propertyType} in
+    openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyType
+  - suburbId
+- name: price_segment_sales
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/stats/pricesegmentation/sales/{propertyType}
+  source_operation: openapi/pricefinder-api-swagger.json#priceSegmentSales
+  operationId: priceSegmentSales
+  input_schema_source: parameters of GET /suburbs/{suburbId}/stats/pricesegmentation/sales/{propertyType}
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyType
+  - suburbId
+- name: price_segment_sales2
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/stats/timeseries/pricesegmentation/sales/{propertyType}
+  source_operation: openapi/pricefinder-api-swagger.json#priceSegmentSales2
+  operationId: priceSegmentSales2
+  input_schema_source: parameters of GET /suburbs/{suburbId}/stats/timeseries/pricesegmentation/sales/{propertyType}
+    in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyType
+  - suburbId
+- name: time_series_rentals
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/stats/timeseries/rentals/{propertyType}
+  source_operation: openapi/pricefinder-api-swagger.json#timeSeriesRentals
+  operationId: timeSeriesRentals
+  input_schema_source: parameters of GET /suburbs/{suburbId}/stats/timeseries/rentals/{propertyType} in
+    openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyType
+  - suburbId
+- name: time_series_sales
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/stats/timeseries/sales/{propertyType}
+  source_operation: openapi/pricefinder-api-swagger.json#timeSeriesSales
+  operationId: timeSeriesSales
+  input_schema_source: parameters of GET /suburbs/{suburbId}/stats/timeseries/sales/{propertyType} in
+    openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - propertyType
+  - suburbId
+- name: streets
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/streets
+  source_operation: openapi/pricefinder-api-swagger.json#streets
+  operationId: streets
+  input_schema_source: parameters of GET /suburbs/{suburbId}/streets in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - suburbId
+- name: summary
+  category: suburbs
+  method: GET
+  path: /suburbs/{suburbId}/summary
+  source_operation: openapi/pricefinder-api-swagger.json#summary
+  operationId: summary
+  input_schema_source: parameters of GET /suburbs/{suburbId}/summary in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - suburbId
+- name: suggest
+  category: suggest
+  method: GET
+  path: /suggest
+  source_operation: openapi/pricefinder-api-swagger.json#suggest
+  operationId: suggest
+  input_schema_source: parameters of GET /suggest in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - q
+- name: suggest_lon_lat
+  category: suggest
+  method: GET
+  path: /suggest/lonlat
+  source_operation: openapi/pricefinder-api-swagger.json#suggestLonLat
+  operationId: suggestLonLat
+  input_schema_source: parameters of GET /suggest/lonlat in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - q
+- name: suggest_properties
+  category: suggest
+  method: GET
+  path: /suggest/properties
+  source_operation: openapi/pricefinder-api-swagger.json#suggestProperties
+  operationId: suggestProperties
+  input_schema_source: parameters of GET /suggest/properties in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - q
+- name: suggest_streets
+  category: suggest
+  method: GET
+  path: /suggest/streets
+  source_operation: openapi/pricefinder-api-swagger.json#suggestStreets
+  operationId: suggestStreets
+  input_schema_source: parameters of GET /suggest/streets in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - q
+- name: suggest_suburbs
+  category: suggest
+  method: GET
+  path: /suggest/suburbs
+  source_operation: openapi/pricefinder-api-swagger.json#suggestSuburbs
+  operationId: suggestSuburbs
+  input_schema_source: parameters of GET /suggest/suburbs in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - q
+- name: suggest_typeahead
+  category: suggest
+  method: GET
+  path: /suggest/typeahead
+  source_operation: openapi/pricefinder-api-swagger.json#suggestTypeahead
+  operationId: suggestTypeahead
+  input_schema_source: parameters of GET /suggest/typeahead in openapi/pricefinder-api-swagger.json
+  required_inputs:
+  - q

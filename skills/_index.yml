@@ -1,0 +1,66 @@
+generated: '2026-07-26'
+method: generated
+source: |
+  openapi/pricefinder-api-swagger.json (Swagger 2.0 v1.13.1) plus the enrichment
+  artifacts in this repo (authentication/, conventions/, errors/, lifecycle/,
+  data-model/). Every operationId referenced below was verified verbatim against the
+  contract. Pricefinder publishes no AGENTS.md, no skill files and no agent guidance
+  of its own (11-page marketing sitemap and the Swagger UI searched 2026-07-26).
+api: openapi/pricefinder-api-swagger.json
+base_url: https://api.pricefinder.com.au/v1
+
+preconditions: |
+  Every skill below requires an OAuth 2.0 bearer token issued under a negotiated
+  commercial subscription. There is no self-serve signup, no free tier and no sandbox
+  — anonymous calls return 401 on every data path. Run the authentication skill first.
+
+cross_cutting_rules:
+- Bind to METHOD + PATH, never operationId — 47 of 116 operations share a colliding
+  operationId.
+- Read messages[] on every 200; data-quality and jurisdictional-suppression notices
+  ride inside success payloads.
+- There is no pagination; `limit` caps results with no way to reach the next page.
+  Partition the query and union client-side.
+- There is no idempotency key on any write. Read state back rather than blind-retrying.
+- Prefer min_*/max_* filters; the _gt/_lt generation is deprecated on 47 operations.
+- SensitivePrice and SensitiveDate may be legally withheld; carry `disclaimer` through
+  to anything rendered.
+
+skills:
+- file: pricefinder-authenticate-and-check-entitlements.md
+  name: Authenticate to Pricefinder and check entitlements
+  api: openapi/pricefinder-api-swagger.json
+  operations: [getToken, getFeatures]
+  run_first: true
+- file: pricefinder-resolve-address-and-value-property.md
+  name: Resolve an Australian address to a property and value it
+  api: openapi/pricefinder-api-swagger.json
+  operations: [suggest, suggestProperties, suggestTypeahead, suggestLonLat, property,
+    propertyExtended, propertyAvm, propertyAvmReport, propertyReport, propertySchools]
+- file: pricefinder-research-comparable-sales.md
+  name: Research comparable sales, rentals and listings around a property
+  api: openapi/pricefinder-api-swagger.json
+  operations: [radialSales, radialRentals, radialListings, radialProperties,
+    radialPlanningAlerts, streetSales, streetRentals, streetListings, streetProperties,
+    sale, rental, listing]
+- file: pricefinder-resolve-land-title-reference.md
+  name: Resolve an Australian land title reference to a property
+  api: openapi/pricefinder-api-swagger.json
+  operations: [properties, planProperties, volumeFolioProperties, divisionProperties,
+    propertyTitle]
+- file: pricefinder-analyse-suburb-market.md
+  name: Analyse an Australian suburb market
+  api: openapi/pricefinder-api-swagger.json
+  operations: [suggestSuburbs, suburb, summary, demographics, flyover, flyoverReport,
+    streets, peakSellingPeriods, priceSegmentSales2, timeSeriesSales, timeSeriesRentals]
+- file: pricefinder-retrieve-appraisal-and-cma.md
+  name: Retrieve a Pricefinder appraisal, CMA or statement of information
+  api: openapi/pricefinder-api-swagger.json
+  operations: [appraisals, salesCma, rentalCma, soi, getInsights, agentImage, userLogo,
+    image, saveEvent, propertyPricefinder, appraisalsSaleCma, appraisalsRentalCma,
+    appraisalsSoi]
+- file: pricefinder-manage-property-event-alerts.md
+  name: Manage Pricefinder property event alerts
+  api: openapi/pricefinder-api-swagger.json
+  operations: [propertiesEventsSubscribe, propertyEventsSubscribe,
+    propertyEventSubscription, propertyEventsUnSubscribe, userEventsSubscription]

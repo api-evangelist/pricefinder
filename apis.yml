@@ -2,31 +2,28 @@ aid: pricefinder
 url: https://raw.githubusercontent.com/api-evangelist/pricefinder/refs/heads/main/apis.yml
 name: Pricefinder
 kind: company
-description: Pricefinder is an Australian property intelligence and valuation platform
-  operating at pricefinder.com.au, supplying property records, comparable sales and
-  rental history, suburb statistics, AVM-powered price estimates and CMA/appraisal
-  reports to real estate agencies, mortgage brokers, banks and lenders, valuers, property
-  developers, advisory firms and government. Its home market is Australia and it sits
-  on the data side of the value chain rather than the portal side — it blends Domain
-  and Allhomes first-party listing feeds with state and territory government land
-  valuation and sales data plus third-party mapping, then resells that as reports,
-  a web application and an API. Pricefinder is a brand of Domain Holdings Australia,
-  which CoStar Group completed the acquisition of in August 2025, so it now sits inside
-  the same group as Domain, Allhomes and Commercial Real Estate. Its API posture is
-  unusually honest for this sector — the full machine-readable contract is genuinely
-  public. A complete Swagger 2.0 document (v1.13.1, 112 paths, 188 definitions, 19
-  tags) and an interactive Swagger UI are served anonymously from api.pricefinder.com.au,
-  and OAuth 2.0 client_credentials, authorization_code and refresh_token flows are
-  documented in full. But every data path returns 401 without credentials, and credentials
-  are not self-serve — there is no developer signup, only industry "Get started" forms
-  that route to sales for a custom, minimum-one-month commercial subscription governed
-  by the Domain Group API Terms and Conditions. Australia has no MLS system and no
-  RESO regime — no RESO Web API or Data Dictionary certification, no OData $metadata
+description: Pricefinder is an Australian property intelligence and valuation platform operating
+  at pricefinder.com.au, supplying property records, comparable sales and rental history,
+  suburb statistics, AVM-powered price estimates and CMA/appraisal reports to real estate
+  agencies, mortgage brokers, banks and lenders, valuers, property developers, advisory firms
+  and government. Its home market is Australia and it sits on the data side of the value chain
+  rather than the portal side — it blends Domain and Allhomes first-party listing feeds with
+  state and territory government land valuation and sales data plus third-party mapping, then
+  resells that as reports, a web application and an API. Pricefinder is a brand of Domain
+  Holdings Australia, which CoStar Group completed the acquisition of in August 2025, so it
+  now sits inside the same group as Domain, Allhomes and Commercial Real Estate. Its API posture
+  is unusually honest for this sector — the full machine-readable contract is genuinely public.
+  A complete Swagger 2.0 document (v1.13.1, 112 paths, 188 definitions, 19 tags) and an interactive
+  Swagger UI are served anonymously from api.pricefinder.com.au, and OAuth 2.0 client_credentials,
+  authorization_code and refresh_token flows are documented in full. But every data path returns
+  401 without credentials, and credentials are not self-serve — there is no developer signup,
+  only industry "Get started" forms that route to sales for a custom, minimum-one-month commercial
+  subscription governed by the Domain Group API Terms and Conditions. Australia has no MLS
+  system and no RESO regime — no RESO Web API or Data Dictionary certification, no OData $metadata
   document and no Universal Property Identifier appears anywhere in Pricefinder's contract
-  or documentation. The land-registry seam shows up instead as state-specific title
-  reference lookups (NSW/VIC/QLD/SA/WA/TAS/NT/ACT plan, lot, section, volume and folio
-  paths).
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/groq.png
+  or documentation. The land-registry seam shows up instead as state-specific title reference
+  lookups (NSW/VIC/QLD/SA/WA/TAS/NT/ACT plan, lot, section, volume and folio paths).
+image: https://www.pricefinder.com.au/favicon.ico
 tags:
 - Real Estate
 - Australia
@@ -46,11 +43,11 @@ specificationVersion: '0.19'
 apis:
 - aid: pricefinder:pricefinder-property-api
   name: Pricefinder Property API
-  description: Property record retrieval for Australian properties — core and extended
-    property detail, images, floorplans, street view, maps, schools, radial searches
-    for nearby sales, rentals, listings, properties and development applications, and
-    PDF property reports. 22 documented operations under the `properties` tag, plus
-    image, feature and localisation stub endpoints.
+  description: Property record retrieval for Australian properties — core and extended property
+    detail, images, floorplans, street view, maps, schools, radial searches for nearby sales,
+    rentals, listings, properties and development applications, and PDF property reports.
+    22 documented operations under the `properties` tag, plus image, feature and localisation
+    stub endpoints.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
@@ -70,11 +67,10 @@ apis:
     url: https://www.domain.com.au/group/api-terms-and-conditions/
 - aid: pricefinder:pricefinder-avm-api
   name: Pricefinder AVM & Valuation API
-  description: Automated valuation model output for a property, returned as JSON via
-    GET /properties/{propertyId}/avm against the AVM schema, and as a rendered PDF
-    via /properties/{propertyId}/avm/pdf. Auto-CMA sale and rental PDFs are generated
-    from the same property identifier. This is the valuation surface Pricefinder markets
-    to lenders, valuers and advisory firms.
+  description: Automated valuation model output for a property, returned as JSON via GET /properties/{propertyId}/avm
+    against the AVM schema, and as a rendered PDF via /properties/{propertyId}/avm/pdf. Auto-CMA
+    sale and rental PDFs are generated from the same property identifier. This is the valuation
+    surface Pricefinder markets to lenders, valuers and advisory firms.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
@@ -90,10 +86,10 @@ apis:
     url: https://www.pricefinder.com.au/get-started/
 - aid: pricefinder:pricefinder-sales-rentals-listings-api
   name: Pricefinder Sales, Rentals & Listings API
-  description: Retrieval of individual sale, rental and listing records by identifier,
-    and enumeration of sales, rentals and listings scoped by suburb, postcode, street
-    or spatial boundary. Backed by Domain and Allhomes first-party listing feeds and
-    government sale transaction data.
+  description: Retrieval of individual sale, rental and listing records by identifier, and
+    enumeration of sales, rentals and listings scoped by suburb, postcode, street or spatial
+    boundary. Backed by Domain and Allhomes first-party listing feeds and government sale
+    transaction data.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
@@ -108,9 +104,9 @@ apis:
 - aid: pricefinder:pricefinder-suburb-statistics-api
   name: Pricefinder Suburb & Market Statistics API
   description: Suburb-level market intelligence — suburb detail and summary, demographics,
-    flyover reports and PDFs, street enumeration, peak selling periods, sale price
-    segmentation, and time series for sales, rentals and price segmentation by property
-    type. 15 documented operations under the `suburbs` tag.
+    flyover reports and PDFs, street enumeration, peak selling periods, sale price segmentation,
+    and time series for sales, rentals and price segmentation by property type. 15 documented
+    operations under the `suburbs` tag.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
@@ -126,9 +122,9 @@ apis:
   name: Pricefinder Title & Land Reference API
   description: State-by-state resolution of Australian land title references to Pricefinder
     property records — NSW, VIC, QLD, SA, WA, TAS, NT and ACT plan/planType, lot, section,
-    volume, folio and division lookups, plus QLD title retrieval by property identifier.
-    25 documented operations under the `references` tag; this is the land-registry
-    seam expressed as an API.
+    volume, folio and division lookups, plus QLD title retrieval by property identifier. 25
+    documented operations under the `references` tag; this is the land-registry seam expressed
+    as an API.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
@@ -142,9 +138,9 @@ apis:
     url: https://api.pricefinder.com.au/v1/swagger/index.html
 - aid: pricefinder:pricefinder-search-api
   name: Pricefinder Search & Suggest API
-  description: Address, street, suburb and typeahead suggestion endpoints, lon/lat
-    reverse suggestion, owner-name search across properties and sales, and spatial
-    queries returning properties, sales, rentals and listings within a supplied geometry.
+  description: Address, street, suburb and typeahead suggestion endpoints, lon/lat reverse
+    suggestion, owner-name search across properties and sales, and spatial queries returning
+    properties, sales, rentals and listings within a supplied geometry.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
@@ -157,10 +153,9 @@ apis:
     url: https://api.pricefinder.com.au/v1/swagger/index.html
 - aid: pricefinder:pricefinder-appraisals-api
   name: Pricefinder Appraisals & CMA API
-  description: Comparative market analysis and appraisal artifacts — sales CMA, rental
-    CMA and statement-of-information retrieval by appraisal share identifier (standard
-    and extended), appraisal listing and insights, agent, office and logo imagery,
-    and CMA event posting.
+  description: Comparative market analysis and appraisal artifacts — sales CMA, rental CMA
+    and statement-of-information retrieval by appraisal share identifier (standard and extended),
+    appraisal listing and insights, agent, office and logo imagery, and CMA event posting.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
@@ -174,8 +169,8 @@ apis:
     url: https://api.pricefinder.com.au/v1/swagger/index.html
 - aid: pricefinder:pricefinder-event-subscriptions-api
   name: Pricefinder Property Event Subscriptions API
-  description: Subscribe, list and delete property event alerts for ForSale, ForRent,
-    Sold and SoldVerified event types, per property or for the current user. The documentation
+  description: Subscribe, list and delete property event alerts for ForSale, ForRent, Sold
+    and SoldVerified event types, per property or for the current user. The documentation
     states these are delivered as email notifications only — there is no webhook callback
     or push delivery documented anywhere in the contract.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
@@ -193,8 +188,8 @@ apis:
   name: Pricefinder SSO API
   description: Single sign-on deep links that hand an authenticated user into the Pricefinder
     web application at a specific context — a property, its CMA, sales or rental appraisal,
-    statement of information, radial sales, or titles view. 9 documented operations
-    under the `sso` tag.
+    statement of information, radial sales, or titles view. 9 documented operations under
+    the `sso` tag.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
@@ -208,11 +203,11 @@ apis:
 - aid: pricefinder:pricefinder-oauth2-api
   name: Pricefinder OAuth 2.0 Token API
   description: 'POST /oauth2/token issuing access and refresh tokens for three documented
-    grant types: client_credentials (API user''s own username and password, HTTP Basic
-    accepted as an alternative to form parameters), authorization_code (third-party
-    delegated access via the hosted authorize page at /v1/auth/authorize.html) and
-    refresh_token. Tokens are presented as an Authorization: Bearer header or an access_token
-    query parameter. No OpenID Connect discovery document is served.'
+    grant types: client_credentials (API user''s own username and password, HTTP Basic accepted
+    as an alternative to form parameters), authorization_code (third-party delegated access
+    via the hosted authorize page at /v1/auth/authorize.html) and refresh_token. Tokens are
+    presented as an Authorization: Bearer header or an access_token query parameter. No OpenID
+    Connect discovery document is served.'
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
@@ -227,8 +222,12 @@ apis:
   - type: Authentication
     url: https://api.pricefinder.com.au/v1/auth/authorize.html
 common:
+- type: DomainSecurity
+  url: security/pricefinder-domain-security.yml
 - type: Website
   url: https://www.pricefinder.com.au/
+- type: DeveloperPortal
+  url: https://api.pricefinder.com.au/v1/swagger/index.html
 - type: APIReference
   url: https://api.pricefinder.com.au/v1/swagger/index.html
 - type: OpenAPI
@@ -243,6 +242,36 @@ common:
   url: https://www.pricefinder.com.au/integrations/
 - type: TermsOfService
   url: https://www.domain.com.au/group/api-terms-and-conditions/
+- type: Packages
+  url: packages/pricefinder-packages.yml
+- type: SDKs
+  url: packages/pricefinder-packages.yml
+- type: MCPServer
+  url: mcp/pricefinder-mcp.yml
+- type: LLMsTxt
+  url: llms/pricefinder-llms.txt
+- type: Overlay
+  url: overlays/pricefinder-api-swagger-overlay.yaml
+- type: Conformance
+  url: conformance/pricefinder-conformance.yml
+- type: ErrorCatalog
+  url: errors/pricefinder-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/pricefinder-lifecycle.yml
+- type: Authentication
+  url: authentication/pricefinder-authentication.yml
+- type: Conventions
+  url: conventions/pricefinder-conventions.yml
+- type: DataModel
+  url: data-model/pricefinder-data-model.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: PrivacyPolicy
+  url: https://www.domain.com.au/group/privacy-policy/
+- type: Login
+  url: https://www.pricefinder.com.au/portal/app?page=ExternalLogin&service=page
+- type: HelpCenter
+  url: https://www.pricefinder.com.au/resources-and-support/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

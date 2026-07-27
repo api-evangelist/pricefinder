@@ -1,0 +1,211 @@
+generated: '2026-07-26'
+method: derived
+source: openapi/pricefinder-api-swagger.json (Swagger 2.0 v1.13.1 — 188 definitions,
+  112 paths, 116 operations)
+summary: |
+  A single-anchor graph. `Property` — keyed by a proprietary opaque integer
+  `propertyId` — is the join key for essentially everything Pricefinder sells. Sales,
+  rentals, listings, appraisals/CMAs, AVMs, titles, images, schools and SSO deep links
+  all hang off it, and the 25 per-state land-title reference paths exist only to
+  resolve an external title reference back into a propertyId. Above the property sit
+  two geographic rollups (Street, Suburb) and one postal rollup (postcode); below it
+  sit the transaction records. There is no tenancy, contract, payment or settlement
+  entity anywhere — Pricefinder describes property, it does not transact on it.
+
+identifier_model:
+  primary_key:
+    field: propertyId
+    type: integer (opaque, proprietary)
+    stability: presented as durable; the contract publishes no reassignment or
+      merge policy
+    standards: |
+      NOT a RESO Universal Property Identifier. "reso" and "universal property
+      identifier" each appear zero times in the contract. Australia has no MLS and no
+      RESO regime, so no national property identifier standard applies.
+  secondary_keys: [saleId, rentalId, listingId, suburbId, streetId, postcode,
+    appraisalShareId, agentId, userId, cmaId, imageId]
+  external_key_resolution:
+    surface: /references/states/{state}/...
+    operations: 25
+    states: [nsw, vic, qld, sa, wa, tas, nt, act]
+    keys: [planType, planNumber, lot, section, volume, folio, division]
+    note: |
+      Eight jurisdictions, eight different title-reference grammars, one bespoke path
+      set each. NSW/VIC/QLD/SA/WA use plan+lot (VIC and WA additionally volume+folio),
+      NT and TAS use plan without planType, ACT uses division+section+lot. This
+      per-jurisdiction adapter layer is what stands in for the interoperability a
+      national identifier would give. QLD additionally supports the reverse direction:
+      GET /references/states/qld/titles/{propertyId} (operationId propertyTitle).
+
+entities:
+- name: Property
+  schema: '#/definitions/Property'
+  operations: [property, propertyExtended, propertyAvm, propertyAvmReport,
+    propertyReport, propertySchools, map, streetView, streetview, images,
+    imagesMain, imagesFloorplan, saleCmaPDF, rentalCmaPDF]
+  key_fields: [id, matchlevel, address, features, landDetails, street, suburb, type,
+    rpd, marketStatus, lastModified, owners, ownership, lastSale, recentListing,
+    recentRental]
+  extended_variant: '#/definitions/ExtendedProperty (via GET
+    /properties/{propertyId}/extended, operationId propertyExtended)'
+  note: |
+    Carries `owners` and `ownership` — the ownership-detail product Pricefinder
+    markets as restricted ("Available for WA, QLD, NSW, VIC. Restrictions apply.").
+    `matchlevel` scores address-match confidence and is filterable on search
+    operations via matchlevel_min / matchlevel_max.
+- name: Sale
+  schema: '#/definitions/Sale'
+  operations: [sale, sales, radialSales, streetSales, namesSales, spatial sales]
+  key_fields: [id, price, saleDate, settlementDate, contractDate, saleType, agency,
+    agent, dealingNumber, listingHistory, lowAskPrice, highAskPrice, saleParticipants]
+  extended_variant: '#/definitions/ExtendedSale'
+- name: Listing
+  schema: '#/definitions/Listing'
+  operations: [listing, listings, radialListings, streetListings, spatial listings]
+  key_fields: [id, rental, price, startDate, endDate, status, type, agents, agencies,
+    listingHistory, propertyLegalDescription]
+  extended_variant: '#/definitions/ExtendedListing'
+  note: The `rental` boolean on Listing is what distinguishes a rental listing from a
+    sale listing; there is no separate Rental definition — rental records reuse the
+    listing/sale shapes and the rental-specific schemas are all statistical
+    (RentalAVM, RentalsTimeSeries, SuburbRentalsByBedroomStatistics).
+- name: Suburb
+  schema: '#/definitions/Suburb'
+  operations: [suburb, summary, demographics, flyover, flyoverReport, streets,
+    peakSellingPeriods, priceSegmentSales, priceSegmentSales2, timeSeriesSales,
+    timeSeriesRentals]
+  key_fields: [id, suburbName, postcode, state]
+  statistics_schemas: [SuburbSummary, SuburbStatistics, SuburbStatisticsSummary,
+    SuburbFlyover, SuburbSalesWrapper, SuburbSalesTimeseriesWrapper,
+    SuburbRentalsTimeseriesWrapper, SuburbRentalsByBedroomStatistics]
+- name: Street
+  schema: '#/definitions/StreetIdentifier / StreetLocation'
+  operations: [streetProperties, streetSales, streetRentals, streetListings,
+    suggestStreets]
+  key_fields: [streetId]
+- name: Appraisal (CMA / SOI)
+  schema: '#/definitions/AppraisalSimpleView and the AppraisalsCMA* view family'
+  operations: [appraisals, salesCma, rentalCma, soi, getInsights, agentImage,
+    userLogo, image, saveEvent]
+  key_fields: [appraisalShareId, userId, agentId, propertyId, cmaId]
+  note: |
+    The largest schema family in the contract (SalesCMACommon/Detailed,
+    RentalCMACommon/Detailed, SOICommon/Detailed, plus Appraisal*Options and
+    Appraisal*View render models). Each CMA is anchored on a propertyId and shared by
+    an opaque appraisalShareId, so a shared CMA is retrievable without knowing the
+    property key.
+- name: AVM
+  schema: '#/definitions/AVM and #/definitions/RentalAVM'
+  operations: [propertyAvm, propertyAvmReport]
+  note: The valuation output Pricefinder markets to lenders and valuers. Anchored
+    strictly on propertyId; there is no batch or portfolio AVM operation.
+- name: PropertyEventSubscription
+  schema: '#/definitions/PropertyEventSubscription'
+  operations: [propertyEventSubscription, propertyEventsSubscribe,
+    propertyEventsUnSubscribe, propertiesEventsSubscribe, userEventsSubscription,
+    eventsSubscription, eventsSubscribe, eventsUnSubscribe]
+  event_types: [ForSale, ForRent, Sold, SoldVerified]
+  delivery: email only — not a webhook (see conventions/)
+- name: UserFeatures
+  schema: '#/definitions/UserFeatures'
+  operations: [getFeatures]
+  note: The caller's commercial entitlement set. Because the API has no OAuth scopes,
+    this is the only machine-readable authorization surface.
+
+relationships:
+- {from: Property, to: Address, cardinality: has_one, via: address}
+- {from: Property, to: ExtendedAddress, cardinality: has_many, via: alternativeAddresses}
+- {from: Property, to: StreetIdentifier, cardinality: has_one, via: street}
+- {from: Property, to: SuburbIdentifier, cardinality: has_one, via: suburb}
+- {from: Property, to: LandDetails, cardinality: has_one, via: landDetails}
+- {from: Property, to: Point, cardinality: has_one, via: location}
+- {from: Property, to: Sale, cardinality: has_one, via: lastSale}
+- {from: Property, to: Listing, cardinality: has_one, via: recentListing}
+- {from: Property, to: Listing, cardinality: has_one, via: recentRental}
+- {from: Property, to: MainImage, cardinality: has_one, via: image}
+- {from: Property, to: MarketStatus, cardinality: has_one, via: marketStatus}
+- {from: Property, to: Message, cardinality: has_many, via: messages}
+- from: Property
+  to: Property
+  cardinality: has_one
+  via: parent
+  note: parent-child for strata and subdivided holdings
+- {from: Sale, to: Property, cardinality: belongs_to, via: property}
+- {from: Sale, to: Agency, cardinality: has_one, via: agency}
+- {from: Sale, to: Agent, cardinality: has_one, via: agent}
+- {from: Sale, to: SaleListingHistory, cardinality: has_many, via: listingHistory}
+- {from: Sale, to: SensitivePrice, cardinality: has_one, via: price}
+- {from: Sale, to: SensitiveDate, cardinality: has_one, via: saleDate}
+- {from: Sale, to: StreetIdentifier, cardinality: has_one, via: street}
+- {from: Sale, to: SuburbIdentifier, cardinality: has_one, via: suburb}
+- {from: Listing, to: Property, cardinality: belongs_to, via: property}
+- {from: Listing, to: Agent, cardinality: has_many, via: agents}
+- {from: Listing, to: Agency, cardinality: has_many, via: agencies}
+- {from: Listing, to: SaleListingHistory, cardinality: has_many, via: listingHistory}
+- from: PropertyIdentifiers
+  to: PropertyIdentifier
+  cardinality: has_many
+  via: properties
+  note: >-
+    The wrapper every /references/ title lookup returns — 24 references, the
+    second-most-used definition in the contract.
+- from: Suburb
+  to: Street
+  cardinality: has_many
+  via: 'GET /suburbs/{suburbId}/streets (operationId streets)'
+- from: Suburb
+  to: Sale
+  cardinality: has_many
+  via: 'GET /suburbs/{suburbId}/sales (operationId sales)'
+- from: Suburb
+  to: Listing
+  cardinality: has_many
+  via: 'GET /suburbs/{suburbId}/listings (operationId listings)'
+- from: Suburb
+  to: Property
+  cardinality: has_many
+  via: 'GET /suburbs/{suburbId}/properties (operationId properties)'
+- {from: PropertyEventSubscription, to: Property, cardinality: belongs_to, via: propertyId}
+- {from: AppraisalSimpleView, to: Property, cardinality: belongs_to, via: propertyId}
+- {from: AppraisalSimpleView, to: Agent, cardinality: belongs_to, via: agentId}
+- {from: SalesCMACommon, to: Property, cardinality: belongs_to, via: propertyId}
+- {from: SOICommon, to: Property, cardinality: belongs_to, via: propertyId}
+- {from: RentalCMADetailed, to: Property, cardinality: belongs_to, via: propertyId}
+- {from: PropertyTitle, to: Property, cardinality: belongs_to, via: propertyId}
+- {from: PropertyByLonLat, to: Property, cardinality: belongs_to, via: propertyId}
+- {from: PropertyByLonLat, to: Sale, cardinality: belongs_to, via: saleId}
+- {from: StreetLocation, to: Street, cardinality: belongs_to, via: streetId}
+- {from: EventParameters, to: Appraisal, cardinality: belongs_to, via: cmaId}
+- {from: UserFeatures, to: User, cardinality: belongs_to, via: userId}
+
+cross_cutting_schemas:
+- {name: Message, references: 39, role: embedded notices array carried on SUCCESS
+    payloads (code + text) — data-quality and partial-result signalling, NOT an error
+    envelope. Highest-referenced definition in the contract.}
+- {name: PropertyIdentifiers, references: 24, role: title-lookup result wrapper}
+- {name: Address, references: 13, role: address value object}
+- {name: Point, references: 12, role: lon/lat geometry}
+- {name: SensitiveDate, references: 12, role: date value that may be legally
+    suppressed per jurisdiction}
+- {name: SensitivePrice, references: 7, role: price value that may be legally
+    suppressed per jurisdiction}
+- {name: SSOLink, references: 9, role: deep link returned by the 9 /sso operations}
+- {name: Disclaimer, role: every top-level entity carries a `disclaimer` field —
+    licensing text travels with the data}
+
+observations:
+- |
+  SensitivePrice and SensitiveDate are the most interesting shapes in the model. Sale
+  price and sale date are not plain scalars: they are wrapped types that can be
+  withheld, because Australian state legislation differs on what transaction detail
+  may be republished. The data model encodes jurisdictional disclosure law directly.
+- |
+  Every entity carries `disclaimer` and `messages`. A caller cannot render Pricefinder
+  data without also carrying its licensing text and its data-quality notices —
+  redistribution constraints are part of the payload, not just the contract.
+- |
+  There is no write path into the graph. The only POSTs are a token request, three
+  event-subscription creates, a street-view image request and a CMA event save. Agents
+  cannot create or mutate a property, sale, listing or valuation.
+
+render: none — no subway/ diagram exists for this provider yet.

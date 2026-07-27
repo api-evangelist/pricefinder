@@ -1,0 +1,171 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Pricefinder API
+  version: 1.0.0
+extends: openapi/pricefinder-api-swagger.json
+
+# generated: '2026-07-26'
+# method: generated
+# source: openapi/pricefinder-api-swagger.json + the API Evangelist enrichment round
+#   for all/pricefinder (authentication/, conventions/, errors/, lifecycle/,
+#   conformance/, data-model/).
+#
+# This overlay carries API Evangelist's enhancements to Pricefinder's published
+# Swagger 2.0 contract WITHOUT mutating the harvested original. The single most
+# valuable action below is the securityDefinitions block: Pricefinder's contract
+# declares NO security metadata at all even though every one of its 116 operations
+# requires an OAuth 2.0 bearer token. The scheme added here is transcribed verbatim
+# from Pricefinder's own prose in the POST /oauth2/token description and from the live
+# authorize page — nothing is invented.
+#
+# NOTE ON SPEC VERSION: the target is Swagger 2.0, so the securityDefinitions action
+# uses Swagger 2.0 shape (type: oauth2 with flow/authorizationUrl/tokenUrl), not
+# OpenAPI 3 shape.
+
+actions:
+
+# ---- Provenance -----------------------------------------------------------------
+- target: $.info
+  update:
+    x-apievangelist-slug: pricefinder
+    x-apievangelist-enriched: '2026-07-26'
+    x-apievangelist-artifacts:
+      authentication: authentication/pricefinder-authentication.yml
+      conventions: conventions/pricefinder-conventions.yml
+      errors: errors/pricefinder-problem-types.yml
+      lifecycle: lifecycle/pricefinder-lifecycle.yml
+      conformance: conformance/pricefinder-conformance.yml
+      data_model: data-model/pricefinder-data-model.yml
+      mcp: mcp/pricefinder-mcp.yml
+      packages: packages/pricefinder-packages.yml
+      skills: skills/_index.yml
+
+# ---- Make the contract self-locating ---------------------------------------------
+# The published document declares neither `host` nor `schemes`, so a generated client
+# has no base URL. Both values below are the ones Pricefinder itself uses in the curl
+# example inside the /oauth2/token description, confirmed by live probe.
+- target: $
+  update:
+    host: api.pricefinder.com.au
+    schemes:
+    - https
+    x-apievangelist-note: |
+      host and schemes are absent from the published contract. Added here so the
+      document is self-locating; basePath /v1 is already declared upstream.
+
+# ---- Add the missing security model ----------------------------------------------
+- target: $
+  update:
+    securityDefinitions:
+      pricefinder_oauth2_application:
+        type: oauth2
+        flow: application
+        tokenUrl: https://api.pricefinder.com.au/v1/oauth2/token
+        scopes: {}
+        description: |
+          client_credentials grant. client_id is the API user's Pricefinder username
+          and client_secret is that user's password; HTTP Basic is an accepted
+          alternative to the form parameters. The API defines no scopes — entitlement
+          is enforced per commercial subscription and is readable at GET /features.
+      pricefinder_oauth2_access_code:
+        type: oauth2
+        flow: accessCode
+        authorizationUrl: https://api.pricefinder.com.au/v1/auth/authorize.html
+        tokenUrl: https://api.pricefinder.com.au/v1/oauth2/token
+        scopes: {}
+        description: |
+          authorization_code grant for acting on another Pricefinder user's behalf.
+          Direct the user to the authorize page with client_id, state and redirect_uri
+          over HTTPS; on approval the callback carries state and code, on refusal
+          error=access_denied. Refresh tokens rotate on use.
+    security:
+    - pricefinder_oauth2_application: []
+    x-apievangelist-security-note: |
+      TRANSCRIBED, NOT INVENTED. Pricefinder documents this entire model in HTML prose
+      inside the POST /oauth2/token operation description and serves the authorize
+      page live (HTTP 200, 2026-07-26). The published contract simply never expresses
+      it as security metadata, so no code generator or agent can discover it. Every
+      operation except getToken requires a bearer token; anonymous calls return 401.
+
+# ---- Record the undocumented 401 that every operation actually returns -------------
+- target: $.paths[*][*].responses
+  update:
+    '401':
+      description: |
+        Unauthorized — no valid OAuth 2.0 bearer token was presented. NOT DECLARED IN
+        THE PUBLISHED CONTRACT but returned by every data path; confirmed by live
+        anonymous probes of /v1/features, /v1/suggest/properties and /v1/stubs/java on
+        2026-07-26. Added by API Evangelist so generated clients handle it.
+      x-apievangelist-added: true
+
+# ---- Runtime semantics the contract omits ----------------------------------------
+- target: $.info
+  update:
+    x-apievangelist-conventions:
+      pagination:
+        supported: false
+        note: '`limit` caps results on 49 operations but there is no cursor, page or
+          offset parameter — narrow the query instead of paging.'
+      idempotency:
+        supported: false
+        note: No Idempotency-Key on any of the 5 POST operations. Read state back
+          rather than blind-retrying a write.
+      rate_limiting:
+        documented: false
+        note: No 429 is declared and no quota is published; limits are per commercial
+          subscription and are not machine-readable.
+      request_tracing:
+        supported: false
+        note: No request-id or correlation header is issued.
+      partial_success:
+        channel: messages[]
+        schema: '#/definitions/Message'
+        note: Data-quality and jurisdictional-suppression notices ride inside 200
+          responses as a messages array of code+text. A 200 does not mean a complete
+          answer.
+      error_format:
+        rfc9457: false
+        note: >-
+          Only 3 non-2xx responses are documented across 116 operations; the one
+          error schema is a bare {"error": string}.
+
+# ---- Flag the non-standard vendor extension --------------------------------------
+- target: $.info
+  update:
+    x-apievangelist-vendor-extension-warning: |
+      The contract attaches a `pds` object ({hidden, extra, enumerate, deprecated}) to
+      parameters as a RAW SIBLING KEY. Swagger 2.0 permits vendor extensions only
+      under an `x-` prefix, so `pds` is invalid there and strict validators will reject
+      the document. It is also the only channel signalling parameter deprecation — the
+      _gt/_lt filter generation (beds_gt, price_lt, area_gt, …) is flagged deprecated
+      on 47 operations with no Swagger `deprecated` flag and no sunset date. Use the
+      min_*/max_* generation.
+
+# ---- Flag the operationId collisions ----------------------------------------------
+- target: $.info
+  update:
+    x-apievangelist-operationid-warning: |
+      operationId IS NOT UNIQUE, which violates Swagger 2.0 and breaks every code
+      generator and MCP tool-forge keyed on it. 47 of 116 operations collide:
+      `properties` repeats across 14 paths, `planProperties` across 8, plus
+      volumeFolioProperties, listings, sales, rentals, salesCma, rentalCma, soi, image,
+      property, radialSales and streets. Bind to METHOD + PATH, not operationId.
+      mcp/pricefinder-mcp.yml carries the disambiguated tool names.
+
+# ---- Surface the entitlement operation --------------------------------------------
+- target: $.paths['/features'].get
+  update:
+    summary: Read the calling user's commercial entitlement set
+    x-apievangelist-note: |
+      Because the API defines no OAuth scopes, this is the ONLY machine-readable
+      authorization surface. Agents should call it first and gate their plan on
+      UserFeatures rather than discovering entitlement through 401/403 responses.
+
+# ---- Surface the client-library generator ------------------------------------------
+- target: $.paths['/stubs/{language}'].get
+  update:
+    x-apievangelist-note: |
+      First-party but explicitly unsupported client-library generation across 38
+      swagger-codegen targets, and auth-gated (anonymous GET → 401, probed
+      2026-07-26). Catalogued in packages/pricefinder-packages.yml. Pricefinder ships
+      no published, supported SDK to any package registry.

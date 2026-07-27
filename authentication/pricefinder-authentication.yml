@@ -1,0 +1,125 @@
+generated: '2026-07-26'
+method: searched
+source: |
+  POST /oauth2/token operation description (HTML prose) in
+  openapi/pricefinder-api-swagger.json, plus live probes of
+  https://api.pricefinder.com.au/v1/auth/authorize.html (200) and
+  https://api.pricefinder.com.au/.well-known/openid-configuration (404), 2026-07-26.
+docs: https://api.pricefinder.com.au/v1/swagger/index.html
+
+summary:
+  types: [oauth2]
+  api_key_in: []
+  oauth2_flows: [clientCredentials, authorizationCode, refreshToken]
+  http_schemes: [basic, bearer]
+  self_serve: false
+  gate: application-approval — credentials are issued only under a negotiated
+    commercial subscription; there is no developer signup, free tier or sandbox key.
+
+spec_gap: |
+  THE CONTRACT DECLARES NO securityDefinitions AND NO security BLOCK. This profile
+  could not be derived mechanically (0-working/derive-authentication.py returned zero
+  schemes for this provider) because the Swagger 2.0 document carries no security
+  metadata at all — despite every one of its 116 operations requiring a bearer token.
+  The entire OAuth 2.0 model is described in HTML prose inside a single operation
+  description. A machine reading this contract cannot determine how to authenticate;
+  a human has to read the rendered description field. This profile is the
+  human-readable model transcribed into machine-readable form by API Evangelist, and
+  is the correct target shape for a securityDefinitions block Pricefinder should
+  publish.
+
+schemes:
+- name: pricefinder_oauth2
+  type: oauth2
+  declared_in_spec: false
+  derived_from: POST /oauth2/token operation description (operationId getToken)
+  token_endpoint: https://api.pricefinder.com.au/v1/oauth2/token
+  token_endpoint_method: POST
+  token_request_content_type: application/x-www-form-urlencoded
+  flows:
+  - flow: clientCredentials
+    grant_type: client_credentials
+    required_parameters: [client_id, client_secret]
+    credential_model: |
+      client_id is the API user's Pricefinder username; client_secret is that user's
+      Pricefinder password. HTTP Basic auth is documented as an accepted alternative
+      to passing username and password as form parameters.
+  - flow: authorizationCode
+    grant_type: authorization_code
+    authorization_url: https://api.pricefinder.com.au/v1/auth/authorize.html
+    authorization_url_status: 200
+    required_parameters: [client_id, client_secret, redirect_uri, code]
+    request_parameters: [client_id, state, redirect_uri]
+    https_required: true
+    callback_success: "{redirect_uri}?state=<state>&code=<authorization_code>"
+    callback_denied: "{redirect_uri}?error=access_denied"
+    note: |
+      Three-legged delegated authorization — used to act on another Pricefinder
+      user's behalf. The hosted authorize page renders a "PriceFinder Login" screen
+      and is reachable anonymously (probed 200, 2026-07-26).
+  - flow: refreshToken
+    grant_type: refresh_token
+    required_parameters: [client_id, client_secret, refresh_token]
+    note: Consumes the refresh token and returns BOTH a new access token and a new
+      refresh token (rotating refresh tokens).
+  scopes: []
+  scopes_note: |
+    NO SCOPES. The contract defines no scope vocabulary, the token request accepts no
+    `scope` parameter, and no scopes/permissions reference page exists on any
+    Pricefinder surface. Authorization is all-or-nothing per credentialed user, with
+    entitlement enforced server-side by commercial subscription (see GET /features,
+    operationId getFeatures, which returns the calling user's UserFeatures
+    entitlement set). This is why no scopes/ artifact is emitted for Pricefinder.
+
+token_presentation:
+- style: header
+  example: 'Authorization: Bearer <access_token>'
+  preferred: true
+- style: query
+  example: '?access_token=<access_token>'
+  note: |
+    Documented as a first-class alternative. Bearer tokens in query strings are
+    logged by proxies and appear in browser history and referrer headers — RFC 6750
+    section 5.3 and RFC 6819 both discourage it. Recorded as observed, not endorsed.
+
+token_response:
+  schema: openapi/pricefinder-api-swagger.json#/definitions/ClientAccessToken
+  fields:
+  - {name: access_token, type: string}
+  - {name: token_type, type: string}
+  - {name: expires_in, type: string, note: typed as string, not integer, in the
+      contract}
+  - {name: refresh_token, type: string}
+
+token_endpoint_errors:
+- {status: 401, description: Invalid username/password}
+- {status: 400, description: Bad Request}
+
+openid_connect:
+  supported: false
+  discovery_probe:
+    url: https://api.pricefinder.com.au/.well-known/openid-configuration
+    status: 404
+    date: '2026-07-26'
+  authorization_server_metadata_probe:
+    url: https://api.pricefinder.com.au/.well-known/oauth-authorization-server
+    status: 404
+    date: '2026-07-26'
+
+mutual_tls: false
+api_keys: false
+
+enforcement_evidence:
+- {probe: 'GET https://api.pricefinder.com.au/v1/features', status: 401,
+   note: Anonymous call to a data path rejected.}
+- {probe: 'GET https://api.pricefinder.com.au/v1/stubs/java', status: 401,
+   note: Even the client-library generator requires a token.}
+- {probe: 'POST https://api.pricefinder.com.au/v1/oauth2/token (no credentials)',
+   status: 401, note: The token endpoint itself rejects anonymous callers.}
+- {probe: 'GET https://api.pricefinder.com.au/v1/swagger.json', status: 200,
+   note: The CONTRACT is anonymous. The gate is on data, not on discovery.}
+
+related:
+  conventions: conventions/pricefinder-conventions.yml
+  conformance: conformance/pricefinder-conformance.yml
+  well_known: well-known/pricefinder-well-known.yml

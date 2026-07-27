@@ -1,0 +1,179 @@
+generated: '2026-07-26'
+method: derived
+source: |
+  openapi/pricefinder-api-swagger.json plus live probes recorded 2026-07-26.
+  Pricefinder publishes no compliance, certification or trust page on any reachable
+  surface (11-page marketing sitemap searched; no /security, /trust, /compliance;
+  0-working/probe-security-programs.py returned vdp=none trust=none), so no claim
+  below is upgraded from `derived` to `searched` and NO `Compliance` pointer is wired
+  into apis.yml.
+
+standards:
+- id: openapi-3
+  conforms: false
+  evidence: >-
+    The contract is Swagger 2.0 (the `swagger` key is "2.0"), not OpenAPI 3.x. No
+    OpenAPI 3 document is served at any probed path.
+- id: swagger-2.0
+  conforms: partial
+  evidence: |
+    Parses as valid Swagger 2.0 and is served in both JSON and YAML. Two real
+    violations: (1) the `pds` vendor object is attached to parameters as a raw sibling
+    key rather than an `x-` prefixed extension, which Swagger 2.0 does not permit;
+    (2) operationId is not unique — `properties` alone repeats across 14 paths, plus
+    planProperties, volumeFolioProperties, listings, sales, rentals, salesCma,
+    rentalCma, soi, image, property, radialSales and streets. Also omits `host` and
+    `schemes`, so the contract is not self-locating.
+- id: oauth2
+  conforms: true
+  evidence: |
+    Three RFC 6749 grant types implemented and documented — client_credentials,
+    authorization_code (with a hosted authorize page at
+    https://api.pricefinder.com.au/v1/auth/authorize.html, live 200) and
+    refresh_token, with rotating refresh tokens. Documented ONLY in HTML prose inside
+    the POST /oauth2/token description; the contract declares no securityDefinitions
+    and no security block, so the conformance is behavioural, not machine-readable.
+- id: rfc6750-bearer-token
+  conforms: partial
+  evidence: |
+    'Authorization: Bearer <token>' is documented and preferred. But
+    '?access_token=<token>' in the query string is documented as an equal
+    alternative, which RFC 6750 section 5.3 and RFC 6819 both discourage because
+    bearer tokens then land in proxy logs, browser history and referrer headers.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: false
+  evidence: 'GET https://api.pricefinder.com.au/.well-known/oauth-authorization-server
+    → 404 (2026-07-26)'
+- id: openid-connect
+  conforms: false
+  evidence: 'GET https://api.pricefinder.com.au/.well-known/openid-configuration →
+    404 (2026-07-26). No id_token, no userinfo endpoint, no OIDC scopes.'
+- id: oauth2-scopes
+  conforms: false
+  evidence: No scope vocabulary, no `scope` parameter on the token request, no scopes
+    reference page. Authorization is all-or-nothing per credentialed user, with
+    entitlement returned by GET /features (UserFeatures) instead.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: '"problem+json" appears zero times. Only three error responses are
+    documented across 116 operations; the one schema (`Error`) is a bare
+    { "error": string }.'
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: 'GET https://api.pricefinder.com.au/.well-known/security.txt → 404;
+    www.pricefinder.com.au → 403 (Akamai edge, no document observed).'
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: 'GET /.well-known/api-catalog → 404 on the API host.'
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: |
+    "sunset" appears zero times in the contract. Five operations carry
+    `deprecated: true` and ~62 parameters are flagged deprecated through the
+    non-standard `pds` object, but no Sunset or Deprecation header and no removal date
+    is published anywhere.
+- id: reso-web-api
+  conforms: false
+  evidence: |
+    No RESO Web API certification is claimed, referenced or discoverable for
+    Pricefinder or for Domain Holdings Australia. "reso" appears zero times in the
+    306,784-byte contract. RESO certification is an artifact of the US MLS system
+    administered under the National Association of REALTORS; Australia has no MLS and
+    no RESO regime, so the standard simply does not apply in this market. Absence here
+    is the correct finding, not a gap.
+- id: reso-data-dictionary
+  conforms: false
+  evidence: No Data Dictionary certification and no version (1.7, 2.0 or otherwise)
+    referenced anywhere.
+- id: reso-universal-property-identifier
+  conforms: false
+  evidence: |
+    No UPI. Identity is a proprietary opaque integer `propertyId`, joined to
+    Australian land title through 25 bespoke per-state reference paths (NSW, VIC, QLD,
+    SA, WA, TAS, NT, ACT plan/planType/lot/section/volume/folio/division).
+- id: odata
+  conforms: false
+  evidence: 'Plain JSON over HTTPS, not OData. GET https://api.pricefinder.com.au/$metadata
+    → 404. "odata" appears zero times in the contract.'
+- id: json-api
+  conforms: false
+  evidence: No JSON:API media type, no `data`/`included`/`links` envelope. Responses
+    are bare domain objects.
+- id: graphql
+  conforms: false
+  evidence: '"graphql" appears zero times in the contract; no /graphql surface exists
+    on api.pricefinder.com.au.'
+- id: asyncapi
+  conforms: false
+  evidence: No event, streaming or webhook surface. The `subscriptions` tag delivers
+    property alerts by EMAIL only — the contract states so explicitly. "webhook"
+    appears zero times.
+- id: grpc-protobuf
+  conforms: false
+  evidence: No .proto published on any Pricefinder or Domain Group repository or on
+    buf.build.
+- id: model-context-protocol
+  conforms: false
+  evidence: No official Pricefinder MCP server exists in the MCP registry, on npm, or
+    on any Pricefinder surface (searched 2026-07-26). See mcp/pricefinder-mcp.yml for
+    the derived candidate.
+- id: rest-pagination
+  conforms: false
+  evidence: |
+    No cursor, page, offset or next-link parameter on any operation. A `limit`
+    parameter on 49 operations caps results but provides no way to reach the next
+    page.
+- id: idempotency-key
+  conforms: false
+  evidence: '"idempoten" appears zero times in the contract. No Idempotency-Key header
+    on any of the 5 POST operations.'
+- id: http-conditional-requests
+  conforms: false
+  evidence: No ETag, If-None-Match, Last-Modified or If-Modified-Since anywhere in the
+    contract.
+- id: tls-1.2-plus
+  conforms: true
+  evidence: 'Both www.pricefinder.com.au and api.pricefinder.com.au negotiate TLSv1.3
+    (probed 2026-07-26). See security/pricefinder-domain-security.yml.'
+- id: hsts
+  conforms: false
+  evidence: api.pricefinder.com.au returns no Strict-Transport-Security header
+    (probed 2026-07-26).
+- id: dnssec
+  conforms: false
+  evidence: pricefinder.com.au is not DNSSEC signed (probed 2026-07-26).
+- id: dmarc
+  conforms: partial
+  evidence: 'A DMARC record exists for pricefinder.com.au but the policy is p=none —
+    monitor only, no enforcement. SPF is present. No CAA records are published.'
+
+certifications_published: none
+compliance_program_published: false
+regulatory_context:
+  jurisdiction: Australia
+  applicable: |
+    Pricefinder carries personal information (property ownership names and contact
+    detail) and is therefore subject to the Australian Privacy Act 1988 and the
+    Australian Privacy Principles. Its privacy posture is published at the group
+    level, not the product level: https://www.domain.com.au/group/privacy-policy/.
+    API use is governed by the Domain Group API Terms and Conditions, which the API
+    declares itself in its own Swagger `info.license` block.
+  not_applicable: [PSD2, FAPI, FHIR, SCIM, HIPAA, PCI DSS, FedRAMP, CDR/Open Banking]
+  note: |
+    Australia's Consumer Data Right does not currently extend to property data, so
+    there is no mandated API regime over this sector — which is precisely why the
+    access model here is a commercial licence rather than a standards-based one.
+
+restricted_data:
+  ownership_detail: |
+    Pricefinder's own product pages state ownership detail is "Available for WA, QLD,
+    NSW, VIC. Restrictions apply." The contract encodes jurisdictional disclosure law
+    in the type system: SensitivePrice and SensitiveDate are wrapper types for values
+    that may be legally withheld, and every entity carries a `disclaimer` field, so
+    licensing text travels with the payload.
+
+related:
+  authentication: authentication/pricefinder-authentication.yml
+  security: security/pricefinder-domain-security.yml
+  conventions: conventions/pricefinder-conventions.yml
+  lifecycle: lifecycle/pricefinder-lifecycle.yml

@@ -1,0 +1,111 @@
+generated: '2026-07-26'
+method: derived
+source: |
+  openapi/pricefinder-api-swagger.json 4xx/5xx responses, plus live anonymous probes
+  of api.pricefinder.com.au recorded 2026-07-26. Pricefinder publishes no error
+  reference page anywhere — there is no docs surface to search, so nothing could be
+  upgraded to `searched`.
+format: none — not RFC 9457, not RFC 7807
+media_type: application/json (no application/problem+json anywhere in the contract)
+
+summary: |
+  The weakest part of an otherwise complete contract. Across 116 operations
+  Pricefinder documents exactly THREE non-2xx responses. 97 operations declare only a
+  200; 19 declare only a bare `default: successful operation`. No operation declares
+  the 401 that every one of them actually returns without a token, no 403 for
+  entitlement failure, no 429 for rate limiting, and no 5xx anywhere. There is no
+  error-code registry, no problem-type URI space, and no remediation guidance. A
+  client cannot generate error handling from this contract.
+
+documented_problems:
+- status: 401
+  title: Invalid username/password
+  operation: getToken
+  path: POST /oauth2/token
+  schema: none — no response body schema is declared
+  source_operation: openapi/pricefinder-api-swagger.json#getToken
+- status: 400
+  title: Bad Request
+  operation: getToken
+  path: POST /oauth2/token
+  schema: none
+  source_operation: openapi/pricefinder-api-swagger.json#getToken
+- status: 404
+  title: Property not found
+  operation: propertyEventSubscription
+  path: GET /eventsubscriptions/property/{propertyId}
+  schema: '#/definitions/Error'
+  shape: '{ "error": string }'
+  source_operation: openapi/pricefinder-api-swagger.json#propertyEventSubscription
+
+documented_non_error_edge_case:
+- status: 204
+  title: The request has succeeded but no events subscribed
+  operation: propertyEventSubscription
+  path: GET /eventsubscriptions/property/{propertyId}
+  note: The only 204 in the contract. An empty subscription set is a 204, not a 200
+    with an empty array — clients must branch on status, not on body.
+
+observed_but_undocumented:
+- status: 401
+  scope: every data path in the API
+  evidence:
+  - {probe: 'GET https://api.pricefinder.com.au/v1/features', status: 401, date:
+      '2026-07-26'}
+  - {probe: 'GET https://api.pricefinder.com.au/v1/suggest/properties?q=...', status:
+      401, date: '2026-07-26'}
+  - {probe: 'GET https://api.pricefinder.com.au/v1/stubs/java', status: 401, date:
+      '2026-07-26'}
+  - {probe: 'GET https://api.pricefinder.com.au/v1/api-docs', status: 401, date:
+      '2026-07-26'}
+  - {probe: 'GET https://api.pricefinder.com.au/v1/openapi.json', status: 401, date:
+      '2026-07-26'}
+  note: |
+    Declared on ZERO of the 115 non-token operations, yet returned by all of them
+    without a bearer token. This is the single largest gap between the contract and
+    the running service.
+- status: 404
+  scope: unrouted paths on the API host
+  evidence:
+  - {probe: 'GET https://api.pricefinder.com.au/openapi.json', status: 404}
+  - {probe: 'GET https://api.pricefinder.com.au/.well-known/openid-configuration',
+     status: 404}
+  - {probe: 'GET https://api.pricefinder.com.au/$metadata', status: 404}
+
+error_schemas:
+- name: Error
+  shape: '{ "error": string }'
+  documented_uses: 1
+  note: A single untyped string. No code, no type URI, no field pointer, no
+    correlation id, no remediation link.
+
+partial_success_channel:
+  schema: Message
+  shape: '{ "code": integer(int64), "text": string }'
+  references: 39
+  carried_on: 200 responses, as a `messages` array on Property, Sale, Listing,
+    Suburb, PropertyIdentifiers and most other top-level entities
+  significance: |
+    THIS IS WHERE PRICEFINDER'S REAL ERROR SEMANTICS LIVE, and it is not an HTTP
+    status channel at all. Data-quality notices, suppressed-field notices and
+    partial-result warnings ride inside a 200 as `messages[]`. The `code` values are
+    not enumerated or documented anywhere in the contract. Any agent that branches
+    only on HTTP status will silently treat a degraded or legally-suppressed answer
+    as a complete one.
+  agent_guidance: |
+    Always read `messages[]` on a 200. Treat a non-empty `messages` array as a signal
+    that the payload may be incomplete or jurisdictionally redacted — check
+    SensitivePrice / SensitiveDate fields before presenting them as fact.
+
+missing:
+- no 403 documented on any operation (entitlement failure is real — see GET /features
+  / UserFeatures — but has no documented status)
+- no 429 and no rate-limit error contract
+- no 5xx documented on any of the 116 operations
+- no Retry-After semantics
+- no error code registry or problem-type URI namespace
+- no `code` value enumeration for the Message schema
+
+related:
+  conventions: conventions/pricefinder-conventions.yml
+  authentication: authentication/pricefinder-authentication.yml

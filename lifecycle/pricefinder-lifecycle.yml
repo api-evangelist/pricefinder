@@ -1,0 +1,156 @@
+generated: '2026-07-26'
+method: derived
+source: |
+  openapi/pricefinder-api-swagger.json (info.version, deprecated operations, the
+  non-standard `pds` parameter extension) plus live probes of
+  status.pricefinder.com.au (NXDOMAIN), the pricefinder.com.au sitemap (11 pages, no
+  changelog/release-notes/roadmap/status page) and the WordPress feed at
+  /feed/ (integration-partner entries only), all 2026-07-26.
+
+summary: |
+  Pricefinder runs a point-versioned API behind a major-version-only URI path and
+  publishes no lifecycle communication of any kind — no changelog, no release notes,
+  no deprecation policy, no sunset dates, no status page, no SLA, no roadmap. It DOES
+  deprecate things: five operations carry a real Swagger `deprecated` flag, and ~62
+  query parameters across 47 operations are flagged deprecated through a non-standard
+  vendor object. None of it is announced anywhere a consumer can subscribe to.
+
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://api.pricefinder.com.au/v1
+  spec_version: 1.13.1
+  spec_version_source: info.version in the Swagger 2.0 contract
+  point_version_discoverability: |
+    None at runtime. The path carries only `v1`. A running client cannot tell whether
+    it is talking to 1.13.1 or some later point release, and there is no version
+    header, no /version endpoint and no changelog to reconcile against. The only way
+    to detect a change is to re-fetch and diff https://api.pricefinder.com.au/v1/swagger.json.
+  media_type_versioning: false
+  header_versioning: false
+  docs: https://api.pricefinder.com.au/v1/swagger/index.html
+
+change_communication:
+  changelog: none
+  release_notes: none
+  rss_or_atom: |
+    https://www.pricefinder.com.au/feed/ exists (WordPress) but carries only
+    integration-partner directory entries, not API release notes. Last build
+    2025-11-17.
+  api_diff_recommendation: |
+    Because there is no changelog, the only reliable monitoring strategy is to poll
+    https://api.pricefinder.com.au/v1/swagger.json (anonymous, HTTP 200) on a schedule
+    and diff it. The contract being public is what makes this possible — it is the
+    saving grace of the missing changelog.
+
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594_support: false
+  notice_period: undisclosed
+  standard_flag_used: partially
+  deprecated_operations:
+  - operationId: eventsSubscription
+    method: GET
+    path: '/properties/{propertyId}/eventsubscription'
+    replaced_by: 'GET /eventsubscriptions/property/{propertyId} (propertyEventSubscription)'
+  - operationId: eventsSubscribe
+    method: POST
+    path: '/properties/{propertyId}/eventsubscription'
+    replaced_by: 'POST /eventsubscriptions/property/{propertyId} (propertyEventsSubscribe)'
+  - operationId: eventsUnSubscribe
+    method: DELETE
+    path: '/properties/{propertyId}/eventsubscription'
+    replaced_by: 'DELETE /eventsubscriptions/property/{propertyId} (propertyEventsUnSubscribe)'
+  - operationId: cma
+    method: GET
+    path: '/sso/properties/{propertyId}/cma'
+    replaced_by: >-
+      the /sso/properties/{propertyId}/appraisals/* deep links (appraisalsSaleCma,
+      appraisalsRentalCma, appraisalsSoi)
+  - operationId: priceSegmentSales
+    method: GET
+    path: '/suburbs/{suburbId}/stats/pricesegmentation/sales/{propertyType}'
+    replaced_by: >-
+      GET /suburbs/{suburbId}/stats/timeseries/pricesegmentation/sales/{propertyType}
+      (priceSegmentSales2)
+  deprecated_parameters:
+    mechanism: |
+      NON-STANDARD. Parameter deprecation is signalled only through a `pds` object
+      attached as a raw sibling key on the parameter — {hidden, extra, enumerate,
+      deprecated}. Swagger 2.0 permits vendor extensions only under an `x-` prefix, so
+      `pds` is invalid there and strict validators reject it. There is no Swagger
+      `deprecated` flag on any parameter and no sunset date on any of them.
+    count: ~62 parameter instances across 47 operations
+    families:
+    - {names: [beds_gt, beds_lt], replaced_by: [min_beds, max_beds]}
+    - {names: [baths_gt, baths_lt], replaced_by: [min_baths, max_baths]}
+    - {names: [car_parks_gt, car_parks_lt], replaced_by: [min_car_parks,
+        max_car_parks]}
+    - {names: [area_gt, area_lt], replaced_by: [min_area, max_area]}
+    - {names: [price_gt, price_lt], replaced_by: [min_price, max_price]}
+    - {names: [year_from, year_to], operation: timeSeriesSales}
+    affected_operations: [names, namesProperties, namesSales, listings, properties,
+      rentals, sales, radialListings, radialProperties, radialRentals, radialSales,
+      divisionProperties, planProperties, volumeFolioProperties, streetListings,
+      streetProperties, streetRentals, streetSales, timeSeriesSales]
+    agent_guidance: Always use the min_*/max_* generation. The _gt/_lt generation
+      still works but is flagged for removal with no announced date.
+
+unsupported_surfaces:
+- operationId: generateStub
+  path: GET /stubs/{language}
+  provider_statement: |
+    "Pricefinder is unable to provide support for this endpoint, it is provided as a
+    convenience. There is no guarantee of backwards compatibility for this method."
+  note: The only place in the contract where Pricefinder makes an explicit
+    backwards-compatibility statement — and it is a disclaimer of one.
+
+status_page:
+  url: null
+  probe: {url: 'https://status.pricefinder.com.au/', result: DNS NXDOMAIN, date:
+    '2026-07-26'}
+  third_party_status_page: none found on statuspage.io, status.io, instatus or
+    betteruptime under pricefinder or domain group
+  note: |
+    No status page exists. No incident history, no uptime dashboard, no maintenance
+    calendar on any Pricefinder or Domain Group surface reachable from the public
+    internet. No StatusPage pointer is wired into apis.yml because there is nothing to
+    point at.
+
+sla:
+  url: null
+  uptime_target: undisclosed
+  note: |
+    No public SLA. Availability commitments, if any, live inside the individually
+    negotiated commercial subscription and the Domain Group API Terms and Conditions
+    (https://www.domain.com.au/group/api-terms-and-conditions/), neither of which
+    publishes an uptime number.
+
+roadmap:
+  url: null
+  published: false
+
+support:
+  help_centre: https://help.pricefinder.com.au/
+  help_centre_note: Zendesk help centre; edge-protected and not machine-readable.
+  resources: https://www.pricefinder.com.au/resources-and-support/
+  channel: sales-mediated — support arrives through the commercial account
+    relationship, not a public developer forum. No community forum, Discord, Slack or
+    Stack Overflow tag exists.
+
+infrastructure_observation:
+  host: https://api.pricefinder.com.au/
+  finding: |
+    The API host root serves the DEFAULT Apache Tomcat 7.0.109 welcome page
+    ("If you're seeing this, you've successfully installed Tomcat. Congratulations!")
+    with links to /manager/html and /host-manager/html. Tomcat 7 reached end of life
+    on 31 March 2021. Recorded as observed server hygiene; no manager application was
+    probed. The API itself lives under /v1.
+
+related:
+  conventions: conventions/pricefinder-conventions.yml
+  errors: errors/pricefinder-problem-types.yml
+  conformance: conformance/pricefinder-conformance.yml

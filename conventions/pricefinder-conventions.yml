@@ -1,0 +1,262 @@
+generated: '2026-07-26'
+method: derived
+source: |
+  openapi/pricefinder-api-swagger.json (Swagger 2.0, v1.13.1, 112 paths, 116
+  operations, 188 definitions) plus the anonymously reachable Swagger UI at
+  https://api.pricefinder.com.au/v1/swagger/index.html. Pricefinder publishes no
+  separate developer-guide or conventions documentation to search — the contract IS
+  the documentation.
+
+summary: |
+  A read-mostly, filter-heavy JSON-over-HTTPS API with a consistent and genuinely
+  well-designed query-filter vocabulary, and almost no runtime-semantics contract
+  around it. Filtering and sorting are excellent and uniform across 47+ collection
+  operations. Pagination, idempotency, request tracing, rate-limit signalling,
+  conditional requests and a structured error envelope are all ABSENT — not
+  under-documented, absent from the contract entirely.
+
+authentication:
+  style: OAuth 2.0 bearer token
+  detail: authentication/pricefinder-authentication.yml
+  header: 'Authorization: Bearer <access_token>'
+  alternative: '?access_token=<access_token> query parameter'
+  applies_to: every operation except GET /v1/swagger.json, /v1/swagger.yaml,
+    /v1/swagger/index.html and /v1/auth/authorize.html
+  declared_in_spec: false
+
+idempotency:
+  supported: false
+  evidence: |
+    The string "idempoten" appears zero times in the 306,784-byte swagger.json. No
+    Idempotency-Key header, no client-supplied request identifier, no
+    de-duplication window is defined anywhere in the contract or the Swagger UI.
+  mitigating_factor: |
+    Low exposure by design. The API has only 5 POST operations and 2 DELETE
+    operations across 116 total; there is no payment, order, settlement or money
+    movement surface at all. The POSTs are: /oauth2/token (getToken),
+    /eventsubscriptions/properties (propertiesEventsSubscribe),
+    /eventsubscriptions/property/{propertyId} (propertyEventsSubscribe),
+    /properties/{propertyId}/eventsubscription (eventsSubscribe, deprecated),
+    /properties/{propertyId}/images/streetview (streetView) and
+    /events/cmaEvent/{cmaId} (saveEvent). Event subscription is naturally
+    idempotent-ish (subscribing twice yields one subscription), but that is a
+    server-side behaviour Pricefinder never states, not a contract.
+  agent_guidance: |
+    Treat every write as at-most-once with no replay protection. On a timeout or 5xx
+    from a POST, do NOT blind-retry — GET the subscription state first
+    (propertyEventSubscription / userEventSubscription) and reconcile.
+
+pagination:
+  supported: false
+  style: none
+  evidence: |
+    No cursor, page, page_size, offset or next-link parameter appears on any
+    operation. The strings "cursor", "offset", "pageSize" and "page_size" each appear
+    zero times in the contract. Collection responses are bare JSON arrays or wrapper
+    objects with no paging envelope, no total count and no link relations.
+  result_capping:
+    parameter: limit
+    in: query
+    type: integer
+    operations: 49
+    note: |
+      A `limit` query parameter caps the number of records returned on 49 collection
+      operations. This is result capping, NOT pagination — there is no way to fetch
+      the next page beyond the limit. To page through a large area a caller must
+      narrow the query itself (tighter radius, smaller date window, tighter price or
+      attribute band). No default and no maximum for `limit` is documented.
+  agent_guidance: |
+    Never assume a collection response is complete. Where a result set may exceed
+    `limit`, partition the query along an orthogonal axis (date_start/date_end,
+    price band, property_type) and union the results client-side, de-duplicating on
+    propertyId / saleId / listingId / rentalId.
+
+filtering:
+  supported: true
+  quality: strong — the one convention Pricefinder does uniformly and well
+  style: |
+    Repeated, consistently named query parameters applied across every radial,
+    spatial, suburb, street, postcode, plan and name-search collection operation. Two
+    parallel generations of the same filters coexist (see deprecation note).
+  current_parameters:
+  - {name: min_beds, in: query}
+  - {name: max_beds, in: query}
+  - {name: min_baths, in: query}
+  - {name: max_baths, in: query}
+  - {name: min_car_parks, in: query}
+  - {name: max_car_parks, in: query}
+  - {name: min_area, in: query}
+  - {name: max_area, in: query}
+  - {name: min_price, in: query}
+  - {name: max_price, in: query}
+  - {name: property_type, in: query}
+  - {name: date_start, in: query}
+  - {name: date_end, in: query}
+  - {name: matchlevel_min, in: query}
+  - {name: matchlevel_max, in: query}
+  - {name: limit, in: query}
+  - {name: sort, in: query}
+  deprecated_parameters:
+    note: |
+      The `_gt`/`_lt` generation of the same filters is still present on 47+
+      operations and is flagged deprecated ONLY through the non-standard vendor
+      object described under `vendor_extensions` below — there is no Swagger
+      `deprecated` flag, no Deprecation header and no sunset date.
+    names: [beds_gt, beds_lt, baths_gt, baths_lt, car_parks_gt, car_parks_lt,
+      area_gt, area_lt, price_gt, price_lt]
+    replaced_by: the min_*/max_* generation
+
+sorting:
+  supported: true
+  parameter: sort
+  in: query
+  operations: 17
+  note: Per-operation enumerations; no global sort grammar is documented.
+
+field_expansion:
+  supported: partial
+  style: |
+    Not a query-parameter expansion model. Extra detail is exposed as SEPARATE
+    operations and separate paths rather than an `expand=` parameter:
+    GET /properties/{propertyId} (operationId property) vs
+    GET /properties/{propertyId}/extended (operationId propertyExtended); and
+    /appraisals/salescma/{id} vs /appraisals/salescma/{id}/extended (same
+    operationId `salesCma` on both — see the operationId collision note).
+  sparse_fieldsets: false
+
+metadata:
+  client_metadata_supported: false
+  note: No customer-defined metadata or tagging surface. Pricefinder is a read API
+    over its own data; there is nothing for a caller to annotate.
+
+request_tracing:
+  request_id_header: none
+  correlation_id: none
+  evidence: no x-request-id, requestId or correlation header appears in any
+    operation's parameters or response headers. Every `headers` block in the
+    contract is an empty object.
+  agent_guidance: There is no server-issued identifier to quote in a support ticket.
+    Log your own request timestamp, path and full query string.
+
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://api.pricefinder.com.au/v1
+  spec_version: 1.13.1
+  detail: lifecycle/pricefinder-lifecycle.yml
+  media_type_versioning: false
+  header_versioning: false
+  note: |
+    The path carries only the major version (v1). The point version 1.13.1 is visible
+    only in `info.version` inside the contract; there is no way for a running client
+    to discover which point version it is talking to, and no changelog to reconcile
+    against.
+
+error_envelope:
+  format: ad hoc — not RFC 9457, not RFC 7807
+  evidence: |
+    "problem+json" appears zero times in the contract. Only THREE error responses are
+    documented across 116 operations: 400 and 401 on POST /oauth2/token (no schema at
+    all) and 404 on GET /eventsubscriptions/property/{propertyId} (schema
+    #/definitions/Error). 97 operations document only a 200 and 19 document only a
+    bare `default`.
+  schemas:
+  - name: Error
+    shape: '{ "error": string }'
+    used_by: 1 documented response (404 on propertyEventSubscription)
+  - name: Message
+    shape: '{ "code": integer(int64), "text": string }'
+    note: |
+      The most-referenced definition in the whole contract (39 references), used as an
+      embedded messages array inside SUCCESS payloads rather than as an error
+      envelope — it carries partial-result and data-quality notices alongside a 200.
+      Agents must read `messages` on a 200 response; a 200 does not mean a complete
+      answer.
+  detail: errors/pricefinder-problem-types.yml
+
+rate_limiting:
+  documented: false
+  signalling: none
+  evidence: |
+    "ratelimit", "rate limit", "x-ratelimit" and "retry-after" each appear zero times
+    in the contract. No 429 response is documented on any operation. No published
+    quota, burst limit or fair-use statement exists on any Pricefinder surface —
+    limits, if any, are set per commercial subscription and are not machine-readable.
+  agent_guidance: Apply conservative client-side pacing and exponential backoff on any
+    non-2xx; assume an undisclosed per-subscription quota exists.
+
+conditional_requests:
+  etag: false
+  last_modified: false
+  cache_control: not declared in the contract
+
+content_negotiation:
+  request: application/x-www-form-urlencoded (POST /oauth2/token only)
+  response_json: application/json
+  response_binary:
+  - {media_type: application/pdf, operations: [propertyReport, propertyAvmReport,
+      saleCmaPDF, rentalCmaPDF, flyoverReport], note: report/document surface}
+  - {media_type: application/zip, operations: [generateStub]}
+  - {media_type: image/jpeg, note: appraisal agent/office/logo imagery and property
+      images}
+
+identifiers:
+  primary: propertyId — a proprietary opaque integer, the join key for the entire
+    graph. Not a RESO Universal Property Identifier; Australia has no UPI regime.
+  others: [saleId, rentalId, listingId, suburbId, streetId, postcode,
+    appraisalShareId, agentId, userId, cmaId]
+  land_title_join: |
+    Australian land-title references resolve to propertyId through 25 per-jurisdiction
+    lookup paths under /references/states/{state}/ using plan, planType, lot, section,
+    volume, folio and division — a bespoke adapter layer per state and territory
+    (NSW, VIC, QLD, SA, WA, TAS, NT, ACT) standing in for a national identifier.
+  detail: data-model/pricefinder-data-model.yml
+
+operation_id_collisions:
+  unique: false
+  note: |
+    operationId is NOT unique across the contract, which breaks the Swagger 2.0
+    requirement and breaks every code generator and MCP tool-forge that keys on it.
+    Colliding ids observed: `properties` (14 paths), `planProperties` (8),
+    `volumeFolioProperties` (2), `listings` (3), `sales` (3), `rentals` (3),
+    `salesCma` (2), `rentalCma` (2), `soi` (2), `image` (2), `property` (2),
+    `radialSales` (2), `streets` (2). Any tool binding to these must disambiguate by
+    METHOD + PATH, not by operationId alone.
+
+vendor_extensions:
+  name: pds
+  applies_to: parameters
+  shape: '{ hidden: bool, extra: bool, enumerate: bool, deprecated: bool }'
+  compliance_problem: |
+    Attached as a raw sibling key on parameter objects rather than as an `x-`
+    prefixed extension. Swagger 2.0 permits vendor extensions only under an `x-`
+    prefix, so `pds` is an invalid sibling and strict validators reject it. It is
+    also the ONLY channel through which Pricefinder signals parameter deprecation.
+
+events_and_webhooks:
+  webhooks: false
+  evidence: |
+    "webhook" appears zero times in the contract. The `subscriptions` tag is not a
+    webhook surface: POST /eventsubscriptions/properties states that property event
+    alerts are "currently only available through email notifications". There is no
+    callback URL parameter, no signing secret, no delivery or retry semantics.
+  event_types: [ForSale, ForRent, Sold, SoldVerified]
+  delivery: email only
+  streaming: none — no WebSocket, SSE or queue surface; no AsyncAPI document.
+
+entitlements:
+  operation: getFeatures
+  path: GET /features
+  schema: '#/definitions/UserFeatures'
+  note: |
+    The caller's commercial entitlement set is itself an API call. Because there are
+    no OAuth scopes, this is the only machine-readable way to discover what the
+    current token is actually allowed to do. An agent should call it first and gate
+    its plan on the result rather than discovering entitlement through 401/403.
+
+related:
+  authentication: authentication/pricefinder-authentication.yml
+  errors: errors/pricefinder-problem-types.yml
+  lifecycle: lifecycle/pricefinder-lifecycle.yml
+  conformance: conformance/pricefinder-conformance.yml
+  data_model: data-model/pricefinder-data-model.yml
