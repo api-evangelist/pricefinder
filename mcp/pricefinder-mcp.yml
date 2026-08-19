@@ -1,70 +1,88 @@
 generated: '2026-07-26'
 method: derived
 status: candidate
-source: openapi/pricefinder-api-swagger.json (Swagger 2.0 v1.13.1, 112 paths, 116
-  operations)
-
+source: openapi/pricefinder-api-swagger.json (Swagger 2.0 v1.13.1, 112 paths, 116 operations)
 published_server_search:
   result: none
   date: '2026-07-26'
   searched:
-  - official MCP registry (io.modelcontextprotocol) — no pricefinder or domain-group
-    entry
-  - npm (@modelcontextprotocol scope and free-text "pricefinder") — no first-party
-    server
+  - official MCP registry (io.modelcontextprotocol) — no pricefinder or domain-group entry
+  - npm (@modelcontextprotocol scope and free-text "pricefinder") — no first-party server
   - pricefinder.com.au (all 11 pages in the sitemap) — no AI, agent or MCP page
   - api.pricefinder.com.au — no /mcp, no /sse; /.well-known/ai-plugin.json → 404
-  - web search for "Pricefinder MCP server" — competitors in the same market have
-    shipped one (PriceHubble, Cotality, HtAG Analytics for Australian suburb data);
-    Pricefinder has not
-  note: |
-    No official hosted or remote MCP server exists. This file is therefore a DERIVED
-    CANDIDATE — a faithful projection of Pricefinder's own published contract into MCP
-    tool shape, produced by API Evangelist, not a Pricefinder product. Nothing here is
-    invented: every tool below binds 1:1 to a real operation in the contract, and each
-    tool's real input schema is that operation's `parameters` block.
+  - web search for "Pricefinder MCP server" — competitors in the same market have shipped one (PriceHubble,
+    Cotality, HtAG Analytics for Australian suburb data); Pricefinder has not
+  note: 'No official hosted or remote MCP server exists. This file is therefore a DERIVED
 
+    CANDIDATE — a faithful projection of Pricefinder''s own published contract into MCP
+
+    tool shape, produced by API Evangelist, not a Pricefinder product. Nothing here is
+
+    invented: every tool below binds 1:1 to a real operation in the contract, and each
+
+    tool''s real input schema is that operation''s `parameters` block.
+
+    '
 server:
   name: pricefinder
   transport: http
   url: null
   status: not published by the provider
-
 authentication:
   model: OAuth 2.0 bearer token — see authentication/pricefinder-authentication.yml
-  gate: |
-    Every tool below would require a token issued under a negotiated commercial
-    subscription. There is no self-serve credential, no sandbox and no free tier, so a
-    hosted MCP server for Pricefinder could not be anonymously usable — it would have
-    to broker per-tenant credentials. Anonymous calls return 401 on every data path.
-  scopes: none — the API defines no OAuth scopes; entitlement is discovered at runtime
-    via the get_features tool (GET /features → UserFeatures).
+  gate: 'Every tool below would require a token issued under a negotiated commercial
 
+    subscription. There is no self-serve credential, no sandbox and no free tier, so a
+
+    hosted MCP server for Pricefinder could not be anonymously usable — it would have
+
+    to broker per-tenant credentials. Anonymous calls return 401 on every data path.
+
+    '
+  scopes: none — the API defines no OAuth scopes; entitlement is discovered at runtime via the get_features
+    tool (GET /features → UserFeatures).
 agent_design_notes:
-- |
-  OPERATION ID COLLISIONS FORCED RENAMING. 47 of the 116 operations share a
+- 'OPERATION ID COLLISIONS FORCED RENAMING. 47 of the 116 operations share a
+
   non-unique operationId (`properties` alone repeats across 14 paths). MCP tool names
+
   must be unique, so tools derived from a colliding id are suffixed with their path
+
   (e.g. properties_by_references_states_nsw_plans, properties_by_postcodes). Each such
+
   tool carries operation_id_collision: true. Any forge that keys on operationId alone
+
   will silently collapse these 47 operations into 13 tools and lose most of the
+
   land-title reference surface.
-- |
-  NO PAGINATION. Collection tools accept `limit` but expose no cursor or page
+
+  '
+- 'NO PAGINATION. Collection tools accept `limit` but expose no cursor or page
+
   parameter, so an agent cannot iterate past the cap — it must partition the query
+
   (date window, price band, property_type, radius) and union client-side.
-- |
-  READ ALL MESSAGES. Most success payloads carry a `messages[]` array of code+text
+
+  '
+- 'READ ALL MESSAGES. Most success payloads carry a `messages[]` array of code+text
+
   notices covering data quality and jurisdictional suppression. A 200 does not mean a
+
   complete answer.
-- |
-  ALWAYS PREFER min_*/max_* FILTERS. The parallel _gt/_lt filter generation is flagged
+
+  '
+- 'ALWAYS PREFER min_*/max_* FILTERS. The parallel _gt/_lt filter generation is flagged
+
   deprecated on 47 operations (see lifecycle/pricefinder-lifecycle.yml).
-- |
-  ONLY 5 WRITE TOOLS, NO IDEMPOTENCY. subscribe/unsubscribe, street-view request and
+
+  '
+- 'ONLY 5 WRITE TOOLS, NO IDEMPOTENCY. subscribe/unsubscribe, street-view request and
+
   CMA event save are the only mutations, and none accepts an idempotency key. Do not
+
   blind-retry a write — read state back first.
 
+  '
 coverage:
   operations_in_contract: 116
   tools_derived: 116
@@ -91,13 +109,11 @@ coverage:
     rentals: 1
     sales: 1
     stubs: 1
-
 related:
   authentication: authentication/pricefinder-authentication.yml
   conventions: conventions/pricefinder-conventions.yml
   errors: errors/pricefinder-problem-types.yml
   data_model: data-model/pricefinder-data-model.yml
-
 tools:
 - name: appraisals
   category: appraisals
@@ -1234,3 +1250,9 @@ tools:
   input_schema_source: parameters of GET /suggest/typeahead in openapi/pricefinder-api-swagger.json
   required_inputs:
   - q
+deployment:
+  mode: none
+  verified: derived
+  tools: 116
+  checked: '2026-08-12'
+  source: catalog MCP census
