@@ -25,6 +25,19 @@ description: Pricefinder is an Australian property intelligence and valuation pl
   lookups (NSW/VIC/QLD/SA/WA/TAS/NT/ACT plan, lot, section, volume and folio paths).
 image: https://www.pricefinder.com.au/favicon.ico
 tags:
+- Real-Estate
+- Australia
+- PropTech
+- Property Data
+- Valuation
+- AVM
+- Property Listings
+- Rentals
+- Land Registry
+- Title
+- Mortgage
+- Market Data
+tags_raw:
 - Real Estate
 - Australia
 - PropTech
@@ -51,6 +64,10 @@ apis:
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
+  - Property Records
+  - Real-Estate
+  - Australia
+  tags_raw:
   - Property Records
   - Real Estate
   - Australia
@@ -93,6 +110,10 @@ apis:
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
+  - Property Listings
+  - Rentals
+  - Transaction
+  tags_raw:
   - Property Listings
   - Rentals
   - Transactions
@@ -161,6 +182,10 @@ apis:
   tags:
   - Appraisals
   - CMA
+  - Real-Estate
+  tags_raw:
+  - Appraisals
+  - CMA
   - Real Estate
   properties:
   - type: OpenAPI
@@ -176,6 +201,10 @@ apis:
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
+  - Event
+  - Subscription
+  - Notification
+  tags_raw:
   - Events
   - Subscriptions
   - Notifications
@@ -211,6 +240,9 @@ apis:
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
+  - Authentication
+  - Security
+  tags_raw:
   - OAuth
   - Authentication
   - Security
