@@ -54,203 +54,384 @@ created: '2026-07-26'
 modified: '2026-07-26'
 specificationVersion: '0.23'
 apis:
-- aid: pricefinder:pricefinder-property-api
-  name: Pricefinder Property API
-  description: Property record retrieval for Australian properties — core and extended property
-    detail, images, floorplans, street view, maps, schools, radial searches for nearby sales,
-    rentals, listings, properties and development applications, and PDF property reports.
-    22 documented operations under the `properties` tag, plus image, feature and localisation
-    stub endpoints.
+- aid: pricefinder:pricefinder-appraisals-api
+  name: Pricefinder Appraisals API
+  description: The appraisals API from Pricefinder — 11 operation(s) for appraisals.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - Property Records
-  - Real-Estate
-  - Australia
-  tags_raw:
-  - Property Records
-  - Real Estate
-  - Australia
+  - appraisals
   properties:
   - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.json
-  - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.yml
+    url: openapi/pricefinder-appraisals-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
   - type: Documentation
     url: https://www.pricefinder.com.au/our-data/
   - type: TermsOfService
     url: https://www.domain.com.au/group/api-terms-and-conditions/
-- aid: pricefinder:pricefinder-avm-api
-  name: Pricefinder AVM & Valuation API
-  description: Automated valuation model output for a property, returned as JSON via GET /properties/{propertyId}/avm
-    against the AVM schema, and as a rendered PDF via /properties/{propertyId}/avm/pdf. Auto-CMA
-    sale and rental PDFs are generated from the same property identifier. This is the valuation
-    surface Pricefinder markets to lenders, valuers and advisory firms.
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-events-api
+  name: Pricefinder Events API
+  description: The events API from Pricefinder — 1 operation(s) for events.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - Valuation
-  - AVM
-  - Australia
+  - events
   properties:
   - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.json
+    url: openapi/pricefinder-events-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
   - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
     url: https://www.pricefinder.com.au/get-started/
-- aid: pricefinder:pricefinder-sales-rentals-listings-api
-  name: Pricefinder Sales, Rentals & Listings API
-  description: Retrieval of individual sale, rental and listing records by identifier, and
-    enumeration of sales, rentals and listings scoped by suburb, postcode, street or spatial
-    boundary. Backed by Domain and Allhomes first-party listing feeds and government sale
-    transaction data.
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-features-api
+  name: Pricefinder Features API
+  description: The features API from Pricefinder — 1 operation(s) for features.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - Property Listings
-  - Rentals
-  - Transaction
-  tags_raw:
-  - Property Listings
-  - Rentals
-  - Transactions
+  - features
   properties:
   - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.json
+    url: openapi/pricefinder-features-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
-- aid: pricefinder:pricefinder-suburb-statistics-api
-  name: Pricefinder Suburb & Market Statistics API
-  description: Suburb-level market intelligence — suburb detail and summary, demographics,
-    flyover reports and PDFs, street enumeration, peak selling periods, sale price segmentation,
-    and time series for sales, rentals and price segmentation by property type. 15 documented
-    operations under the `suburbs` tag.
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-images-api
+  name: Pricefinder Images API
+  description: The images API from Pricefinder — 1 operation(s) for images.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - Market Data
-  - Statistics
-  - Australia
+  - images
   properties:
   - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.json
+    url: openapi/pricefinder-images-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
-- aid: pricefinder:pricefinder-title-reference-api
-  name: Pricefinder Title & Land Reference API
-  description: State-by-state resolution of Australian land title references to Pricefinder
-    property records — NSW, VIC, QLD, SA, WA, TAS, NT and ACT plan/planType, lot, section,
-    volume, folio and division lookups, plus QLD title retrieval by property identifier. 25
-    documented operations under the `references` tag; this is the land-registry seam expressed
-    as an API.
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-listings-api
+  name: Pricefinder Listings API
+  description: The listings API from Pricefinder — 1 operation(s) for listings.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - Land Registry
-  - Title
-  - Australia
+  - listings
   properties:
   - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.json
+    url: openapi/pricefinder-listings-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
-- aid: pricefinder:pricefinder-search-api
-  name: Pricefinder Search & Suggest API
-  description: Address, street, suburb and typeahead suggestion endpoints, lon/lat reverse
-    suggestion, owner-name search across properties and sales, and spatial queries returning
-    properties, sales, rentals and listings within a supplied geometry.
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-names-api
+  name: Pricefinder Names API
+  description: The names API from Pricefinder — 3 operation(s) for names.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - Search
-  - Geospatial
+  - names
   properties:
   - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.json
+    url: openapi/pricefinder-names-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
-- aid: pricefinder:pricefinder-appraisals-api
-  name: Pricefinder Appraisals & CMA API
-  description: Comparative market analysis and appraisal artifacts — sales CMA, rental CMA
-    and statement-of-information retrieval by appraisal share identifier (standard and extended),
-    appraisal listing and insights, agent, office and logo imagery, and CMA event posting.
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-oauth2-api
+  name: Pricefinder Oauth2 API
+  description: The oauth2 API from Pricefinder — 1 operation(s) for oauth2.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - Appraisals
-  - CMA
-  - Real-Estate
-  tags_raw:
-  - Appraisals
-  - CMA
-  - Real Estate
+  - oauth2
   properties:
   - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.json
+    url: openapi/pricefinder-oauth2-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
-- aid: pricefinder:pricefinder-event-subscriptions-api
-  name: Pricefinder Property Event Subscriptions API
-  description: Subscribe, list and delete property event alerts for ForSale, ForRent, Sold
-    and SoldVerified event types, per property or for the current user. The documentation
-    states these are delivered as email notifications only — there is no webhook callback
-    or push delivery documented anywhere in the contract.
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-postcodes-api
+  name: Pricefinder Postcodes API
+  description: The postcodes API from Pricefinder — 4 operation(s) for postcodes.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - Event
-  - Subscription
-  - Notification
-  tags_raw:
-  - Events
-  - Subscriptions
-  - Notifications
+  - postcodes
   properties:
   - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.json
+    url: openapi/pricefinder-postcodes-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-properties-api
+  name: Pricefinder Properties API
+  description: The properties API from Pricefinder — 20 operation(s) for properties.
+  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
+  baseURL: https://api.pricefinder.com.au/v1
+  tags:
+  - properties
+  properties:
+  - type: OpenAPI
+    url: openapi/pricefinder-properties-api-openapi.yml
+  - type: APIReference
+    url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-references-api
+  name: Pricefinder References API
+  description: The references API from Pricefinder — 25 operation(s) for references.
+  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
+  baseURL: https://api.pricefinder.com.au/v1
+  tags:
+  - references
+  properties:
+  - type: OpenAPI
+    url: openapi/pricefinder-references-api-openapi.yml
+  - type: APIReference
+    url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-rentals-api
+  name: Pricefinder Rentals API
+  description: The rentals API from Pricefinder — 1 operation(s) for rentals.
+  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
+  baseURL: https://api.pricefinder.com.au/v1
+  tags:
+  - rentals
+  properties:
+  - type: OpenAPI
+    url: openapi/pricefinder-rentals-api-openapi.yml
+  - type: APIReference
+    url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-sales-api
+  name: Pricefinder Sales API
+  description: The sales API from Pricefinder — 1 operation(s) for sales.
+  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
+  baseURL: https://api.pricefinder.com.au/v1
+  tags:
+  - sales
+  properties:
+  - type: OpenAPI
+    url: openapi/pricefinder-sales-api-openapi.yml
+  - type: APIReference
+    url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-spatial-api
+  name: Pricefinder Spatial API
+  description: The spatial API from Pricefinder — 4 operation(s) for spatial.
+  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
+  baseURL: https://api.pricefinder.com.au/v1
+  tags:
+  - spatial
+  properties:
+  - type: OpenAPI
+    url: openapi/pricefinder-spatial-api-openapi.yml
+  - type: APIReference
+    url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
 - aid: pricefinder:pricefinder-sso-api
   name: Pricefinder SSO API
-  description: Single sign-on deep links that hand an authenticated user into the Pricefinder
-    web application at a specific context — a property, its CMA, sales or rental appraisal,
-    statement of information, radial sales, or titles view. 9 documented operations under
-    the `sso` tag.
+  description: The sso API from Pricefinder — 9 operation(s) for sso.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - SSO
-  - Authentication
+  - sso
   properties:
   - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.json
+    url: openapi/pricefinder-sso-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
-- aid: pricefinder:pricefinder-oauth2-api
-  name: Pricefinder OAuth 2.0 Token API
-  description: 'POST /oauth2/token issuing access and refresh tokens for three documented
-    grant types: client_credentials (API user''s own username and password, HTTP Basic accepted
-    as an alternative to form parameters), authorization_code (third-party delegated access
-    via the hosted authorize page at /v1/auth/authorize.html) and refresh_token. Tokens are
-    presented as an Authorization: Bearer header or an access_token query parameter. No OpenID
-    Connect discovery document is served.'
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-streets-api
+  name: Pricefinder Streets API
+  description: The streets API from Pricefinder — 4 operation(s) for streets.
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - Authentication
-  - Security
-  tags_raw:
-  - OAuth
-  - Authentication
-  - Security
+  - streets
   properties:
   - type: OpenAPI
-    url: openapi/pricefinder-api-swagger.json
+    url: openapi/pricefinder-streets-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-stubs-api
+  name: Pricefinder Stubs API
+  description: The stubs API from Pricefinder — 1 operation(s) for stubs.
+  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
+  baseURL: https://api.pricefinder.com.au/v1
+  tags:
+  - stubs
+  properties:
+  - type: OpenAPI
+    url: openapi/pricefinder-stubs-api-openapi.yml
+  - type: APIReference
+    url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-subscriptions-api
+  name: Pricefinder Subscriptions API
+  description: The subscriptions API from Pricefinder — 3 operation(s) for subscriptions.
+  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
+  baseURL: https://api.pricefinder.com.au/v1
+  tags:
+  - subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/pricefinder-subscriptions-api-openapi.yml
+  - type: APIReference
+    url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-suburbs-api
+  name: Pricefinder Suburbs API
+  description: The suburbs API from Pricefinder — 15 operation(s) for suburbs.
+  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
+  baseURL: https://api.pricefinder.com.au/v1
+  tags:
+  - suburbs
+  properties:
+  - type: OpenAPI
+    url: openapi/pricefinder-suburbs-api-openapi.yml
+  - type: APIReference
+    url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-suggest-api
+  name: Pricefinder Suggest API
+  description: The suggest API from Pricefinder — 6 operation(s) for suggest.
+  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
+  baseURL: https://api.pricefinder.com.au/v1
+  tags:
+  - suggest
+  properties:
+  - type: OpenAPI
+    url: openapi/pricefinder-suggest-api-openapi.yml
+  - type: APIReference
+    url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
   - type: Authentication
     url: https://api.pricefinder.com.au/v1/auth/authorize.html
 common:
