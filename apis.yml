@@ -23,6 +23,18 @@ description: Pricefinder is an Australian property intelligence and valuation pl
   document and no Universal Property Identifier appears anywhere in Pricefinder's contract
   or documentation. The land-registry seam shows up instead as state-specific title reference
   lookups (NSW/VIC/QLD/SA/WA/TAS/NT/ACT plan, lot, section, volume and folio paths).
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.pricefinder.com.au/favicon.ico
 tags:
 - Real-Estate
