@@ -1,0 +1,46 @@
+slug: pricefinder
+provider: Pricefinder
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Real Estate
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: appraisals
+  spec_file: pricefinder-appraisals-api-openapi.yml
+  capability_id: BC-4960.40
+  capability_id_l1: BC-4960
+  capability_name: Comparable Market Analysis
+  confidence: 0.78
+  evidence: 'GET /appraisals/salescma/{appraisalShareId}  salesCma; GET /appraisals/rentalcma/{appraisalShareId}  rentalCma;
+    vendor: "CMA/appraisal reports to real estate agencies"'
+  reason: Operations deliver sales and rental comparable market analyses and statements of information
+    used for pricing positioning by agents — squarely Comparable Market Analysis. Some chance the intended
+    fit is formal valuation/appraisal (BC-4970), hence not 0.9.
+- tag: stubs
+  spec_file: pricefinder-stubs-api-openapi.yml
+  capability_id: BC-4270.20
+  capability_id_l1: BC-4270
+  capability_name: SDK & Client Library Management
+  confidence: 0.78
+  evidence: GET /stubs/{language}  generateStub  Generates a client library
+  reason: The single operation generates a client library in a requested language — SDK/client library
+    provision for API consumers, a developer-platform capability rather than any property capability.
+- tag: properties
+  spec_file: pricefinder-properties-api-openapi.yml
+  capability_id: BC-4970
+  capability_id_l1: BC-4970
+  capability_name: Real Estate Valuation & Appraisal Management
+  confidence: 0.7
+  evidence: GET /properties/{propertyId}/avm  propertyAvm; GET /properties/{propertyId}/autocma/sale/pdf  saleCmaPDF;
+    schemas SalesAVM, ValuationDetails
+  reason: Operations return automated valuation estimates and CMA/appraisal PDF reports for a subject
+    property, which is valuation and appraisal delivery. L2 left null because the surface spans comparable
+    data, AVM computation and report generation without clearly naming one sub-capability.

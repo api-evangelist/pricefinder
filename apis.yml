@@ -447,6 +447,9 @@ apis:
   - type: Authentication
     url: https://api.pricefinder.com.au/v1/auth/authorize.html
 common:
+- type: CapabilityMap
+  url: capabilities/pricefinder-capability-edges.yml
+  name: Pricefinder Business Capability Map
 - type: DomainSecurity
   url: security/pricefinder-domain-security.yml
 - type: Website
