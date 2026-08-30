@@ -1,0 +1,266 @@
+openapi: 3.2.0
+info:
+  title: Pricefinder SSO API
+  version: 1.13.1
+  contact:
+    name: Pricefinder
+  license:
+    name: Terms and Conditions
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  description: 'Operations tagged sso across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+tags:
+- name: sso
+paths:
+  /sso:
+    get:
+      tags:
+      - sso
+      description: ''
+      operationId: home
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSOLink'
+    servers:
+    - url: /v1
+  /sso/properties/{propertyId}:
+    get:
+      tags:
+      - sso
+      description: ''
+      operationId: property
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSOLink'
+    servers:
+    - url: /v1
+  /sso/properties/{propertyId}/appraisals/rentalcma:
+    get:
+      tags:
+      - sso
+      description: ''
+      operationId: appraisalsRentalCma
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSOLink'
+    servers:
+    - url: /v1
+  /sso/properties/{propertyId}/appraisals/salecma:
+    get:
+      tags:
+      - sso
+      description: ''
+      operationId: appraisalsSaleCma
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSOLink'
+    servers:
+    - url: /v1
+  /sso/properties/{propertyId}/appraisals/soi:
+    get:
+      tags:
+      - sso
+      description: ''
+      operationId: appraisalsSoi
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSOLink'
+    servers:
+    - url: /v1
+  /sso/properties/{propertyId}/cma:
+    get:
+      tags:
+      - sso
+      description: ''
+      operationId: cma
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSOLink'
+      deprecated: true
+    servers:
+    - url: /v1
+  /sso/properties/{propertyId}/pricefinder:
+    get:
+      tags:
+      - sso
+      description: ''
+      operationId: propertyPricefinder
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSOLink'
+    servers:
+    - url: /v1
+  /sso/properties/{propertyId}/radial/sales:
+    get:
+      tags:
+      - sso
+      description: ''
+      operationId: radialSales
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSOLink'
+    servers:
+    - url: /v1
+  /sso/properties/{propertyId}/titles:
+    get:
+      tags:
+      - sso
+      description: ''
+      operationId: titles
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSOLink'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    SSOLink:
+      type: object
+      properties:
+        link:
+          type: string
+x-refined-from:
+- pricefinder-api-swagger.json
+- pricefinder-api-swagger.yml

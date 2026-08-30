@@ -1,0 +1,81 @@
+openapi: 3.2.0
+info:
+  title: Pricefinder Stubs API
+  version: 1.13.1
+  contact:
+    name: Pricefinder
+  license:
+    name: Terms and Conditions
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  description: 'Operations tagged stubs across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+tags:
+- name: stubs
+paths:
+  /stubs/{language}:
+    get:
+      tags:
+      - stubs
+      summary: Generates a client library
+      description: Accepts a language and returns a set of stubs. Pricefinder is unable to provide support for this endpoint, it is provided as a convenience. There is no guarantee of backwards compatibility for this method.
+      operationId: generateStub
+      parameters:
+      - name: language
+        in: path
+        description: The target language for the client library
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - android
+          - async-scala
+          - bash
+          - cwiki
+          - csharp
+          - cpprest
+          - dart
+          - elixir
+          - flash
+          - go
+          - groovy
+          - java
+          - jaxrs-cxf-client
+          - javascript
+          - javascript-closure-angular
+          - jmeter
+          - objc
+          - perl
+          - php
+          - python
+          - qt5cpp
+          - ruby
+          - scala
+          - dynamic-html
+          - html
+          - html2
+          - swagger
+          - swagger-yaml
+          - swift
+          - swift3
+          - tizen
+          - typescript-angular2
+          - typescript-angular
+          - typescript-node
+          - typescript-fetch
+          - akka-scala
+          - CsharpDotNet2
+          - clojure
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+x-refined-from:
+- pricefinder-api-swagger.json
+- pricefinder-api-swagger.yml

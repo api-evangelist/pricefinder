@@ -1,0 +1,63 @@
+openapi: 3.2.0
+info:
+  title: Pricefinder Images API
+  version: 1.13.1
+  contact:
+    name: Pricefinder
+  license:
+    name: Terms and Conditions
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  description: 'Operations tagged images across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+tags:
+- name: images
+paths:
+  /images/{id}:
+    get:
+      tags:
+      - images
+      description: "You can access this method in an image tag by appending your access_token to the query string\n ie /v1/image/1?access_token=123abc"
+      operationId: image
+      parameters:
+      - name: id
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: height
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: width
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+x-refined-from:
+- pricefinder-api-swagger.json
+- pricefinder-api-swagger.yml

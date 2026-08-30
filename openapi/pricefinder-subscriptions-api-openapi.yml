@@ -1,0 +1,191 @@
+openapi: 3.2.0
+info:
+  title: Pricefinder Subscriptions API
+  version: 1.13.1
+  contact:
+    name: Pricefinder
+  license:
+    name: Terms and Conditions
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  description: 'Operations tagged subscriptions across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+tags:
+- name: subscriptions
+paths:
+  /eventsubscriptions/currentuser:
+    get:
+      tags:
+      - subscriptions
+      description: ''
+      operationId: userEventsSubscription
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PropertyEventSubscription'
+    servers:
+    - url: /v1
+  /eventsubscriptions/properties:
+    post:
+      tags:
+      - subscriptions
+      summary: ''
+      description: 'Subscribe to property event alerts (currently only available through email notifications) for those properties.<br><b>Note: This endpoint is NOT additive</b> <br>i.e. Multiple calls to this endpoint on the same property will keep overwriting the subscription with the eventTypes passed in the latest request.<br><b>Example :</b> <br> <ul><li>Subscribe to property X for ''ForSale'' event</li><li>Subscribe to property X for ''ForRent'' event</li><li>After these 2 calls X is only subscribed for ''ForRent''</li></ul>'
+      operationId: propertiesEventsSubscribe
+      parameters:
+      - name: propertyIds
+        in: query
+        description: The available eventTypes are <b>ForSale</b>, <b>ForRent</b> and <b>Sold</b>. They are case sensitive.
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      responses:
+        default:
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventSubcriptionParameters'
+    servers:
+    - url: /v1
+  /eventsubscriptions/property/{propertyId}:
+    get:
+      tags:
+      - subscriptions
+      description: ''
+      operationId: propertyEventSubscription
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: The request has succeeded with event subscriptions available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyEventSubscription'
+        '204':
+          description: The request has succeeded but no events subscribed
+        '404':
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+      - subscriptions
+      summary: ''
+      description: 'Subscribe to property event alerts (currently only available through email notifications) for this property.<br><b>Note: This endpoint is NOT additive</b> <br>i.e. Multiple calls to this endpoint on the same property will keep overwriting the subscription with the eventTypes passed in the latest request.<br><b>Example :</b> <br> <ul><li>Subscribe to property X for ''ForSale'' event</li><li>Subscribe to property X for ''ForRent'' event</li><li>After these 2 calls X is only subscribed for ''ForRent''</li></ul>'
+      operationId: propertyEventsSubscribe
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        default:
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventSubcriptionParameters'
+        description: The available eventTypes are <b>ForSale</b>, <b>ForRent</b> and <b>Sold</b>. They are case sensitive.
+    delete:
+      tags:
+      - subscriptions
+      description: ''
+      operationId: propertyEventsUnSubscribe
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+    EventSubcriptionParameters:
+      type: object
+      properties:
+        eventTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - ForRent
+            - ForSale
+            - SoldVerified
+            - Sold
+    PropertyEventSubscription:
+      type: object
+      properties:
+        propertyId:
+          type: integer
+          format: int64
+        subscriptionDate:
+          type: string
+          format: date-time
+        eventTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyEventType'
+    PropertyEventType:
+      type: object
+      properties:
+        display:
+          type: string
+        key:
+          type: string
+x-refined-from:
+- pricefinder-api-swagger.json
+- pricefinder-api-swagger.yml

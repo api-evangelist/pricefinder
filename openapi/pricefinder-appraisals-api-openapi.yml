@@ -1,0 +1,2367 @@
+openapi: 3.2.0
+info:
+  title: Pricefinder Appraisals API
+  version: 1.13.1
+  contact:
+    name: Pricefinder
+  license:
+    name: Terms and Conditions
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  description: 'Operations tagged appraisals across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+tags:
+- name: appraisals
+paths:
+  /appraisals:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: appraisals
+      parameters:
+      - name: agentId
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: date_end
+        in: query
+        description: The default range value is 30 days. date format 'now', 'today-xxd' or 'year-month-day'
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: date-time
+          default: now
+      - name: date_start
+        in: query
+        description: The default range value is 30 days. date format 'now', 'today-xxd' or 'year-month-day'
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: date-time
+          default: today-30d
+      - name: limit
+        in: query
+        description: The limit must be greater than '0'. Otherwise, the default value '10' will be used
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 100
+      - name: page
+        in: query
+        description: The default value is '1', less than '1' will be ignored
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: propertyId
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: sort
+        in: query
+        description: The limit must be greater than '0'. Otherwise, the default value '10' will be used
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          format: -?\w+
+          items:
+            type: string
+          enum:
+          - date
+          - -date
+      - name: type
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - RENTAL_CMA
+          - SALES_CMA
+          - SOI
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appraisals'
+    servers:
+    - url: /v1
+  /appraisals/agent/image/{agentId}:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: agentImage
+      parameters:
+      - name: agentId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: height
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int32
+      - name: width
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+  /appraisals/insights:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: getInsights
+      parameters:
+      - name: shareId
+        in: query
+        description: Provide multiple values in new lines (at least one required).
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: agentId
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppraisalInsightsView'
+    servers:
+    - url: /v1
+  /appraisals/logo/image/{userId}:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: userLogo
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: height
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int32
+      - name: width
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+  /appraisals/office/image/{userId}:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: image
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: height
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int32
+      - name: width
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+  /appraisals/rentalcma/{appraisalShareId}:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: rentalCma
+      parameters:
+      - name: appraisalShareId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RentalCMACommon'
+    servers:
+    - url: /v1
+  /appraisals/rentalcma/{appraisalShareId}/extended:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: rentalCma
+      parameters:
+      - name: appraisalShareId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RentalCMADetailed'
+    servers:
+    - url: /v1
+  /appraisals/salescma/{appraisalShareId}:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: salesCma
+      parameters:
+      - name: appraisalShareId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalesCMACommon'
+    servers:
+    - url: /v1
+  /appraisals/salescma/{appraisalShareId}/extended:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: salesCma
+      parameters:
+      - name: appraisalShareId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalesCMADetailed'
+    servers:
+    - url: /v1
+  /appraisals/soi/{appraisalShareId}:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: soi
+      parameters:
+      - name: appraisalShareId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SOICommon'
+    servers:
+    - url: /v1
+  /appraisals/soi/{appraisalShareId}/extended:
+    get:
+      tags:
+      - appraisals
+      description: ''
+      operationId: soi
+      parameters:
+      - name: appraisalShareId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SOIDetailed'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    AppraisalsSchoolsView:
+      type: object
+      properties:
+        includeSchools:
+          type: boolean
+        schools:
+          type: array
+          items:
+            $ref: '#/components/schemas/School'
+    AppraisalRentalsCMABasicOptions:
+      type: object
+      properties:
+        coverPage:
+          $ref: '#/components/schemas/AppraisalCoverPageView'
+        coverLetter:
+          $ref: '#/components/schemas/AppraisalCoverLetterView'
+        marketInsights:
+          $ref: '#/components/schemas/AppraisalMarketInsightsView'
+        maps:
+          $ref: '#/components/schemas/AppraisalsMapView'
+        estimate:
+          $ref: '#/components/schemas/AppraisalsEstimateView'
+        propertyReport:
+          $ref: '#/components/schemas/AppraisalPropertyBasicView'
+        schools:
+          $ref: '#/components/schemas/AppraisalsSchoolsBasicView'
+        suburbProfile:
+          $ref: '#/components/schemas/AppraisalsSuburbProfileBasicView'
+        rentalStatistics:
+          $ref: '#/components/schemas/AppraisalRentalsTimeSeriesBasicView'
+        rentals:
+          $ref: '#/components/schemas/AppraisalsRentalsBasicView'
+    StatisticDouble:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          type: number
+          format: double
+    Phone:
+      type: object
+      properties:
+        surname:
+          type: string
+        initials:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        number:
+          type: string
+        doNotCall:
+          type: boolean
+        doNotCallWashDate:
+          type: string
+          format: date-time
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        price:
+          $ref: '#/components/schemas/SensitivePrice'
+        listingHistory:
+          $ref: '#/components/schemas/SaleListingHistory'
+        saleDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        settlementDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        contractDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        property:
+          $ref: '#/components/schemas/PropertyIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        propertyType:
+          type: string
+        saleType:
+          type: string
+        agency:
+          $ref: '#/components/schemas/Agency'
+        agent:
+          $ref: '#/components/schemas/Agent'
+        location:
+          $ref: '#/components/schemas/Point'
+        metadata:
+          $ref: '#/components/schemas/SaleMetadata'
+        address:
+          $ref: '#/components/schemas/Address'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        propertyFeatures:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        rpd:
+          type: string
+        dealingNumber:
+          type: string
+        streetDisplay:
+          type: string
+        lowAskPrice:
+          type: integer
+          format: int64
+        highAskPrice:
+          type: integer
+          format: int64
+        extra:
+          $ref: '#/components/schemas/SearchExtra'
+        saleParticipants:
+          $ref: '#/components/schemas/SaleParticipantsSummary'
+        _self:
+          type: string
+    SmartMaps:
+      type: object
+    SaleHistory:
+      type: object
+      properties:
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+    SalesTimeSeriesValue:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        median:
+          type: number
+          format: double
+        high:
+          type: number
+          format: double
+        low:
+          type: number
+          format: double
+        mean:
+          type: number
+          format: double
+        total:
+          type: number
+          format: double
+        firstQuartile:
+          type: number
+          format: double
+        thirdQuartile:
+          type: number
+          format: double
+        iqRange:
+          type: number
+          format: double
+        medianGrowth:
+          type: number
+          format: double
+    MarketStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        recentlySold:
+          type: boolean
+        recentlyForSale:
+          type: boolean
+        recentlyForRent:
+          type: boolean
+        forSale:
+          type: boolean
+        forRent:
+          type: boolean
+        likelyToList:
+          type: boolean
+        lastMarketEvent:
+          $ref: '#/components/schemas/MarketStatusEventObject'
+    ImageIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        _self:
+          type: string
+    ExtendedProperty:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        address:
+          $ref: '#/components/schemas/ExtendedAddress'
+        features:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedAddress'
+        landDetails:
+          $ref: '#/components/schemas/ExtendedLandDetails'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        map:
+          $ref: '#/components/schemas/PropertyMapIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        type:
+          type: string
+        rpd:
+          type: string
+        marketStatus:
+          $ref: '#/components/schemas/MarketStatus'
+        lastModified:
+          type: string
+          format: date-time
+        valuationDetails:
+          $ref: '#/components/schemas/ValuationDetails'
+        saleHistory:
+          $ref: '#/components/schemas/SaleHistory'
+        listingHistory:
+          $ref: '#/components/schemas/PropertyListingHistory'
+        rentalHistory:
+          $ref: '#/components/schemas/PropertyListingHistory'
+        ownership:
+          $ref: '#/components/schemas/Ownership'
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+        tools:
+          $ref: '#/components/schemas/Tools'
+        tenureType:
+          type: string
+        _self:
+          type: string
+    AppraisalsListingBasicViewRef:
+      type: object
+      properties:
+        ref:
+          $ref: '#/components/schemas/AppraisalListingIdentifier'
+    AppraisalSalesCMAOptions:
+      type: object
+      properties:
+        coverPage:
+          $ref: '#/components/schemas/AppraisalCoverPageView'
+        coverLetter:
+          $ref: '#/components/schemas/AppraisalCoverLetterView'
+        marketInsights:
+          $ref: '#/components/schemas/AppraisalMarketInsightsView'
+        maps:
+          $ref: '#/components/schemas/AppraisalsMapView'
+        estimate:
+          $ref: '#/components/schemas/AppraisalsEstimateView'
+        propertyReport:
+          $ref: '#/components/schemas/AppraisalPropertyView'
+        schools:
+          $ref: '#/components/schemas/AppraisalsSchoolsView'
+        suburbProfile:
+          $ref: '#/components/schemas/AppraisalsSuburbProfileView'
+        salesStatistics:
+          $ref: '#/components/schemas/AppraisalsSalesTimeSeriesView'
+        rentalStatistics:
+          $ref: '#/components/schemas/AppraisalRentalsTimeSeriesView'
+        rentals:
+          $ref: '#/components/schemas/AppraisalsRentalsView'
+        sales:
+          $ref: '#/components/schemas/AppraisalSalesView'
+        listings:
+          $ref: '#/components/schemas/AppraisalsListingsView'
+    RentalCMADetailed:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        office:
+          $ref: '#/components/schemas/AppraisalOfficeView'
+        agent:
+          $ref: '#/components/schemas/AppraisalAgentView'
+        label:
+          type: string
+        generated:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        propertyId:
+          type: integer
+          format: int64
+        title:
+          type: string
+        type:
+          type: string
+        owners:
+          type: string
+        displayAddress:
+          type: string
+        propertyPhoto:
+          type: string
+        propertyMap:
+          type: string
+        reportStyleId:
+          type: integer
+          format: int64
+        shareId:
+          type: string
+          format: uuid
+        options:
+          $ref: '#/components/schemas/AppraisalRentalsCMAOptions'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    Point:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+    CensusTopic:
+      type: object
+      properties:
+        topic:
+          type: string
+        title:
+          type: string
+        total:
+          type: integer
+          format: int64
+        year:
+          type: integer
+          format: int64
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CensusValue'
+    AppraisalCoverPageView:
+      type: object
+      properties:
+        includeCoverPage:
+          type: boolean
+        coverPageImage:
+          type: string
+    SearchExtra:
+      type: object
+      properties:
+        distance:
+          type: number
+          format: double
+        nameMatchType:
+          type: string
+        matchedName:
+          type: string
+    PriceRangeSegments2:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/TimeSeriesPeriod'
+        values:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/PriceRangeSegment2'
+        calculated:
+          type: string
+          format: date-time
+        description:
+          type: string
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    AppraisalsListingsViewDetail:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/Listing'
+    Zoning:
+      type: object
+      properties:
+        description:
+          type: string
+        code:
+          type: string
+    SalesCMACommon:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        office:
+          $ref: '#/components/schemas/AppraisalOfficeView'
+        agent:
+          $ref: '#/components/schemas/AppraisalAgentView'
+        label:
+          type: string
+        generated:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        propertyId:
+          type: integer
+          format: int64
+        title:
+          type: string
+        type:
+          type: string
+        owners:
+          type: string
+        displayAddress:
+          type: string
+        propertyPhoto:
+          type: string
+        propertyMap:
+          type: string
+        reportStyleId:
+          type: integer
+          format: int64
+        shareId:
+          type: string
+          format: uuid
+        options:
+          $ref: '#/components/schemas/AppraisalSalesCMABasicOptions'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    SaleMetadata:
+      type: object
+      properties:
+        governmentSale:
+          type: boolean
+        pending:
+          type: boolean
+    SOICommon:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        office:
+          $ref: '#/components/schemas/AppraisalOfficeView'
+        agent:
+          $ref: '#/components/schemas/AppraisalAgentView'
+        label:
+          type: string
+        generated:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        propertyId:
+          type: integer
+          format: int64
+        title:
+          type: string
+        type:
+          type: string
+        owners:
+          type: string
+        displayAddress:
+          type: string
+        propertyPhoto:
+          type: string
+        propertyMap:
+          type: string
+        reportStyleId:
+          type: integer
+          format: int64
+        shareId:
+          type: string
+          format: uuid
+        options:
+          $ref: '#/components/schemas/AppraisalSOICMABasicOptions'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    LandDetails:
+      type: object
+      properties:
+        propertyArea:
+          type: number
+          format: double
+        buildingArea:
+          type: number
+          format: double
+        volumeFolio:
+          type: string
+    PeakSellingPeriods:
+      type: object
+      properties:
+        calculated:
+          type: string
+          format: date-time
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        period:
+          $ref: '#/components/schemas/TimeSeriesPeriod'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatisticDouble'
+    AppraisalSalesBasicView:
+      type: object
+      properties:
+        included:
+          type: boolean
+        refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppraisalSalesBasicViewRef'
+    MarketStatusEventObject:
+      type: object
+      properties:
+        type:
+          type: string
+        event:
+          type: object
+    SensitivePrice:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: number
+          format: double
+        rawValue:
+          type: number
+          format: double
+        withheld:
+          type: boolean
+    Owner:
+      type: object
+      properties:
+        firstName:
+          type: string
+        surname:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        type:
+          type: string
+    PropertyListingHistory:
+      type: object
+      properties:
+        listings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Listing'
+    Agency:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        phoneNumber:
+          type: string
+    AppraisalsSuburbProfileView:
+      type: object
+      properties:
+        includeDemographics:
+          type: boolean
+        demographics:
+          $ref: '#/components/schemas/Demographics'
+    LandUse:
+      type: object
+      properties:
+        code:
+          type: string
+        display:
+          type: string
+    AppraisalsRentalsView:
+      type: object
+      properties:
+        included:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppraisalsRentalsViewDetail'
+    AppraisalAgentView:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        officeName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        agentPhoto:
+          type: string
+    SOIDetailed:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        office:
+          $ref: '#/components/schemas/AppraisalOfficeView'
+        agent:
+          $ref: '#/components/schemas/AppraisalAgentView'
+        label:
+          type: string
+        generated:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        propertyId:
+          type: integer
+          format: int64
+        title:
+          type: string
+        type:
+          type: string
+        owners:
+          type: string
+        displayAddress:
+          type: string
+        propertyPhoto:
+          type: string
+        propertyMap:
+          type: string
+        reportStyleId:
+          type: integer
+          format: int64
+        shareId:
+          type: string
+          format: uuid
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        options:
+          $ref: '#/components/schemas/AppraisalSOICMAOptions'
+    AppraisalSimpleView:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        agentId:
+          type: integer
+          format: int64
+        label:
+          type: string
+        generated:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        propertyId:
+          type: integer
+          format: int64
+        title:
+          type: string
+        type:
+          type: string
+        owners:
+          type: string
+        shareId:
+          type: string
+          format: uuid
+    AppraisalsSalesTimeSeriesBasicView:
+      type: object
+      properties:
+        includeTimeSeries:
+          type: boolean
+        identifier:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        stats:
+          type: object
+          additionalProperties:
+            type: string
+    ExtendedLandDetails:
+      type: object
+      properties:
+        propertyArea:
+          type: number
+          format: double
+        buildingArea:
+          type: number
+          format: double
+        volumeFolio:
+          type: string
+        frontage:
+          type: number
+          format: double
+        parcels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Parcel'
+        primaryLandUse:
+          $ref: '#/components/schemas/LandUse'
+        secondaryLandUse:
+          $ref: '#/components/schemas/LandUse'
+    CensusValue:
+      type: object
+      properties:
+        category:
+          type: string
+        count:
+          type: integer
+          format: int64
+    AppraisalsMapView:
+      type: object
+      properties:
+        includeComparablesMap:
+          type: boolean
+    AppraisalsEstimateView:
+      type: object
+      properties:
+        includeSaleEstimate:
+          type: boolean
+        minSalePriceEstimate:
+          type: number
+          format: double
+        maxSalePriceEstimate:
+          type: number
+          format: double
+        includeRentEstimate:
+          type: boolean
+        minRentPriceEstimate:
+          type: number
+          format: double
+        maxRentPriceEstimate:
+          type: number
+          format: double
+    AppraisalsRentalsViewDetail:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/Listing'
+    Valuation:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        effectiveDate:
+          type: string
+          format: date-time
+        method:
+          type: string
+        amount:
+          type: number
+          format: double
+        adjustedSiteValue:
+          type: number
+          format: double
+    StreetIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+    RentalCMACommon:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        office:
+          $ref: '#/components/schemas/AppraisalOfficeView'
+        agent:
+          $ref: '#/components/schemas/AppraisalAgentView'
+        label:
+          type: string
+        generated:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        propertyId:
+          type: integer
+          format: int64
+        title:
+          type: string
+        type:
+          type: string
+        owners:
+          type: string
+        displayAddress:
+          type: string
+        propertyPhoto:
+          type: string
+        propertyMap:
+          type: string
+        reportStyleId:
+          type: integer
+          format: int64
+        shareId:
+          type: string
+          format: uuid
+        options:
+          $ref: '#/components/schemas/AppraisalRentalsCMABasicOptions'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    Tools:
+      type: object
+      properties:
+        smartMaps:
+          $ref: '#/components/schemas/SmartMaps'
+    AppraisalsRentalsBasicView:
+      type: object
+      properties:
+        included:
+          type: boolean
+        refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppraisalsRentalsBasicViewRef'
+    AppraisalInsightsView:
+      type: object
+      properties:
+        insights:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppraisalInsightsSampleView'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    LPI:
+      type: object
+      properties:
+        lot:
+          type: string
+        plan:
+          type: string
+        section:
+          type: string
+        part:
+          type: string
+    RentalsTimeSeries2:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/TimeSeriesPeriod'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/RentalTimeSeriesValueGroup'
+        calculated:
+          type: string
+          format: date-time
+        description:
+          type: string
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    ValuationDetails:
+      type: object
+      properties:
+        valuations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Valuation'
+    Parcel:
+      type: object
+      properties:
+        area:
+          type: number
+          format: double
+        zoning:
+          $ref: '#/components/schemas/Zoning'
+        lpi:
+          $ref: '#/components/schemas/LPI'
+        titles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Title'
+    SuburbIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+        _self:
+          type: string
+    PropertyMapIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        _self:
+          type: string
+    AppraisalSalesViewDetail:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/Sale'
+    SalesCMADetailed:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        office:
+          $ref: '#/components/schemas/AppraisalOfficeView'
+        agent:
+          $ref: '#/components/schemas/AppraisalAgentView'
+        label:
+          type: string
+        generated:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        propertyId:
+          type: integer
+          format: int64
+        title:
+          type: string
+        type:
+          type: string
+        owners:
+          type: string
+        displayAddress:
+          type: string
+        propertyPhoto:
+          type: string
+        propertyMap:
+          type: string
+        reportStyleId:
+          type: integer
+          format: int64
+        shareId:
+          type: string
+          format: uuid
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        options:
+          $ref: '#/components/schemas/AppraisalSalesCMAOptions'
+        disclaimer:
+          type: string
+    AppraisalsSchoolsBasicView:
+      type: object
+      properties:
+        includeSchools:
+          type: boolean
+        _self:
+          type: string
+        propertyId:
+          type: integer
+          format: int64
+    Message:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int64
+        text:
+          type: string
+    AppraisalSOICMABasicOptions:
+      type: object
+      properties:
+        coverPage:
+          $ref: '#/components/schemas/AppraisalCoverPageView'
+        estimate:
+          $ref: '#/components/schemas/AppraisalsEstimateView'
+        propertyReport:
+          $ref: '#/components/schemas/AppraisalPropertyBasicView'
+        salesStatistics:
+          $ref: '#/components/schemas/AppraisalsSalesTimeSeriesBasicView'
+        sales:
+          $ref: '#/components/schemas/AppraisalSalesBasicView'
+    AppraisalInsightsSampleView:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        agentId:
+          type: integer
+          format: int64
+        shareId:
+          type: string
+          format: uuid
+        active:
+          type: boolean
+        lastViewDate:
+          type: string
+          format: date-time
+        totalNumberOfShares:
+          type: integer
+          format: int64
+        totalNumberOfSessionViews:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+    ListingIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rental:
+          type: boolean
+        _self:
+          type: string
+    AppraisalSalesBasicViewRef:
+      type: object
+      properties:
+        ref:
+          $ref: '#/components/schemas/SaleIdentifier'
+    AppraisalOfficeView:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        officeName:
+          type: string
+        logo:
+          type: string
+        phoneNumber:
+          type: string
+        mobileNumber:
+          type: string
+        email:
+          type: string
+        branding:
+          $ref: '#/components/schemas/AppraisalOfficeBrandingView'
+    AppraisalSOICMAOptions:
+      type: object
+      properties:
+        coverPage:
+          $ref: '#/components/schemas/AppraisalCoverPageView'
+        coverLetter:
+          $ref: '#/components/schemas/AppraisalCoverLetterView'
+        marketInsights:
+          $ref: '#/components/schemas/AppraisalMarketInsightsView'
+        maps:
+          $ref: '#/components/schemas/AppraisalsMapView'
+        estimate:
+          $ref: '#/components/schemas/AppraisalsEstimateView'
+        propertyReport:
+          $ref: '#/components/schemas/AppraisalPropertyView'
+        salesStatistics:
+          $ref: '#/components/schemas/AppraisalsSalesTimeSeriesView'
+        sales:
+          $ref: '#/components/schemas/AppraisalSalesView'
+    ExtendedAddress:
+      type: object
+      properties:
+        street:
+          type: string
+        unit:
+          type: string
+        level:
+          type: string
+        lot:
+          type: string
+        streetNumber:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        streetLocation:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        countryCode:
+          type: string
+        streetName:
+          type: string
+        streetSuffix:
+          type: string
+        streetType:
+          type: string
+        ruralAddress:
+          type: string
+        unitType:
+          type: string
+        unitNumber:
+          type: string
+        unitNumberInt:
+          type: integer
+          format: int64
+        unitNumberPrefix:
+          type: string
+        unitNumberSuffix:
+          type: string
+        levelType:
+          type: string
+        levelNumber:
+          type: string
+        levelNumberInt:
+          type: integer
+          format: int64
+        levelNumberPrefix:
+          type: string
+        levelNumberSuffix:
+          type: string
+        lotType:
+          type: string
+        lotNumber:
+          type: string
+        lotNumberInt:
+          type: integer
+          format: int64
+        lotNumberPrefix:
+          type: string
+        lotNumberSuffix:
+          type: string
+        numberFirst:
+          type: string
+        numberFirstInt:
+          type: integer
+          format: int64
+        numberFirstPrefix:
+          type: string
+        numberFirstSuffix:
+          type: string
+        numberLast:
+          type: string
+        numberLastInt:
+          type: integer
+          format: int64
+        numberLastPrefix:
+          type: string
+        numberLastSuffix:
+          type: string
+        localityType:
+          type: string
+        localityName:
+          type: string
+        careOfAddress:
+          type: string
+        other:
+          type: string
+        lga:
+          type: string
+    TimeSeriesPeriod:
+      type: object
+      properties:
+        year:
+          type: integer
+          format: int64
+        month:
+          type: integer
+          format: int64
+        interval:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        unit:
+          type: string
+        level:
+          type: string
+        lot:
+          type: string
+        streetNumber:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        streetLocation:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        countryCode:
+          type: string
+        streetName:
+          type: string
+        streetSuffix:
+          type: string
+        streetType:
+          type: string
+        lga:
+          type: string
+    AppraisalPropertyBasicView:
+      type: object
+      properties:
+        includePropertyReport:
+          type: boolean
+        displayOwnerName:
+          type: boolean
+        displaySaleDetails:
+          type: boolean
+        _self:
+          type: string
+        propertyId:
+          type: integer
+          format: int64
+    SensitiveChange:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: number
+          format: double
+        rawValue:
+          type: number
+          format: double
+    AppraisalRentalsCMAOptions:
+      type: object
+      properties:
+        coverPage:
+          $ref: '#/components/schemas/AppraisalCoverPageView'
+        coverLetter:
+          $ref: '#/components/schemas/AppraisalCoverLetterView'
+        marketInsights:
+          $ref: '#/components/schemas/AppraisalMarketInsightsView'
+        maps:
+          $ref: '#/components/schemas/AppraisalsMapView'
+        estimate:
+          $ref: '#/components/schemas/AppraisalsEstimateView'
+        propertyReport:
+          $ref: '#/components/schemas/AppraisalPropertyView'
+        schools:
+          $ref: '#/components/schemas/AppraisalsSchoolsView'
+        suburbProfile:
+          $ref: '#/components/schemas/AppraisalsSuburbProfileView'
+        rentalStatistics:
+          $ref: '#/components/schemas/AppraisalRentalsTimeSeriesView'
+        rentals:
+          $ref: '#/components/schemas/AppraisalsRentalsView'
+    Listing:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rental:
+          type: boolean
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agent'
+        agencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agency'
+        price:
+          $ref: '#/components/schemas/SensitivePrice'
+        listingHistory:
+          $ref: '#/components/schemas/ListingListingHistory'
+        startDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        property:
+          $ref: '#/components/schemas/PropertyIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        location:
+          $ref: '#/components/schemas/Point'
+        propertyLegalDescription:
+          type: string
+        propertyType:
+          type: string
+        type:
+          type: string
+        status:
+          $ref: '#/components/schemas/ListingStatus'
+        endDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        lastModified:
+          $ref: '#/components/schemas/SensitiveDate'
+        propertyFeatures:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        address:
+          $ref: '#/components/schemas/Address'
+        originalListingAddress:
+          $ref: '#/components/schemas/Address'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        extra:
+          $ref: '#/components/schemas/SearchExtra'
+        _self:
+          type: string
+    SaleIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        _self:
+          type: string
+    AppraisalPropertyView:
+      type: object
+      properties:
+        includePropertyReport:
+          type: boolean
+        displayOwnerName:
+          type: boolean
+        displaySaleDetails:
+          type: boolean
+        property:
+          $ref: '#/components/schemas/ExtendedProperty'
+    AppraisalOfficeBrandingView:
+      type: object
+      properties:
+        backgroundMain:
+          type: string
+        backgroundSecondary:
+          type: string
+        textMain:
+          type: string
+        textSecondary:
+          type: string
+        headerColour:
+          type: string
+    AppraisalsListingBasicView:
+      type: object
+      properties:
+        included:
+          type: boolean
+        refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppraisalsListingBasicViewRef'
+    RentalTimeSeriesValueGroup:
+      type: object
+      properties:
+        all:
+          $ref: '#/components/schemas/RentalTimeseriesValue'
+        '1':
+          $ref: '#/components/schemas/RentalTimeseriesValue'
+        '2':
+          $ref: '#/components/schemas/RentalTimeseriesValue'
+        '3':
+          $ref: '#/components/schemas/RentalTimeseriesValue'
+        4+:
+          $ref: '#/components/schemas/RentalTimeseriesValue'
+    Agent:
+      type: object
+      properties:
+        name:
+          type: string
+        phoneNumber:
+          type: string
+        agency:
+          $ref: '#/components/schemas/AgencyIdentifier'
+    ExtendedPropertyFeatures:
+      type: object
+      properties:
+        bedrooms:
+          type: integer
+          format: int64
+        bathrooms:
+          type: integer
+          format: int64
+        carParks:
+          type: integer
+          format: int64
+        rumpusRoom:
+          type: boolean
+        airConditioning:
+          type: boolean
+        doubleStorey:
+          type: boolean
+        highSet:
+          type: boolean
+        multiLevel:
+          type: boolean
+        splitLevel:
+          type: boolean
+        brickTile:
+          type: boolean
+        contemporary:
+          type: boolean
+        postWar:
+          type: boolean
+        queenslander:
+          type: boolean
+        ensuite:
+          type: boolean
+        study:
+          type: boolean
+        verandah:
+          type: boolean
+        builtIn:
+          type: boolean
+        modernKitchen:
+          type: boolean
+        pool:
+          type: boolean
+        scenicViews:
+          type: boolean
+        waterFrontage:
+          type: boolean
+        closeSchools:
+          type: boolean
+        closeTransport:
+          type: boolean
+        lowSet:
+          type: boolean
+        colonial:
+          type: boolean
+        entertainmentArea:
+          type: boolean
+        sleepout:
+          type: boolean
+        boreWater:
+          type: boolean
+        dams:
+          type: boolean
+        fullyFenced:
+          type: boolean
+        otherFeatures:
+          type: string
+        sheds:
+          type: boolean
+        balcony:
+          type: boolean
+        mainRooms:
+          type: integer
+          format: int64
+        style:
+          type: string
+        buildYear:
+          type: integer
+          format: int64
+        buildType:
+          type: string
+        storeys:
+          type: integer
+          format: int64
+        roofStyle:
+          type: string
+        nathersRating:
+          type: number
+          format: double
+    ListingStatus:
+      type: object
+      properties:
+        historic:
+          type: boolean
+        underOffer:
+          type: boolean
+        listingStatus:
+          type: string
+    Demographics:
+      type: object
+      properties:
+        censusTopics:
+          type: array
+          items:
+            $ref: '#/components/schemas/CensusTopic'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    AppraisalRentalsTimeSeriesView:
+      type: object
+      properties:
+        includeTimeSeries:
+          type: boolean
+        timeSeries:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RentalsTimeSeries2'
+    PriceRangeSegment2:
+      type: object
+      properties:
+        begin:
+          type: number
+          format: double
+        end:
+          type: number
+          format: double
+        label:
+          type: string
+        count:
+          type: integer
+          format: int64
+    School:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        educationLevel:
+          type: string
+        lowYear:
+          type: string
+        highYear:
+          type: string
+        gender:
+          type: string
+        government:
+          type: boolean
+        primary:
+          type: boolean
+        secondary:
+          type: boolean
+        location:
+          $ref: '#/components/schemas/Point'
+    AppraisalRentalsTimeSeriesBasicView:
+      type: object
+      properties:
+        includeTimeSeries:
+          type: boolean
+        identifier:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        stats:
+          type: object
+          additionalProperties:
+            type: string
+    AppraisalListingIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        _self:
+          type: string
+    AppraisalMarketInsightsView:
+      type: object
+      properties:
+        includeMarketInsights:
+          type: boolean
+    SensitiveDate:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: string
+          format: date-time
+        rawValue:
+          type: string
+          format: date-time
+    AppraisalSalesCMABasicOptions:
+      type: object
+      properties:
+        coverPage:
+          $ref: '#/components/schemas/AppraisalCoverPageView'
+        coverLetter:
+          $ref: '#/components/schemas/AppraisalCoverLetterView'
+        marketInsights:
+          $ref: '#/components/schemas/AppraisalMarketInsightsView'
+        maps:
+          $ref: '#/components/schemas/AppraisalsMapView'
+        estimate:
+          $ref: '#/components/schemas/AppraisalsEstimateView'
+        propertyReport:
+          $ref: '#/components/schemas/AppraisalPropertyBasicView'
+        schools:
+          $ref: '#/components/schemas/AppraisalsSchoolsBasicView'
+        suburbProfile:
+          $ref: '#/components/schemas/AppraisalsSuburbProfileBasicView'
+        salesStatistics:
+          $ref: '#/components/schemas/AppraisalsSalesTimeSeriesBasicView'
+        rentalStatistics:
+          $ref: '#/components/schemas/AppraisalRentalsTimeSeriesBasicView'
+        rentals:
+          $ref: '#/components/schemas/AppraisalsRentalsBasicView'
+        sales:
+          $ref: '#/components/schemas/AppraisalSalesBasicView'
+        listings:
+          $ref: '#/components/schemas/AppraisalsListingBasicView'
+    Ownership:
+      type: object
+      properties:
+        names:
+          type: string
+        ownerOccupied:
+          type: boolean
+        ownerAddress:
+          type: string
+        owners:
+          type: array
+          items:
+            $ref: '#/components/schemas/Owner'
+    Appraisals:
+      type: object
+      properties:
+        appraisals:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppraisalSimpleView'
+        totalCount:
+          type: integer
+          format: int64
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    AppraisalsSuburbProfileBasicView:
+      type: object
+      properties:
+        includeDemographics:
+          type: boolean
+        _self:
+          type: string
+        suburbId:
+          type: string
+    AppraisalsRentalsBasicViewRef:
+      type: object
+      properties:
+        ref:
+          $ref: '#/components/schemas/AppraisalRentalIdentifier'
+    AgencyIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    SalesTimeSeries:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/TimeSeriesPeriod'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/SalesTimeSeriesValue'
+        calculated:
+          type: string
+          format: date-time
+        description:
+          type: string
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    Title:
+      type: object
+    AppraisalsListingsView:
+      type: object
+      properties:
+        included:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppraisalsListingsViewDetail'
+    ListingListingHistory:
+      type: object
+      properties:
+        originalPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        originalPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        daysOnMarket:
+          type: integer
+          format: int64
+        lowAskPrice:
+          type: integer
+          format: int64
+        highAskPrice:
+          type: integer
+          format: int64
+    AppraisalsSalesTimeSeriesView:
+      type: object
+      properties:
+        includeTimeSeries:
+          type: boolean
+        timeSeries:
+          $ref: '#/components/schemas/SalesTimeSeries'
+        includePeakSellingPeriods:
+          type: boolean
+        peakSellingPeriods:
+          type: array
+          items:
+            $ref: '#/components/schemas/PeakSellingPeriods'
+        includePriceSegmentation:
+          type: boolean
+        priceSegmentation:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceRangeSegments2'
+    SaleParticipantsSummary:
+      type: object
+      properties:
+        vendorsSummary:
+          type: string
+        purchasersSummary:
+          type: string
+    RentalTimeseriesValue:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        median:
+          type: number
+          format: double
+        high:
+          type: number
+          format: double
+        low:
+          type: number
+          format: double
+    PropertyIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        _self:
+          type: string
+    AppraisalCoverLetterView:
+      type: object
+      properties:
+        includeCoverLetter:
+          type: boolean
+        preparedFor:
+          type: string
+        agentsComments:
+          type: string
+        preparedBy:
+          type: string
+    AppraisalRentalIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        _self:
+          type: string
+    AppraisalSalesView:
+      type: object
+      properties:
+        included:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppraisalSalesViewDetail'
+    SaleListingHistory:
+      type: object
+      properties:
+        originalListingId:
+          $ref: '#/components/schemas/ListingIdentifier'
+        originalPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        originalPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        lastListingId:
+          $ref: '#/components/schemas/ListingIdentifier'
+        lastPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        lastPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        daysToSell:
+          type: integer
+          format: int64
+x-refined-from:
+- pricefinder-api-swagger.json
+- pricefinder-api-swagger.yml

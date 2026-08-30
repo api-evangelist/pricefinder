@@ -1,0 +1,3477 @@
+openapi: 3.2.0
+info:
+  title: Pricefinder Properties API
+  version: 1.13.1
+  contact:
+    name: Pricefinder
+  license:
+    name: Terms and Conditions
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  description: 'Operations tagged properties across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+tags:
+- name: properties
+paths:
+  /properties/{propertyId}:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: property
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/autocma/rental/pdf:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: rentalCmaPDF
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: attach
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+      - name: comparable_rentals
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: cover_letter
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: cover_page
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: demographics
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: maps
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: property_report
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: radius
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 500
+      - name: stats
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: summary
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+  /properties/{propertyId}/autocma/sale/pdf:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: saleCmaPDF
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: attach
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+      - name: comparable_listings
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: comparable_rentals
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: comparable_sales
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: cover_letter
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: cover_page
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: demographics
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: maps
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: property_report
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: radius
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 500
+      - name: stats
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: summary
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+  /properties/{propertyId}/avm:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: propertyAvm
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AVM'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/avm/pdf:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: propertyAvmReport
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: attach
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+  /properties/{propertyId}/eventsubscription:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: eventsSubscription
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyEventSubscription'
+      deprecated: true
+    post:
+      tags:
+      - properties
+      summary: ''
+      description: 'Subscribe to property event alerts (currently only available through email notifications) for this property.<br><b>Note: This endpoint is NOT additive</b> <br>i.e. Multiple calls to this endpoint on the same property will keep overwriting the subscription with the eventTypes passed in the latest request.<br><b>Example :</b> <br> <ul><li>Subscribe to property X for ''ForSale'' event</li><li>Subscribe to property X for ''ForRent'' event</li><li>After these 2 calls X is only subscribed for ''ForRent''</li></ul>'
+      operationId: eventsSubscribe
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        default:
+          description: successful operation
+      deprecated: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventSubcriptionParameters'
+        description: The available eventTypes are <b>ForSale</b>, <b>ForRent</b> and <b>Sold</b>. They are case sensitive.
+    delete:
+      tags:
+      - properties
+      description: ''
+      operationId: eventsUnSubscribe
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        default:
+          description: successful operation
+      deprecated: true
+    servers:
+    - url: /v1
+  /properties/{propertyId}/extended:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: propertyExtended
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtendedProperty'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/images:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: images
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: listingId
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Images'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/images/floorplans:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: imagesFloorplan
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Images'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/images/main:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: imagesMain
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/images/streetview:
+    post:
+      tags:
+      - properties
+      summary: Captures property street view and save as property main image
+      description: Captures Googgle StreetView image by longitude/latitude and sets the image as the property main image.<br><b>Note:</b><br>Response headers return <ul><li>fsSchemeRes</li><li>fsImageId</li></ul> when operation returns <b>201</b><br>
+      operationId: streetView
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        default:
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StreetViewParameters'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/map:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: map
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: aerial
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: area
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: boundary
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: dimensions
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: easements
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: height
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 96
+      - name: legend
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: property_boundary
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      - name: shading
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: title
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: width
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 128
+      - name: zoom
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - close
+          - medium
+          - far
+          default: medium
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+  /properties/{propertyId}/pdf:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: propertyReport
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: attach
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: true
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+  /properties/{propertyId}/radial/developmentapplications:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: radialPlanningAlerts
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: limit
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 10
+      - name: radius
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 2000
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevelopmentApplications'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/radial/listings:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: radialListings
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: area_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: area_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: baths_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: baths_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: beds_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: beds_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: car_parks_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: car_parks_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: date_end
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: date-time
+          default: now
+      - name: date_start
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: date-time
+          default: today-90d
+      - name: historic
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: limit
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 100
+      - name: matchlevel_max
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+      - name: matchlevel_min
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+      - name: max_area
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_baths
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_beds
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_car_parks
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_price
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: number
+          format: double
+      - name: min_area
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_baths
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_beds
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_car_parks
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_price
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: number
+          format: double
+      - name: price_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: number
+          format: double
+      - name: price_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: number
+          format: double
+      - name: property_type
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - house
+          - unit
+          - vacant
+          - commercial
+          - industrial
+          - land
+          - rural
+          - retail
+          - office
+          - other
+      - name: radius
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: number
+          format: double
+          default: 500.0
+      - name: sort
+        in: query
+        description: can pass sort multiple times, use - to indicate descending
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          format: -?\w+
+          items:
+            type: string
+          enum:
+          - distance
+          - -distance
+          - date
+          - -date
+          - price
+          - -price
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Listings'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/radial/properties:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: radialProperties
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: area_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: area_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: baths_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: baths_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: beds_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: beds_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: car_parks_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: car_parks_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: limit
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 100
+      - name: max_area
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_baths
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_beds
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_car_parks
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_area
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_baths
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_beds
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_car_parks
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: property_type
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - house
+          - unit
+          - vacant
+          - commercial
+          - industrial
+          - land
+          - rural
+          - retail
+          - office
+          - other
+      - name: radius
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: number
+          format: double
+          default: 500.0
+      - name: sort
+        in: query
+        description: can pass sort multiple times, use - to indicate descending
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          format: -?\w+
+          items:
+            type: string
+          enum:
+          - distance
+          - -distance
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Properties'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/radial/rentals:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: radialRentals
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: area_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: area_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: baths_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: baths_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: beds_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: beds_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: car_parks_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: car_parks_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: date_end
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: date-time
+          default: now
+      - name: date_start
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: date-time
+          default: today-90d
+      - name: historic
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: boolean
+          default: false
+      - name: limit
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 100
+      - name: matchlevel_max
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+      - name: matchlevel_min
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+      - name: max_area
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_baths
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_beds
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_car_parks
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_price
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: number
+          format: double
+      - name: min_area
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_baths
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_beds
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_car_parks
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_price
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: number
+          format: double
+      - name: price_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: number
+          format: double
+      - name: price_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: number
+          format: double
+      - name: property_type
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - house
+          - unit
+          - vacant
+          - commercial
+          - industrial
+          - land
+          - rural
+          - retail
+          - office
+          - other
+      - name: radius
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: number
+          format: double
+          default: 500.0
+      - name: sort
+        in: query
+        description: can pass sort multiple times, use - to indicate descending
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          format: -?\w+
+          items:
+            type: string
+          enum:
+          - distance
+          - -distance
+          - date
+          - -date
+          - price
+          - -price
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Listings'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/radial/sales:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: radialSales
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: area_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: area_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: baths_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: baths_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: beds_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: beds_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: car_parks_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: car_parks_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: integer
+          format: int64
+      - name: date_end
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: date-time
+          default: now
+      - name: date_start
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          format: date-time
+          default: today-1y
+      - name: limit
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+          default: 100
+      - name: matchlevel_max
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+      - name: matchlevel_min
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+      - name: max_area
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_baths
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_beds
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_car_parks
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: max_price
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: number
+          format: double
+      - name: min_area
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_baths
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_beds
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_car_parks
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: min_price
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: number
+          format: double
+      - name: price_gt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: number
+          format: double
+      - name: price_lt
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: true
+        schema:
+          type: number
+          format: double
+      - name: property_type
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        schema:
+          type: string
+          enum:
+          - house
+          - unit
+          - vacant
+          - commercial
+          - industrial
+          - land
+          - rural
+          - retail
+          - office
+          - other
+      - name: radius
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: number
+          format: double
+          default: 500.0
+      - name: sort
+        in: query
+        description: can pass sort multiple times, use - to indicate descending
+        required: false
+        pds:
+          hidden: false
+          extra: true
+          enumerate: false
+          deprecated: false
+        style: form
+        explode: true
+        schema:
+          type: array
+          format: -?\w+
+          items:
+            type: string
+          enum:
+          - distance
+          - -distance
+          - date
+          - -date
+          - price
+          - -price
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sales'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/schools:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: propertySchools
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schools'
+    servers:
+    - url: /v1
+  /properties/{propertyId}/streetview:
+    get:
+      tags:
+      - properties
+      description: ''
+      operationId: streetview
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: height
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      - name: width
+        in: query
+        required: false
+        pds:
+          hidden: false
+          extra: false
+          enumerate: false
+          deprecated: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        default:
+          description: successful operation
+    servers:
+    - url: /v1
+components:
+  schemas:
+    SalesAVM:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        price:
+          type: number
+          format: double
+        priceRangeMaximum:
+          type: number
+          format: double
+        priceRangeMinimum:
+          type: number
+          format: double
+        confidence:
+          type: string
+          enum:
+          - RecentlySold
+          - VeryHigh
+          - High
+          - Medium
+          - Low
+          - VeryLow
+          - DoNotUse
+    Image:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date-time
+        mainImage:
+          type: boolean
+        priority:
+          type: integer
+          format: int32
+        floorplan:
+          type: boolean
+        _self:
+          type: string
+    SensitivePrice:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: number
+          format: double
+        rawValue:
+          type: number
+          format: double
+        withheld:
+          type: boolean
+    Schools:
+      type: object
+      properties:
+        schools:
+          type: array
+          items:
+            $ref: '#/components/schemas/School'
+    ValuationDetails:
+      type: object
+      properties:
+        valuations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Valuation'
+    PropertyEventSubscription:
+      type: object
+      properties:
+        propertyId:
+          type: integer
+          format: int64
+        subscriptionDate:
+          type: string
+          format: date-time
+        eventTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyEventType'
+    OwnershipSummary:
+      type: object
+      properties:
+        names:
+          type: string
+        ownerOccupied:
+          type: boolean
+        ownerAddress:
+          type: string
+    ListingStatus:
+      type: object
+      properties:
+        historic:
+          type: boolean
+        underOffer:
+          type: boolean
+        listingStatus:
+          type: string
+    Owner:
+      type: object
+      properties:
+        firstName:
+          type: string
+        surname:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        type:
+          type: string
+    Phone:
+      type: object
+      properties:
+        surname:
+          type: string
+        initials:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        number:
+          type: string
+        doNotCall:
+          type: boolean
+        doNotCallWashDate:
+          type: string
+          format: date-time
+    SuburbIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+        _self:
+          type: string
+    Parcel:
+      type: object
+      properties:
+        area:
+          type: number
+          format: double
+        zoning:
+          $ref: '#/components/schemas/Zoning'
+        lpi:
+          $ref: '#/components/schemas/LPI'
+        titles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Title'
+    PropertyListingHistory:
+      type: object
+      properties:
+        listings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Listing'
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        price:
+          $ref: '#/components/schemas/SensitivePrice'
+        listingHistory:
+          $ref: '#/components/schemas/SaleListingHistory'
+        saleDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        settlementDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        contractDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        property:
+          $ref: '#/components/schemas/PropertyIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        propertyType:
+          type: string
+        saleType:
+          type: string
+        agency:
+          $ref: '#/components/schemas/Agency'
+        agent:
+          $ref: '#/components/schemas/Agent'
+        location:
+          $ref: '#/components/schemas/Point'
+        metadata:
+          $ref: '#/components/schemas/SaleMetadata'
+        address:
+          $ref: '#/components/schemas/Address'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        propertyFeatures:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        rpd:
+          type: string
+        dealingNumber:
+          type: string
+        streetDisplay:
+          type: string
+        lowAskPrice:
+          type: integer
+          format: int64
+        highAskPrice:
+          type: integer
+          format: int64
+        extra:
+          $ref: '#/components/schemas/SearchExtra'
+        saleParticipants:
+          $ref: '#/components/schemas/SaleParticipantsSummary'
+        _self:
+          type: string
+    SmartMaps:
+      type: object
+    Agency:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        phoneNumber:
+          type: string
+    Property:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        address:
+          $ref: '#/components/schemas/Address'
+        features:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        map:
+          $ref: '#/components/schemas/PropertyMapIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        type:
+          type: string
+        rpd:
+          type: string
+        marketStatus:
+          $ref: '#/components/schemas/MarketStatus'
+        lastModified:
+          type: string
+          format: date-time
+        owners:
+          $ref: '#/components/schemas/OwnershipSummary'
+        ownership:
+          $ref: '#/components/schemas/OwnershipSummary'
+        lastSale:
+          $ref: '#/components/schemas/Sale'
+        recentListing:
+          $ref: '#/components/schemas/Listing'
+        recentRental:
+          $ref: '#/components/schemas/Listing'
+        extra:
+          $ref: '#/components/schemas/SearchExtra'
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+        _self:
+          type: string
+    Sales:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+    PropertyMapIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        _self:
+          type: string
+    AVM:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        rentalYield:
+          type: number
+          format: double
+        rentalAVM:
+          $ref: '#/components/schemas/RentalAVM'
+        salesAVM:
+          $ref: '#/components/schemas/SalesAVM'
+    LandUse:
+      type: object
+      properties:
+        code:
+          type: string
+        display:
+          type: string
+    DevelopmentApplication:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        description:
+          type: string
+        infoUrl:
+          type: string
+        commentUrl:
+          type: string
+        location:
+          $ref: '#/components/schemas/Point'
+        dateReceived:
+          type: string
+          format: date-time
+        planningAuthority:
+          $ref: '#/components/schemas/PlanningAuthority'
+        councilReference:
+          type: string
+    School:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        educationLevel:
+          type: string
+        lowYear:
+          type: string
+        highYear:
+          type: string
+        gender:
+          type: string
+        government:
+          type: boolean
+        primary:
+          type: boolean
+        secondary:
+          type: boolean
+        location:
+          $ref: '#/components/schemas/Point'
+    SaleHistory:
+      type: object
+      properties:
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+    PropertyEventType:
+      type: object
+      properties:
+        display:
+          type: string
+        key:
+          type: string
+    Message:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int64
+        text:
+          type: string
+    StreetViewParameters:
+      type: object
+      properties:
+        lonlat:
+          $ref: '#/components/schemas/Point'
+        pov:
+          $ref: '#/components/schemas/Pov'
+    PlanningAuthority:
+      type: object
+      properties:
+        name:
+          type: string
+    MarketStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        recentlySold:
+          type: boolean
+        recentlyForSale:
+          type: boolean
+        recentlyForRent:
+          type: boolean
+        forSale:
+          type: boolean
+        forRent:
+          type: boolean
+        likelyToList:
+          type: boolean
+        lastMarketEvent:
+          $ref: '#/components/schemas/MarketStatusEventObject'
+    Properties:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Property'
+    ImageIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        _self:
+          type: string
+    Images:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+    SensitiveDate:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: string
+          format: date-time
+        rawValue:
+          type: string
+          format: date-time
+    ExtendedProperty:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        address:
+          $ref: '#/components/schemas/ExtendedAddress'
+        features:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedAddress'
+        landDetails:
+          $ref: '#/components/schemas/ExtendedLandDetails'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        map:
+          $ref: '#/components/schemas/PropertyMapIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        type:
+          type: string
+        rpd:
+          type: string
+        marketStatus:
+          $ref: '#/components/schemas/MarketStatus'
+        lastModified:
+          type: string
+          format: date-time
+        valuationDetails:
+          $ref: '#/components/schemas/ValuationDetails'
+        saleHistory:
+          $ref: '#/components/schemas/SaleHistory'
+        listingHistory:
+          $ref: '#/components/schemas/PropertyListingHistory'
+        rentalHistory:
+          $ref: '#/components/schemas/PropertyListingHistory'
+        ownership:
+          $ref: '#/components/schemas/Ownership'
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+        tools:
+          $ref: '#/components/schemas/Tools'
+        tenureType:
+          type: string
+        _self:
+          type: string
+    ExtendedLandDetails:
+      type: object
+      properties:
+        propertyArea:
+          type: number
+          format: double
+        buildingArea:
+          type: number
+          format: double
+        volumeFolio:
+          type: string
+        frontage:
+          type: number
+          format: double
+        parcels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Parcel'
+        primaryLandUse:
+          $ref: '#/components/schemas/LandUse'
+        secondaryLandUse:
+          $ref: '#/components/schemas/LandUse'
+    Ownership:
+      type: object
+      properties:
+        names:
+          type: string
+        ownerOccupied:
+          type: boolean
+        ownerAddress:
+          type: string
+        owners:
+          type: array
+          items:
+            $ref: '#/components/schemas/Owner'
+    ListingIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rental:
+          type: boolean
+        _self:
+          type: string
+    Point:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+    ExtendedAddress:
+      type: object
+      properties:
+        street:
+          type: string
+        unit:
+          type: string
+        level:
+          type: string
+        lot:
+          type: string
+        streetNumber:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        streetLocation:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        countryCode:
+          type: string
+        streetName:
+          type: string
+        streetSuffix:
+          type: string
+        streetType:
+          type: string
+        ruralAddress:
+          type: string
+        unitType:
+          type: string
+        unitNumber:
+          type: string
+        unitNumberInt:
+          type: integer
+          format: int64
+        unitNumberPrefix:
+          type: string
+        unitNumberSuffix:
+          type: string
+        levelType:
+          type: string
+        levelNumber:
+          type: string
+        levelNumberInt:
+          type: integer
+          format: int64
+        levelNumberPrefix:
+          type: string
+        levelNumberSuffix:
+          type: string
+        lotType:
+          type: string
+        lotNumber:
+          type: string
+        lotNumberInt:
+          type: integer
+          format: int64
+        lotNumberPrefix:
+          type: string
+        lotNumberSuffix:
+          type: string
+        numberFirst:
+          type: string
+        numberFirstInt:
+          type: integer
+          format: int64
+        numberFirstPrefix:
+          type: string
+        numberFirstSuffix:
+          type: string
+        numberLast:
+          type: string
+        numberLastInt:
+          type: integer
+          format: int64
+        numberLastPrefix:
+          type: string
+        numberLastSuffix:
+          type: string
+        localityType:
+          type: string
+        localityName:
+          type: string
+        careOfAddress:
+          type: string
+        other:
+          type: string
+        lga:
+          type: string
+    DevelopmentApplications:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        note:
+          type: string
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/DevelopmentApplication'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    RentalAVM:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        pricePerWeek:
+          type: number
+          format: double
+        confidence:
+          type: string
+          enum:
+          - RecentlySold
+          - VeryHigh
+          - High
+          - Medium
+          - Low
+          - VeryLow
+          - DoNotUse
+    SearchExtra:
+      type: object
+      properties:
+        distance:
+          type: number
+          format: double
+        nameMatchType:
+          type: string
+        matchedName:
+          type: string
+    AgencyIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    EventSubcriptionParameters:
+      type: object
+      properties:
+        eventTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - ForRent
+            - ForSale
+            - SoldVerified
+            - Sold
+    Title:
+      type: object
+    Valuation:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        effectiveDate:
+          type: string
+          format: date-time
+        method:
+          type: string
+        amount:
+          type: number
+          format: double
+        adjustedSiteValue:
+          type: number
+          format: double
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        unit:
+          type: string
+        level:
+          type: string
+        lot:
+          type: string
+        streetNumber:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        streetLocation:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        countryCode:
+          type: string
+        streetName:
+          type: string
+        streetSuffix:
+          type: string
+        streetType:
+          type: string
+        lga:
+          type: string
+    ListingListingHistory:
+      type: object
+      properties:
+        originalPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        originalPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        daysOnMarket:
+          type: integer
+          format: int64
+        lowAskPrice:
+          type: integer
+          format: int64
+        highAskPrice:
+          type: integer
+          format: int64
+    StreetIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+    Listings:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        listings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Listing'
+    SensitiveChange:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: number
+          format: double
+        rawValue:
+          type: number
+          format: double
+    Zoning:
+      type: object
+      properties:
+        description:
+          type: string
+        code:
+          type: string
+    Tools:
+      type: object
+      properties:
+        smartMaps:
+          $ref: '#/components/schemas/SmartMaps'
+    Listing:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rental:
+          type: boolean
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agent'
+        agencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agency'
+        price:
+          $ref: '#/components/schemas/SensitivePrice'
+        listingHistory:
+          $ref: '#/components/schemas/ListingListingHistory'
+        startDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        property:
+          $ref: '#/components/schemas/PropertyIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        location:
+          $ref: '#/components/schemas/Point'
+        propertyLegalDescription:
+          type: string
+        propertyType:
+          type: string
+        type:
+          type: string
+        status:
+          $ref: '#/components/schemas/ListingStatus'
+        endDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        lastModified:
+          $ref: '#/components/schemas/SensitiveDate'
+        propertyFeatures:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        address:
+          $ref: '#/components/schemas/Address'
+        originalListingAddress:
+          $ref: '#/components/schemas/Address'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        extra:
+          $ref: '#/components/schemas/SearchExtra'
+        _self:
+          type: string
+    SaleMetadata:
+      type: object
+      properties:
+        governmentSale:
+          type: boolean
+        pending:
+          type: boolean
+    SaleParticipantsSummary:
+      type: object
+      properties:
+        vendorsSummary:
+          type: string
+        purchasersSummary:
+          type: string
+    PropertyIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        _self:
+          type: string
+    LandDetails:
+      type: object
+      properties:
+        propertyArea:
+          type: number
+          format: double
+        buildingArea:
+          type: number
+          format: double
+        volumeFolio:
+          type: string
+    Pov:
+      type: object
+      properties:
+        zoom:
+          type: number
+          format: double
+        pitch:
+          type: number
+          format: double
+        heading:
+          type: number
+          format: double
+    MarketStatusEventObject:
+      type: object
+      properties:
+        type:
+          type: string
+        event:
+          type: object
+    LPI:
+      type: object
+      properties:
+        lot:
+          type: string
+        plan:
+          type: string
+        section:
+          type: string
+        part:
+          type: string
+    Agent:
+      type: object
+      properties:
+        name:
+          type: string
+        phoneNumber:
+          type: string
+        agency:
+          $ref: '#/components/schemas/AgencyIdentifier'
+    ExtendedPropertyFeatures:
+      type: object
+      properties:
+        bedrooms:
+          type: integer
+          format: int64
+        bathrooms:
+          type: integer
+          format: int64
+        carParks:
+          type: integer
+          format: int64
+        rumpusRoom:
+          type: boolean
+        airConditioning:
+          type: boolean
+        doubleStorey:
+          type: boolean
+        highSet:
+          type: boolean
+        multiLevel:
+          type: boolean
+        splitLevel:
+          type: boolean
+        brickTile:
+          type: boolean
+        contemporary:
+          type: boolean
+        postWar:
+          type: boolean
+        queenslander:
+          type: boolean
+        ensuite:
+          type: boolean
+        study:
+          type: boolean
+        verandah:
+          type: boolean
+        builtIn:
+          type: boolean
+        modernKitchen:
+          type: boolean
+        pool:
+          type: boolean
+        scenicViews:
+          type: boolean
+        waterFrontage:
+          type: boolean
+        closeSchools:
+          type: boolean
+        closeTransport:
+          type: boolean
+        lowSet:
+          type: boolean
+        colonial:
+          type: boolean
+        entertainmentArea:
+          type: boolean
+        sleepout:
+          type: boolean
+        boreWater:
+          type: boolean
+        dams:
+          type: boolean
+        fullyFenced:
+          type: boolean
+        otherFeatures:
+          type: string
+        sheds:
+          type: boolean
+        balcony:
+          type: boolean
+        mainRooms:
+          type: integer
+          format: int64
+        style:
+          type: string
+        buildYear:
+          type: integer
+          format: int64
+        buildType:
+          type: string
+        storeys:
+          type: integer
+          format: int64
+        roofStyle:
+          type: string
+        nathersRating:
+          type: number
+          format: double
+    SaleListingHistory:
+      type: object
+      properties:
+        originalListingId:
+          $ref: '#/components/schemas/ListingIdentifier'
+        originalPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        originalPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        lastListingId:
+          $ref: '#/components/schemas/ListingIdentifier'
+        lastPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        lastPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        daysToSell:
+          type: integer
+          format: int64
+x-refined-from:
+- pricefinder-api-swagger.json
+- pricefinder-api-swagger.yml
