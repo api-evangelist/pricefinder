@@ -1,28 +1,31 @@
-# Kin Score artifact — pricefinder — 2026-08-03T161012
+# Kin Score artifact — pricefinder — 2026-09-02T224043
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: pricefinder
-  schema_version: 0.9
-  scored_at: '2026-08-03'
-  run_ts: 2026-08-03T161012
-  composite: 37.9
+  schema_version: 0.18.0
+  scored_at: '2026-09-02'
+  run_ts: 2026-09-02T224043
+  composite: 36.0
   band: thin
   facets:
-    discoverability: 92.6
-    contract_quality: 32.3
-    governance: 11.5
+    discoverability: 68.5
+    contract_quality: 35.7
+    governance: 4.5
     operational_transparency: 0.0
-    developer_ergonomics: 49.5
+    developer_ergonomics: 51.8
     commercial_clarity: 34.2
+    contract_governance: 4.5
+    access_clarity: 34.2
   agent_readiness:
-    score: 32.7
+    score: 19.2
     band: agent-aware
     dimensions:
       spec_presence: true
       agentic_access: false
-      mcp_server: derived
-      auth_clarity: true
+      reversibility_documented: false
+      mcp_server: false
+      auth_clarity: bearer
       idempotency: false
       error_semantics: documented
       openapi_examples: false
@@ -33,6 +36,10 @@ kin_score:
       consent_identity: false
       agent_card: false
       dry_run_mode: false
+      delegated_identity: false
+      protected_resource_metadata: false
+      dynamic_client_registration: false
+      agentic_commerce: false
   regulatory:
     applies: true
     regime: Securities & Market Data
@@ -44,7 +51,7 @@ kin_score:
     skills: derived
     conformance: derived
     contracts:
-      total: 1
+      total: 19
       derived: 0
       coverage: 0.0
       callable: 0.0
