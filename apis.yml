@@ -211,28 +211,6 @@ apis:
     url: https://www.pricefinder.com.au/get-started/
   - type: Authentication
     url: https://api.pricefinder.com.au/v1/auth/authorize.html
-- aid: pricefinder:pricefinder-oauth2-api
-  name: Pricefinder Oauth2 API
-  description: The oauth2 API from Pricefinder — 1 operation(s) for oauth2.
-  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
-  baseURL: https://api.pricefinder.com.au/v1
-  tags:
-  - Authentication
-  tags_raw:
-  - oauth2
-  properties:
-  - type: OpenAPI
-    url: openapi/pricefinder-oauth2-api-openapi.yml
-  - type: APIReference
-    url: https://api.pricefinder.com.au/v1/swagger/index.html
-  - type: Documentation
-    url: https://www.pricefinder.com.au/our-data/
-  - type: TermsOfService
-    url: https://www.domain.com.au/group/api-terms-and-conditions/
-  - type: Documentation
-    url: https://www.pricefinder.com.au/get-started/
-  - type: Authentication
-    url: https://api.pricefinder.com.au/v1/auth/authorize.html
 - aid: pricefinder:pricefinder-postcodes-api
   name: Pricefinder Postcodes API
   description: The postcodes API from Pricefinder — 4 operation(s) for postcodes.
@@ -481,6 +459,26 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/pricefinder-suggest-api-openapi.yml
+  - type: APIReference
+    url: https://api.pricefinder.com.au/v1/swagger/index.html
+  - type: Documentation
+    url: https://www.pricefinder.com.au/our-data/
+  - type: TermsOfService
+    url: https://www.domain.com.au/group/api-terms-and-conditions/
+  - type: Documentation
+    url: https://www.pricefinder.com.au/get-started/
+  - type: Authentication
+    url: https://api.pricefinder.com.au/v1/auth/authorize.html
+- aid: pricefinder:pricefinder-oauth2-api
+  name: Pricefinder Oauth2 API
+  description: The oauth2 API from Pricefinder — 1 operation(s) for oauth2.
+  humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
+  baseURL: https://api.pricefinder.com.au/v1
+  tags:
+  - oauth2
+  properties:
+  - type: OpenAPI
+    url: openapi/pricefinder-oauth2-api-openapi.yml
   - type: APIReference
     url: https://api.pricefinder.com.au/v1/swagger/index.html
   - type: Documentation
