@@ -85,7 +85,7 @@ apis:
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
-  - Appraisals
+  - Appraisal
   tags_raw:
   - appraisals
   properties:
@@ -475,6 +475,8 @@ apis:
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
+  - Authentication
+  tags_raw:
   - oauth2
   properties:
   - type: OpenAPI
