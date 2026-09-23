@@ -1,22 +1,22 @@
 openapi: 3.2.0
 info:
-  title: Pricefinder Suggest API
+  description: Pricefinder API provides access to property, sale and listing searches as well as suburb statistics and SSO to the Pricefinder website capabilities.
   version: 1.13.1
+  title: PriceFinder API v1.13.1 Suggest API
   contact:
     name: Pricefinder
   license:
     name: Terms and Conditions
     url: https://www.domain.com.au/group/api-terms-and-conditions/
-  description: 'Operations tagged suggest across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: /v1
 tags:
-- name: suggest
+- name: Suggest
 paths:
   /suggest:
     get:
       tags:
-      - suggest
+      - Suggest
       description: ''
       operationId: suggest
       parameters:
@@ -60,12 +60,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuggestMatches'
-    servers:
-    - url: /v1
+      summary: Suggest
+      x-summary-source: derived
   /suggest/lonlat:
     get:
       tags:
-      - suggest
+      - Suggest
       description: ''
       operationId: suggestLonLat
       parameters:
@@ -88,13 +88,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuggestLonLatResultPropertyByLonLat'
-    servers:
-    - url: /v1
+      summary: Suggest lon lat
+      x-summary-source: derived
   /suggest/properties:
     get:
       tags:
-      - suggest
-      description: See <a class="shebang" href="#!/suggest/suggest">suggestions</a>
+      - Suggest
+      description: See suggestions
       operationId: suggestProperties
       parameters:
       - name: q
@@ -127,13 +127,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuggestMatches'
-    servers:
-    - url: /v1
+      summary: Suggest properties
+      x-summary-source: derived
   /suggest/streets:
     get:
       tags:
-      - suggest
-      description: See <a class="shebang" href="#!/suggest/suggest">suggestions</a>
+      - Suggest
+      description: See suggestions
       operationId: suggestStreets
       parameters:
       - name: q
@@ -166,13 +166,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuggestMatches'
-    servers:
-    - url: /v1
+      summary: Suggest streets
+      x-summary-source: derived
   /suggest/suburbs:
     get:
       tags:
-      - suggest
-      description: See <a class="shebang" href="#!/suggest/suggest">suggestions</a>
+      - Suggest
+      description: See suggestions
       operationId: suggestSuburbs
       parameters:
       - name: q
@@ -205,12 +205,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuggestMatches'
-    servers:
-    - url: /v1
+      summary: Suggest suburbs
+      x-summary-source: derived
   /suggest/typeahead:
     get:
       tags:
-      - suggest
+      - Suggest
       description: ''
       operationId: suggestTypeahead
       parameters:
@@ -233,44 +233,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TypeAheadSuggestions'
-    servers:
-    - url: /v1
+      summary: Suggest typeahead
+      x-summary-source: derived
 components:
   schemas:
-    LonLat:
+    SuggestMatch:
       type: object
       properties:
-        lon:
-          type: number
-          format: double
-        lat:
-          type: number
-          format: double
-    MainImage:
-      type: object
-      properties:
-        imageId:
-          type: integer
-          format: int64
-        imageScheme:
+        property:
+          $ref: '#/components/schemas/PropertyIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        type:
           type: string
-    Message:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int64
-        text:
+          enum:
+          - property
+          - street
+          - suburb
+          - typeahead
+        display:
           type: string
-    Point:
-      type: object
-      properties:
-        lat:
-          type: number
-          format: double
-        lon:
-          type: number
-          format: double
+        legalDescription:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
     PropertyByLonLat:
       type: object
       properties:
@@ -343,116 +335,6 @@ components:
           type: string
         propertyType:
           type: string
-    PropertyIdentifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        matchlevel:
-          type: string
-          enum:
-          - suburb
-          - street
-          - property
-        location:
-          $ref: '#/components/schemas/Point'
-        parent:
-          type: boolean
-        _self:
-          type: string
-    TypeAheadSuggestions:
-      type: object
-      properties:
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        suggestions:
-          type: array
-          items:
-            $ref: '#/components/schemas/TypeAheadSuggestion'
-    StreetLocation:
-      type: object
-      properties:
-        streetId:
-          type: string
-        fullCompleteAddress:
-          type: string
-        fullStreetName:
-          type: string
-        streetName:
-          type: string
-        streetAddress:
-          type: string
-        postcode:
-          type: string
-        localityId:
-          type: string
-        localityName:
-          type: string
-        lgaId:
-          type: string
-        lgaName:
-          type: string
-        state:
-          type: string
-    SuggestMatch:
-      type: object
-      properties:
-        property:
-          $ref: '#/components/schemas/PropertyIdentifier'
-        street:
-          $ref: '#/components/schemas/StreetIdentifier'
-        suburb:
-          $ref: '#/components/schemas/SuburbIdentifier'
-        type:
-          type: string
-          enum:
-          - property
-          - street
-          - suburb
-          - typeahead
-        display:
-          type: string
-        legalDescription:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address'
-        alternativeAddresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/Address'
-    SuburbIdentifier:
-      type: object
-      properties:
-        id:
-          type: string
-        _self:
-          type: string
-    LonLatElevation:
-      type: object
-      properties:
-        lonLat:
-          $ref: '#/components/schemas/LonLat'
-        elevation:
-          type: number
-          format: double
-    SuggestMatches:
-      type: object
-      properties:
-        matches:
-          type: array
-          items:
-            $ref: '#/components/schemas/SuggestMatch'
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
     TypeAheadSuggestion:
       type: object
       properties:
@@ -527,18 +409,83 @@ components:
           type: string
         lga:
           type: string
-    Rectangle:
+    StreetLocation:
       type: object
       properties:
-        min:
-          $ref: '#/components/schemas/LonLat'
-        max:
-          $ref: '#/components/schemas/LonLat'
+        streetId:
+          type: string
+        fullCompleteAddress:
+          type: string
+        fullStreetName:
+          type: string
+        streetName:
+          type: string
+        streetAddress:
+          type: string
+        postcode:
+          type: string
+        localityId:
+          type: string
+        localityName:
+          type: string
+        lgaId:
+          type: string
+        lgaName:
+          type: string
+        state:
+          type: string
+    Message:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int64
+        text:
+          type: string
+    MainImage:
+      type: object
+      properties:
+        imageId:
+          type: integer
+          format: int64
+        imageScheme:
+          type: string
     StreetIdentifier:
       type: object
       properties:
         id:
           type: string
+    SuggestMatches:
+      type: object
+      properties:
+        matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/SuggestMatch'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    Point:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+    LonLat:
+      type: object
+      properties:
+        lon:
+          type: number
+          format: double
+        lat:
+          type: number
+          format: double
     SuggestLonLatResultPropertyByLonLat:
       type: object
       properties:
@@ -557,6 +504,56 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PropertyByLonLat'
-x-refined-from:
-- pricefinder-api-swagger.json
-- pricefinder-api-swagger.yml
+    PropertyIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        _self:
+          type: string
+    LonLatElevation:
+      type: object
+      properties:
+        lonLat:
+          $ref: '#/components/schemas/LonLat'
+        elevation:
+          type: number
+          format: double
+    Rectangle:
+      type: object
+      properties:
+        min:
+          $ref: '#/components/schemas/LonLat'
+        max:
+          $ref: '#/components/schemas/LonLat'
+    SuburbIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+        _self:
+          type: string
+    TypeAheadSuggestions:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        suggestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeAheadSuggestion'

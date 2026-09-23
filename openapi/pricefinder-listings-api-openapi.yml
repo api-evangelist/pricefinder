@@ -1,22 +1,22 @@
 openapi: 3.2.0
 info:
-  title: Pricefinder Listings API
+  description: Pricefinder API provides access to property, sale and listing searches as well as suburb statistics and SSO to the Pricefinder website capabilities.
   version: 1.13.1
+  title: PriceFinder API v1.13.1 Listings API
   contact:
     name: Pricefinder
   license:
     name: Terms and Conditions
     url: https://www.domain.com.au/group/api-terms-and-conditions/
-  description: 'Operations tagged listings across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: /v1
 tags:
-- name: listings
+- name: Listings
 paths:
   /listings/{listingId}:
     get:
       tags:
-      - listings
+      - Listings
       description: ''
       operationId: listing
       parameters:
@@ -39,10 +39,198 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExtendedListing'
-    servers:
-    - url: /v1
+      summary: Listing
+      x-summary-source: derived
 components:
   schemas:
+    Agent:
+      type: object
+      properties:
+        name:
+          type: string
+        phoneNumber:
+          type: string
+        agency:
+          $ref: '#/components/schemas/AgencyIdentifier'
+    AgencyIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    ExtendedListing:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rental:
+          type: boolean
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agent'
+        agencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agency'
+        price:
+          $ref: '#/components/schemas/SensitivePrice'
+        listingHistory:
+          $ref: '#/components/schemas/ListingListingHistory'
+        startDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        property:
+          $ref: '#/components/schemas/PropertyIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        location:
+          $ref: '#/components/schemas/Point'
+        propertyLegalDescription:
+          type: string
+        propertyType:
+          type: string
+        type:
+          type: string
+        status:
+          $ref: '#/components/schemas/ListingStatus'
+        endDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        lastModified:
+          $ref: '#/components/schemas/SensitiveDate'
+        propertyFeatures:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        address:
+          $ref: '#/components/schemas/ExtendedAddress'
+        originalListingAddress:
+          $ref: '#/components/schemas/ExtendedAddress'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        portalUrl:
+          type: string
+        ListingStatus:
+          type: string
+        _self:
+          type: string
+    ImageIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        _self:
+          type: string
+    SensitiveDate:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: string
+          format: date-time
+        rawValue:
+          type: string
+          format: date-time
+    ExtendedPropertyFeatures:
+      type: object
+      properties:
+        bedrooms:
+          type: integer
+          format: int64
+        bathrooms:
+          type: integer
+          format: int64
+        carParks:
+          type: integer
+          format: int64
+        rumpusRoom:
+          type: boolean
+        airConditioning:
+          type: boolean
+        doubleStorey:
+          type: boolean
+        highSet:
+          type: boolean
+        multiLevel:
+          type: boolean
+        splitLevel:
+          type: boolean
+        brickTile:
+          type: boolean
+        contemporary:
+          type: boolean
+        postWar:
+          type: boolean
+        queenslander:
+          type: boolean
+        ensuite:
+          type: boolean
+        study:
+          type: boolean
+        verandah:
+          type: boolean
+        builtIn:
+          type: boolean
+        modernKitchen:
+          type: boolean
+        pool:
+          type: boolean
+        scenicViews:
+          type: boolean
+        waterFrontage:
+          type: boolean
+        closeSchools:
+          type: boolean
+        closeTransport:
+          type: boolean
+        lowSet:
+          type: boolean
+        colonial:
+          type: boolean
+        entertainmentArea:
+          type: boolean
+        sleepout:
+          type: boolean
+        boreWater:
+          type: boolean
+        dams:
+          type: boolean
+        fullyFenced:
+          type: boolean
+        otherFeatures:
+          type: string
+        sheds:
+          type: boolean
+        balcony:
+          type: boolean
+        mainRooms:
+          type: integer
+          format: int64
+        style:
+          type: string
+        buildYear:
+          type: integer
+          format: int64
+        buildType:
+          type: string
+        storeys:
+          type: integer
+          format: int64
+        roofStyle:
+          type: string
+        nathersRating:
+          type: number
+          format: double
     Message:
       type: object
       properties:
@@ -51,15 +239,6 @@ components:
           format: int64
         text:
           type: string
-    Point:
-      type: object
-      properties:
-        lat:
-          type: number
-          format: double
-        lon:
-          type: number
-          format: double
     SensitivePrice:
       type: object
       properties:
@@ -73,23 +252,31 @@ components:
           format: double
         withheld:
           type: boolean
-    PropertyIdentifier:
+    Agency:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        matchlevel:
+        name:
           type: string
-          enum:
-          - suburb
-          - street
-          - property
-        location:
-          $ref: '#/components/schemas/Point'
-        parent:
-          type: boolean
-        _self:
+        phoneNumber:
+          type: string
+    SensitiveChange:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: number
+          format: double
+        rawValue:
+          type: number
+          format: double
+    StreetIdentifier:
+      type: object
+      properties:
+        id:
           type: string
     ExtendedAddress:
       type: object
@@ -185,70 +372,15 @@ components:
           type: string
         lga:
           type: string
-    ExtendedListing:
+    Point:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-        rental:
-          type: boolean
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        agents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Agent'
-        agencies:
-          type: array
-          items:
-            $ref: '#/components/schemas/Agency'
-        price:
-          $ref: '#/components/schemas/SensitivePrice'
-        listingHistory:
-          $ref: '#/components/schemas/ListingListingHistory'
-        startDate:
-          $ref: '#/components/schemas/SensitiveDate'
-        image:
-          $ref: '#/components/schemas/ImageIdentifier'
-        property:
-          $ref: '#/components/schemas/PropertyIdentifier'
-        street:
-          $ref: '#/components/schemas/StreetIdentifier'
-        suburb:
-          $ref: '#/components/schemas/SuburbIdentifier'
-        location:
-          $ref: '#/components/schemas/Point'
-        propertyLegalDescription:
-          type: string
-        propertyType:
-          type: string
-        type:
-          type: string
-        status:
-          $ref: '#/components/schemas/ListingStatus'
-        endDate:
-          $ref: '#/components/schemas/SensitiveDate'
-        lastModified:
-          $ref: '#/components/schemas/SensitiveDate'
-        propertyFeatures:
-          $ref: '#/components/schemas/ExtendedPropertyFeatures'
-        address:
-          $ref: '#/components/schemas/ExtendedAddress'
-        originalListingAddress:
-          $ref: '#/components/schemas/ExtendedAddress'
-        landDetails:
-          $ref: '#/components/schemas/LandDetails'
-        portalUrl:
-          type: string
-        ListingStatus:
-          type: string
-        _self:
-          type: string
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
     ListingStatus:
       type: object
       properties:
@@ -257,59 +389,6 @@ components:
         underOffer:
           type: boolean
         listingStatus:
-          type: string
-    SuburbIdentifier:
-      type: object
-      properties:
-        id:
-          type: string
-        _self:
-          type: string
-    LandDetails:
-      type: object
-      properties:
-        propertyArea:
-          type: number
-          format: double
-        buildingArea:
-          type: number
-          format: double
-        volumeFolio:
-          type: string
-    AgencyIdentifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    ImageIdentifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        _self:
-          type: string
-    SensitiveDate:
-      type: object
-      properties:
-        display:
-          type: string
-        value:
-          type: string
-          format: date-time
-        rawValue:
-          type: string
-          format: date-time
-    Agency:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        phoneNumber:
           type: string
     ListingListingHistory:
       type: object
@@ -327,121 +406,39 @@ components:
         highAskPrice:
           type: integer
           format: int64
-    StreetIdentifier:
+    PropertyIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        _self:
+          type: string
+    LandDetails:
+      type: object
+      properties:
+        propertyArea:
+          type: number
+          format: double
+        buildingArea:
+          type: number
+          format: double
+        volumeFolio:
+          type: string
+    SuburbIdentifier:
       type: object
       properties:
         id:
           type: string
-    Agent:
-      type: object
-      properties:
-        name:
+        _self:
           type: string
-        phoneNumber:
-          type: string
-        agency:
-          $ref: '#/components/schemas/AgencyIdentifier'
-    ExtendedPropertyFeatures:
-      type: object
-      properties:
-        bedrooms:
-          type: integer
-          format: int64
-        bathrooms:
-          type: integer
-          format: int64
-        carParks:
-          type: integer
-          format: int64
-        rumpusRoom:
-          type: boolean
-        airConditioning:
-          type: boolean
-        doubleStorey:
-          type: boolean
-        highSet:
-          type: boolean
-        multiLevel:
-          type: boolean
-        splitLevel:
-          type: boolean
-        brickTile:
-          type: boolean
-        contemporary:
-          type: boolean
-        postWar:
-          type: boolean
-        queenslander:
-          type: boolean
-        ensuite:
-          type: boolean
-        study:
-          type: boolean
-        verandah:
-          type: boolean
-        builtIn:
-          type: boolean
-        modernKitchen:
-          type: boolean
-        pool:
-          type: boolean
-        scenicViews:
-          type: boolean
-        waterFrontage:
-          type: boolean
-        closeSchools:
-          type: boolean
-        closeTransport:
-          type: boolean
-        lowSet:
-          type: boolean
-        colonial:
-          type: boolean
-        entertainmentArea:
-          type: boolean
-        sleepout:
-          type: boolean
-        boreWater:
-          type: boolean
-        dams:
-          type: boolean
-        fullyFenced:
-          type: boolean
-        otherFeatures:
-          type: string
-        sheds:
-          type: boolean
-        balcony:
-          type: boolean
-        mainRooms:
-          type: integer
-          format: int64
-        style:
-          type: string
-        buildYear:
-          type: integer
-          format: int64
-        buildType:
-          type: string
-        storeys:
-          type: integer
-          format: int64
-        roofStyle:
-          type: string
-        nathersRating:
-          type: number
-          format: double
-    SensitiveChange:
-      type: object
-      properties:
-        display:
-          type: string
-        value:
-          type: number
-          format: double
-        rawValue:
-          type: number
-          format: double
-x-refined-from:
-- pricefinder-api-swagger.json
-- pricefinder-api-swagger.yml

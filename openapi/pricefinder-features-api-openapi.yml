@@ -1,22 +1,22 @@
 openapi: 3.2.0
 info:
-  title: Pricefinder Features API
+  description: Pricefinder API provides access to property, sale and listing searches as well as suburb statistics and SSO to the Pricefinder website capabilities.
   version: 1.13.1
+  title: PriceFinder API v1.13.1 Features API
   contact:
     name: Pricefinder
   license:
     name: Terms and Conditions
     url: https://www.domain.com.au/group/api-terms-and-conditions/
-  description: 'Operations tagged features across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: /v1
 tags:
-- name: features
+- name: Features
 paths:
   /features:
     get:
       tags:
-      - features
+      - Features
       description: ''
       operationId: getFeatures
       responses:
@@ -27,8 +27,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserFeatures'
-    servers:
-    - url: /v1
+      summary: Get features
+      x-summary-source: derived
 components:
   schemas:
     Feature:
@@ -48,6 +48,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Feature'
-x-refined-from:
-- pricefinder-api-swagger.json
-- pricefinder-api-swagger.yml

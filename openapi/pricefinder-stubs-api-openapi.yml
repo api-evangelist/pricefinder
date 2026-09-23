@@ -1,13 +1,13 @@
 openapi: 3.2.0
 info:
-  title: Pricefinder Stubs API
+  description: Pricefinder API provides access to property, sale and listing searches as well as suburb statistics and SSO to the Pricefinder website capabilities.
   version: 1.13.1
+  title: PriceFinder API v1.13.1 Stubs API
   contact:
     name: Pricefinder
   license:
     name: Terms and Conditions
     url: https://www.domain.com.au/group/api-terms-and-conditions/
-  description: 'Operations tagged stubs across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: /v1
 tags:
@@ -74,8 +74,3 @@ paths:
       responses:
         default:
           description: successful operation
-    servers:
-    - url: /v1
-x-refined-from:
-- pricefinder-api-swagger.json
-- pricefinder-api-swagger.yml

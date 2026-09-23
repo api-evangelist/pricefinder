@@ -1,22 +1,22 @@
 openapi: 3.2.0
 info:
-  title: Pricefinder Subscriptions API
+  description: Pricefinder API provides access to property, sale and listing searches as well as suburb statistics and SSO to the Pricefinder website capabilities.
   version: 1.13.1
+  title: PriceFinder API v1.13.1 Subscriptions API
   contact:
     name: Pricefinder
   license:
     name: Terms and Conditions
     url: https://www.domain.com.au/group/api-terms-and-conditions/
-  description: 'Operations tagged subscriptions across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: /v1
 tags:
-- name: subscriptions
+- name: Subscriptions
 paths:
   /eventsubscriptions/currentuser:
     get:
       tags:
-      - subscriptions
+      - Subscriptions
       description: ''
       operationId: userEventsSubscription
       responses:
@@ -29,14 +29,29 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PropertyEventSubscription'
-    servers:
-    - url: /v1
+      summary: User events subscription
+      x-summary-source: derived
   /eventsubscriptions/properties:
     post:
       tags:
-      - subscriptions
-      summary: ''
-      description: 'Subscribe to property event alerts (currently only available through email notifications) for those properties.<br><b>Note: This endpoint is NOT additive</b> <br>i.e. Multiple calls to this endpoint on the same property will keep overwriting the subscription with the eventTypes passed in the latest request.<br><b>Example :</b> <br> <ul><li>Subscribe to property X for ''ForSale'' event</li><li>Subscribe to property X for ''ForRent'' event</li><li>After these 2 calls X is only subscribed for ''ForRent''</li></ul>'
+      - Subscriptions
+      summary: Properties events subscribe
+      description: 'Subscribe to property event alerts (currently only available through email notifications) for those properties.
+
+        Note: This endpoint is NOT additive
+
+        i.e. Multiple calls to this endpoint on the same property will keep overwriting the subscription with the eventTypes passed in the latest request.
+
+        Example :
+
+
+        Subscribe to property X for ''ForSale'' event
+
+
+        Subscribe to property X for ''ForRent'' event
+
+
+        After these 2 calls X is only subscribed for ''ForRent'''
       operationId: propertiesEventsSubscribe
       parameters:
       - name: propertyIds
@@ -63,12 +78,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EventSubcriptionParameters'
-    servers:
-    - url: /v1
+      x-summary-source: derived
   /eventsubscriptions/property/{propertyId}:
     get:
       tags:
-      - subscriptions
+      - Subscriptions
       description: ''
       operationId: propertyEventSubscription
       parameters:
@@ -98,11 +112,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      summary: Property event subscription
+      x-summary-source: derived
     post:
       tags:
-      - subscriptions
-      summary: ''
-      description: 'Subscribe to property event alerts (currently only available through email notifications) for this property.<br><b>Note: This endpoint is NOT additive</b> <br>i.e. Multiple calls to this endpoint on the same property will keep overwriting the subscription with the eventTypes passed in the latest request.<br><b>Example :</b> <br> <ul><li>Subscribe to property X for ''ForSale'' event</li><li>Subscribe to property X for ''ForRent'' event</li><li>After these 2 calls X is only subscribed for ''ForRent''</li></ul>'
+      - Subscriptions
+      summary: Property events subscribe
+      description: 'Subscribe to property event alerts (currently only available through email notifications) for this property.
+
+        Note: This endpoint is NOT additive
+
+        i.e. Multiple calls to this endpoint on the same property will keep overwriting the subscription with the eventTypes passed in the latest request.
+
+        Example :
+
+
+        Subscribe to property X for ''ForSale'' event
+
+
+        Subscribe to property X for ''ForRent'' event
+
+
+        After these 2 calls X is only subscribed for ''ForRent'''
       operationId: propertyEventsSubscribe
       parameters:
       - name: propertyId
@@ -125,9 +156,10 @@ paths:
             schema:
               $ref: '#/components/schemas/EventSubcriptionParameters'
         description: The available eventTypes are <b>ForSale</b>, <b>ForRent</b> and <b>Sold</b>. They are case sensitive.
+      x-summary-source: derived
     delete:
       tags:
-      - subscriptions
+      - Subscriptions
       description: ''
       operationId: propertyEventsUnSubscribe
       parameters:
@@ -145,8 +177,8 @@ paths:
       responses:
         default:
           description: successful operation
-    servers:
-    - url: /v1
+      summary: Property events un subscribe
+      x-summary-source: derived
 components:
   schemas:
     Error:
@@ -154,18 +186,6 @@ components:
       properties:
         error:
           type: string
-    EventSubcriptionParameters:
-      type: object
-      properties:
-        eventTypes:
-          type: array
-          items:
-            type: string
-            enum:
-            - ForRent
-            - ForSale
-            - SoldVerified
-            - Sold
     PropertyEventSubscription:
       type: object
       properties:
@@ -179,6 +199,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PropertyEventType'
+    EventSubcriptionParameters:
+      type: object
+      properties:
+        eventTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - ForRent
+            - ForSale
+            - SoldVerified
+            - Sold
     PropertyEventType:
       type: object
       properties:
@@ -186,6 +218,3 @@ components:
           type: string
         key:
           type: string
-x-refined-from:
-- pricefinder-api-swagger.json
-- pricefinder-api-swagger.yml

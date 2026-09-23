@@ -1,22 +1,22 @@
 openapi: 3.2.0
 info:
-  title: Pricefinder Properties API
+  description: Pricefinder API provides access to property, sale and listing searches as well as suburb statistics and SSO to the Pricefinder website capabilities.
   version: 1.13.1
+  title: PriceFinder API v1.13.1 Properties API
   contact:
     name: Pricefinder
   license:
     name: Terms and Conditions
     url: https://www.domain.com.au/group/api-terms-and-conditions/
-  description: 'Operations tagged properties across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: /v1
 tags:
-- name: properties
+- name: Properties
 paths:
   /properties/{propertyId}:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: property
       parameters:
@@ -39,12 +39,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Property'
-    servers:
-    - url: /v1
+      summary: Property
+      x-summary-source: derived
   /properties/{propertyId}/autocma/rental/pdf:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: rentalCmaPDF
       parameters:
@@ -172,12 +172,12 @@ paths:
       responses:
         default:
           description: successful operation
-    servers:
-    - url: /v1
+      summary: Rental cma PDF
+      x-summary-source: derived
   /properties/{propertyId}/autocma/sale/pdf:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: saleCmaPDF
       parameters:
@@ -327,12 +327,12 @@ paths:
       responses:
         default:
           description: successful operation
-    servers:
-    - url: /v1
+      summary: Sale cma PDF
+      x-summary-source: derived
   /properties/{propertyId}/avm:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: propertyAvm
       parameters:
@@ -355,12 +355,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AVM'
-    servers:
-    - url: /v1
+      summary: Property avm
+      x-summary-source: derived
   /properties/{propertyId}/avm/pdf:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: propertyAvmReport
       parameters:
@@ -389,12 +389,12 @@ paths:
       responses:
         default:
           description: successful operation
-    servers:
-    - url: /v1
+      summary: Property avm report
+      x-summary-source: derived
   /properties/{propertyId}/eventsubscription:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: eventsSubscription
       parameters:
@@ -418,11 +418,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/PropertyEventSubscription'
       deprecated: true
+      summary: Events subscription
+      x-summary-source: derived
     post:
       tags:
-      - properties
-      summary: ''
-      description: 'Subscribe to property event alerts (currently only available through email notifications) for this property.<br><b>Note: This endpoint is NOT additive</b> <br>i.e. Multiple calls to this endpoint on the same property will keep overwriting the subscription with the eventTypes passed in the latest request.<br><b>Example :</b> <br> <ul><li>Subscribe to property X for ''ForSale'' event</li><li>Subscribe to property X for ''ForRent'' event</li><li>After these 2 calls X is only subscribed for ''ForRent''</li></ul>'
+      - Properties
+      summary: Events subscribe
+      description: 'Subscribe to property event alerts (currently only available through email notifications) for this property.
+
+        Note: This endpoint is NOT additive
+
+        i.e. Multiple calls to this endpoint on the same property will keep overwriting the subscription with the eventTypes passed in the latest request.
+
+        Example :
+
+
+        Subscribe to property X for ''ForSale'' event
+
+
+        Subscribe to property X for ''ForRent'' event
+
+
+        After these 2 calls X is only subscribed for ''ForRent'''
       operationId: eventsSubscribe
       parameters:
       - name: propertyId
@@ -446,9 +463,10 @@ paths:
             schema:
               $ref: '#/components/schemas/EventSubcriptionParameters'
         description: The available eventTypes are <b>ForSale</b>, <b>ForRent</b> and <b>Sold</b>. They are case sensitive.
+      x-summary-source: derived
     delete:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: eventsUnSubscribe
       parameters:
@@ -467,12 +485,12 @@ paths:
         default:
           description: successful operation
       deprecated: true
-    servers:
-    - url: /v1
+      summary: Events un subscribe
+      x-summary-source: derived
   /properties/{propertyId}/extended:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: propertyExtended
       parameters:
@@ -495,12 +513,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExtendedProperty'
-    servers:
-    - url: /v1
+      summary: Property extended
+      x-summary-source: derived
   /properties/{propertyId}/images:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: images
       parameters:
@@ -545,12 +563,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Images'
-    servers:
-    - url: /v1
+      summary: Images
+      x-summary-source: derived
   /properties/{propertyId}/images/floorplans:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: imagesFloorplan
       parameters:
@@ -573,12 +591,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Images'
-    servers:
-    - url: /v1
+      summary: Images floorplan
+      x-summary-source: derived
   /properties/{propertyId}/images/main:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: imagesMain
       parameters:
@@ -601,14 +619,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Image'
-    servers:
-    - url: /v1
+      summary: Images main
+      x-summary-source: derived
   /properties/{propertyId}/images/streetview:
     post:
       tags:
-      - properties
+      - Properties
       summary: Captures property street view and save as property main image
-      description: Captures Googgle StreetView image by longitude/latitude and sets the image as the property main image.<br><b>Note:</b><br>Response headers return <ul><li>fsSchemeRes</li><li>fsImageId</li></ul> when operation returns <b>201</b><br>
+      description: 'Captures Googgle StreetView image by longitude/latitude and sets the image as the property main image.
+
+        Note:
+
+        Response headers return
+
+
+        fsSchemeRes
+
+
+        fsImageId
+
+
+        when operation returns 201'
       operationId: streetView
       parameters:
       - name: propertyId
@@ -630,12 +661,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/StreetViewParameters'
-    servers:
-    - url: /v1
   /properties/{propertyId}/map:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: map
       parameters:
@@ -791,12 +820,12 @@ paths:
       responses:
         default:
           description: successful operation
-    servers:
-    - url: /v1
+      summary: Map
+      x-summary-source: derived
   /properties/{propertyId}/pdf:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: propertyReport
       parameters:
@@ -825,12 +854,12 @@ paths:
       responses:
         default:
           description: successful operation
-    servers:
-    - url: /v1
+      summary: Property report
+      x-summary-source: derived
   /properties/{propertyId}/radial/developmentapplications:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: radialPlanningAlerts
       parameters:
@@ -877,12 +906,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DevelopmentApplications'
-    servers:
-    - url: /v1
+      summary: Radial planning alerts
+      x-summary-source: derived
   /properties/{propertyId}/radial/listings:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: radialListings
       parameters:
@@ -1256,12 +1285,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Listings'
-    servers:
-    - url: /v1
+      summary: Radial listings
+      x-summary-source: derived
   /properties/{propertyId}/radial/properties:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: radialProperties
       parameters:
@@ -1524,12 +1553,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Properties'
-    servers:
-    - url: /v1
+      summary: Radial properties
+      x-summary-source: derived
   /properties/{propertyId}/radial/rentals:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: radialRentals
       parameters:
@@ -1903,12 +1932,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Listings'
-    servers:
-    - url: /v1
+      summary: Radial rentals
+      x-summary-source: derived
   /properties/{propertyId}/radial/sales:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: radialSales
       parameters:
@@ -2271,12 +2300,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Sales'
-    servers:
-    - url: /v1
+      summary: Radial sales
+      x-summary-source: derived
   /properties/{propertyId}/schools:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: propertySchools
       parameters:
@@ -2299,12 +2328,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Schools'
-    servers:
-    - url: /v1
+      summary: Property schools
+      x-summary-source: derived
   /properties/{propertyId}/streetview:
     get:
       tags:
-      - properties
+      - Properties
       description: ''
       operationId: streetview
       parameters:
@@ -2344,415 +2373,38 @@ paths:
       responses:
         default:
           description: successful operation
-    servers:
-    - url: /v1
+      summary: Streetview
+      x-summary-source: derived
 components:
   schemas:
-    SalesAVM:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date-time
-        price:
-          type: number
-          format: double
-        priceRangeMaximum:
-          type: number
-          format: double
-        priceRangeMinimum:
-          type: number
-          format: double
-        confidence:
-          type: string
-          enum:
-          - RecentlySold
-          - VeryHigh
-          - High
-          - Medium
-          - Low
-          - VeryLow
-          - DoNotUse
-    Image:
+    AgencyIdentifier:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        date:
-          type: string
-          format: date-time
-        mainImage:
-          type: boolean
-        priority:
-          type: integer
-          format: int32
-        floorplan:
-          type: boolean
-        _self:
-          type: string
-    SensitivePrice:
+    EventSubcriptionParameters:
       type: object
       properties:
-        display:
-          type: string
-        value:
-          type: number
-          format: double
-        rawValue:
-          type: number
-          format: double
-        withheld:
-          type: boolean
-    Schools:
-      type: object
-      properties:
-        schools:
-          type: array
-          items:
-            $ref: '#/components/schemas/School'
-    ValuationDetails:
-      type: object
-      properties:
-        valuations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Valuation'
-    PropertyEventSubscription:
-      type: object
-      properties:
-        propertyId:
-          type: integer
-          format: int64
-        subscriptionDate:
-          type: string
-          format: date-time
         eventTypes:
           type: array
           items:
-            $ref: '#/components/schemas/PropertyEventType'
-    OwnershipSummary:
+            type: string
+            enum:
+            - ForRent
+            - ForSale
+            - SoldVerified
+            - Sold
+    LPI:
       type: object
       properties:
-        names:
+        lot:
           type: string
-        ownerOccupied:
-          type: boolean
-        ownerAddress:
+        plan:
           type: string
-    ListingStatus:
-      type: object
-      properties:
-        historic:
-          type: boolean
-        underOffer:
-          type: boolean
-        listingStatus:
+        section:
           type: string
-    Owner:
-      type: object
-      properties:
-        firstName:
-          type: string
-        surname:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address'
-        type:
-          type: string
-    Phone:
-      type: object
-      properties:
-        surname:
-          type: string
-        initials:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address'
-        number:
-          type: string
-        doNotCall:
-          type: boolean
-        doNotCallWashDate:
-          type: string
-          format: date-time
-    SuburbIdentifier:
-      type: object
-      properties:
-        id:
-          type: string
-        _self:
-          type: string
-    Parcel:
-      type: object
-      properties:
-        area:
-          type: number
-          format: double
-        zoning:
-          $ref: '#/components/schemas/Zoning'
-        lpi:
-          $ref: '#/components/schemas/LPI'
-        titles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Title'
-    PropertyListingHistory:
-      type: object
-      properties:
-        listings:
-          type: array
-          items:
-            $ref: '#/components/schemas/Listing'
-    Sale:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        price:
-          $ref: '#/components/schemas/SensitivePrice'
-        listingHistory:
-          $ref: '#/components/schemas/SaleListingHistory'
-        saleDate:
-          $ref: '#/components/schemas/SensitiveDate'
-        settlementDate:
-          $ref: '#/components/schemas/SensitiveDate'
-        contractDate:
-          $ref: '#/components/schemas/SensitiveDate'
-        image:
-          $ref: '#/components/schemas/ImageIdentifier'
-        property:
-          $ref: '#/components/schemas/PropertyIdentifier'
-        street:
-          $ref: '#/components/schemas/StreetIdentifier'
-        suburb:
-          $ref: '#/components/schemas/SuburbIdentifier'
-        propertyType:
-          type: string
-        saleType:
-          type: string
-        agency:
-          $ref: '#/components/schemas/Agency'
-        agent:
-          $ref: '#/components/schemas/Agent'
-        location:
-          $ref: '#/components/schemas/Point'
-        metadata:
-          $ref: '#/components/schemas/SaleMetadata'
-        address:
-          $ref: '#/components/schemas/Address'
-        alternativeAddresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/Address'
-        propertyFeatures:
-          $ref: '#/components/schemas/ExtendedPropertyFeatures'
-        landDetails:
-          $ref: '#/components/schemas/LandDetails'
-        rpd:
-          type: string
-        dealingNumber:
-          type: string
-        streetDisplay:
-          type: string
-        lowAskPrice:
-          type: integer
-          format: int64
-        highAskPrice:
-          type: integer
-          format: int64
-        extra:
-          $ref: '#/components/schemas/SearchExtra'
-        saleParticipants:
-          $ref: '#/components/schemas/SaleParticipantsSummary'
-        _self:
-          type: string
-    SmartMaps:
-      type: object
-    Agency:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        phoneNumber:
-          type: string
-    Property:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        matchlevel:
-          type: string
-          enum:
-          - suburb
-          - street
-          - property
-        location:
-          $ref: '#/components/schemas/Point'
-        parent:
-          type: boolean
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        address:
-          $ref: '#/components/schemas/Address'
-        features:
-          $ref: '#/components/schemas/ExtendedPropertyFeatures'
-        alternativeAddresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/Address'
-        landDetails:
-          $ref: '#/components/schemas/LandDetails'
-        image:
-          $ref: '#/components/schemas/ImageIdentifier'
-        map:
-          $ref: '#/components/schemas/PropertyMapIdentifier'
-        street:
-          $ref: '#/components/schemas/StreetIdentifier'
-        suburb:
-          $ref: '#/components/schemas/SuburbIdentifier'
-        type:
-          type: string
-        rpd:
-          type: string
-        marketStatus:
-          $ref: '#/components/schemas/MarketStatus'
-        lastModified:
-          type: string
-          format: date-time
-        owners:
-          $ref: '#/components/schemas/OwnershipSummary'
-        ownership:
-          $ref: '#/components/schemas/OwnershipSummary'
-        lastSale:
-          $ref: '#/components/schemas/Sale'
-        recentListing:
-          $ref: '#/components/schemas/Listing'
-        recentRental:
-          $ref: '#/components/schemas/Listing'
-        extra:
-          $ref: '#/components/schemas/SearchExtra'
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Phone'
-        _self:
-          type: string
-    Sales:
-      type: object
-      properties:
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        sales:
-          type: array
-          items:
-            $ref: '#/components/schemas/Sale'
-    PropertyMapIdentifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        _self:
-          type: string
-    AVM:
-      type: object
-      properties:
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        rentalYield:
-          type: number
-          format: double
-        rentalAVM:
-          $ref: '#/components/schemas/RentalAVM'
-        salesAVM:
-          $ref: '#/components/schemas/SalesAVM'
-    LandUse:
-      type: object
-      properties:
-        code:
-          type: string
-        display:
-          type: string
-    DevelopmentApplication:
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/Address'
-        description:
-          type: string
-        infoUrl:
-          type: string
-        commentUrl:
-          type: string
-        location:
-          $ref: '#/components/schemas/Point'
-        dateReceived:
-          type: string
-          format: date-time
-        planningAuthority:
-          $ref: '#/components/schemas/PlanningAuthority'
-        councilReference:
-          type: string
-    School:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-        educationLevel:
-          type: string
-        lowYear:
-          type: string
-        highYear:
-          type: string
-        gender:
-          type: string
-        government:
-          type: boolean
-        primary:
-          type: boolean
-        secondary:
-          type: boolean
-        location:
-          $ref: '#/components/schemas/Point'
-    SaleHistory:
-      type: object
-      properties:
-        sales:
-          type: array
-          items:
-            $ref: '#/components/schemas/Sale'
-    PropertyEventType:
-      type: object
-      properties:
-        display:
-          type: string
-        key:
+        part:
           type: string
     Message:
       type: object
@@ -2762,197 +2414,106 @@ components:
           format: int64
         text:
           type: string
-    StreetViewParameters:
+    ExtendedPropertyFeatures:
       type: object
       properties:
-        lonlat:
-          $ref: '#/components/schemas/Point'
-        pov:
-          $ref: '#/components/schemas/Pov'
-    PlanningAuthority:
-      type: object
-      properties:
-        name:
-          type: string
-    MarketStatus:
-      type: object
-      properties:
-        status:
-          type: string
-        recentlySold:
-          type: boolean
-        recentlyForSale:
-          type: boolean
-        recentlyForRent:
-          type: boolean
-        forSale:
-          type: boolean
-        forRent:
-          type: boolean
-        likelyToList:
-          type: boolean
-        lastMarketEvent:
-          $ref: '#/components/schemas/MarketStatusEventObject'
-    Properties:
-      type: object
-      properties:
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/Property'
-    ImageIdentifier:
-      type: object
-      properties:
-        id:
+        bedrooms:
           type: integer
           format: int64
-        _self:
-          type: string
-    Images:
-      type: object
-      properties:
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-    SensitiveDate:
-      type: object
-      properties:
-        display:
-          type: string
-        value:
-          type: string
-          format: date-time
-        rawValue:
-          type: string
-          format: date-time
-    ExtendedProperty:
-      type: object
-      properties:
-        id:
+        bathrooms:
           type: integer
           format: int64
-        matchlevel:
-          type: string
-          enum:
-          - suburb
-          - street
-          - property
-        location:
-          $ref: '#/components/schemas/Point'
-        parent:
-          type: boolean
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        address:
-          $ref: '#/components/schemas/ExtendedAddress'
-        features:
-          $ref: '#/components/schemas/ExtendedPropertyFeatures'
-        alternativeAddresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExtendedAddress'
-        landDetails:
-          $ref: '#/components/schemas/ExtendedLandDetails'
-        image:
-          $ref: '#/components/schemas/ImageIdentifier'
-        map:
-          $ref: '#/components/schemas/PropertyMapIdentifier'
-        street:
-          $ref: '#/components/schemas/StreetIdentifier'
-        suburb:
-          $ref: '#/components/schemas/SuburbIdentifier'
-        type:
-          type: string
-        rpd:
-          type: string
-        marketStatus:
-          $ref: '#/components/schemas/MarketStatus'
-        lastModified:
-          type: string
-          format: date-time
-        valuationDetails:
-          $ref: '#/components/schemas/ValuationDetails'
-        saleHistory:
-          $ref: '#/components/schemas/SaleHistory'
-        listingHistory:
-          $ref: '#/components/schemas/PropertyListingHistory'
-        rentalHistory:
-          $ref: '#/components/schemas/PropertyListingHistory'
-        ownership:
-          $ref: '#/components/schemas/Ownership'
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Phone'
-        tools:
-          $ref: '#/components/schemas/Tools'
-        tenureType:
-          type: string
-        _self:
-          type: string
-    ExtendedLandDetails:
-      type: object
-      properties:
-        propertyArea:
-          type: number
-          format: double
-        buildingArea:
-          type: number
-          format: double
-        volumeFolio:
-          type: string
-        frontage:
-          type: number
-          format: double
-        parcels:
-          type: array
-          items:
-            $ref: '#/components/schemas/Parcel'
-        primaryLandUse:
-          $ref: '#/components/schemas/LandUse'
-        secondaryLandUse:
-          $ref: '#/components/schemas/LandUse'
-    Ownership:
-      type: object
-      properties:
-        names:
-          type: string
-        ownerOccupied:
-          type: boolean
-        ownerAddress:
-          type: string
-        owners:
-          type: array
-          items:
-            $ref: '#/components/schemas/Owner'
-    ListingIdentifier:
-      type: object
-      properties:
-        id:
+        carParks:
           type: integer
           format: int64
-        rental:
+        rumpusRoom:
           type: boolean
-        _self:
+        airConditioning:
+          type: boolean
+        doubleStorey:
+          type: boolean
+        highSet:
+          type: boolean
+        multiLevel:
+          type: boolean
+        splitLevel:
+          type: boolean
+        brickTile:
+          type: boolean
+        contemporary:
+          type: boolean
+        postWar:
+          type: boolean
+        queenslander:
+          type: boolean
+        ensuite:
+          type: boolean
+        study:
+          type: boolean
+        verandah:
+          type: boolean
+        builtIn:
+          type: boolean
+        modernKitchen:
+          type: boolean
+        pool:
+          type: boolean
+        scenicViews:
+          type: boolean
+        waterFrontage:
+          type: boolean
+        closeSchools:
+          type: boolean
+        closeTransport:
+          type: boolean
+        lowSet:
+          type: boolean
+        colonial:
+          type: boolean
+        entertainmentArea:
+          type: boolean
+        sleepout:
+          type: boolean
+        boreWater:
+          type: boolean
+        dams:
+          type: boolean
+        fullyFenced:
+          type: boolean
+        otherFeatures:
           type: string
-    Point:
-      type: object
-      properties:
-        lat:
+        sheds:
+          type: boolean
+        balcony:
+          type: boolean
+        mainRooms:
+          type: integer
+          format: int64
+        style:
+          type: string
+        buildYear:
+          type: integer
+          format: int64
+        buildType:
+          type: string
+        storeys:
+          type: integer
+          format: int64
+        roofStyle:
+          type: string
+        nathersRating:
           type: number
           format: double
-        lon:
+    Pov:
+      type: object
+      properties:
+        zoom:
+          type: number
+          format: double
+        pitch:
+          type: number
+          format: double
+        heading:
           type: number
           format: double
     ExtendedAddress:
@@ -3049,70 +2610,137 @@ components:
           type: string
         lga:
           type: string
-    DevelopmentApplications:
+    SaleListingHistory:
       type: object
       properties:
-        disclaimer:
-          type: string
-        note:
-          type: string
-        applications:
-          type: array
-          items:
-            $ref: '#/components/schemas/DevelopmentApplication'
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    RentalAVM:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date-time
-        pricePerWeek:
-          type: number
-          format: double
-        confidence:
-          type: string
-          enum:
-          - RecentlySold
-          - VeryHigh
-          - High
-          - Medium
-          - Low
-          - VeryLow
-          - DoNotUse
-    SearchExtra:
-      type: object
-      properties:
-        distance:
-          type: number
-          format: double
-        nameMatchType:
-          type: string
-        matchedName:
-          type: string
-    AgencyIdentifier:
+        originalListingId:
+          $ref: '#/components/schemas/ListingIdentifier'
+        originalPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        originalPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        lastListingId:
+          $ref: '#/components/schemas/ListingIdentifier'
+        lastPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        lastPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        daysToSell:
+          type: integer
+          format: int64
+    Property:
       type: object
       properties:
         id:
           type: integer
           format: int64
-    EventSubcriptionParameters:
-      type: object
-      properties:
-        eventTypes:
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        disclaimer:
+          type: string
+        messages:
           type: array
           items:
-            type: string
-            enum:
-            - ForRent
-            - ForSale
-            - SoldVerified
-            - Sold
-    Title:
+            $ref: '#/components/schemas/Message'
+        address:
+          $ref: '#/components/schemas/Address'
+        features:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        map:
+          $ref: '#/components/schemas/PropertyMapIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        type:
+          type: string
+        rpd:
+          type: string
+        marketStatus:
+          $ref: '#/components/schemas/MarketStatus'
+        lastModified:
+          type: string
+          format: date-time
+        owners:
+          $ref: '#/components/schemas/OwnershipSummary'
+        ownership:
+          $ref: '#/components/schemas/OwnershipSummary'
+        lastSale:
+          $ref: '#/components/schemas/Sale'
+        recentListing:
+          $ref: '#/components/schemas/Listing'
+        recentRental:
+          $ref: '#/components/schemas/Listing'
+        extra:
+          $ref: '#/components/schemas/SearchExtra'
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+        _self:
+          type: string
+    Point:
       type: object
+      properties:
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+    Ownership:
+      type: object
+      properties:
+        names:
+          type: string
+        ownerOccupied:
+          type: boolean
+        ownerAddress:
+          type: string
+        owners:
+          type: array
+          items:
+            $ref: '#/components/schemas/Owner'
+    SmartMaps:
+      type: object
+    ExtendedLandDetails:
+      type: object
+      properties:
+        propertyArea:
+          type: number
+          format: double
+        buildingArea:
+          type: number
+          format: double
+        volumeFolio:
+          type: string
+        frontage:
+          type: number
+          format: double
+        parcels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Parcel'
+        primaryLandUse:
+          $ref: '#/components/schemas/LandUse'
+        secondaryLandUse:
+          $ref: '#/components/schemas/LandUse'
     Valuation:
       type: object
       properties:
@@ -3130,6 +2758,27 @@ components:
         adjustedSiteValue:
           type: number
           format: double
+    Listings:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        listings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Listing'
+    ImageIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        _self:
+          type: string
     Address:
       type: object
       properties:
@@ -3163,41 +2812,35 @@ components:
           type: string
         lga:
           type: string
-    ListingListingHistory:
+    ValuationDetails:
       type: object
       properties:
-        originalPrice:
-          $ref: '#/components/schemas/SensitivePrice'
-        originalPricePercentChange:
-          $ref: '#/components/schemas/SensitiveChange'
-        daysOnMarket:
-          type: integer
-          format: int64
-        lowAskPrice:
-          type: integer
-          format: int64
-        highAskPrice:
-          type: integer
-          format: int64
-    StreetIdentifier:
-      type: object
-      properties:
-        id:
-          type: string
-    Listings:
-      type: object
-      properties:
-        disclaimer:
-          type: string
-        messages:
+        valuations:
           type: array
           items:
-            $ref: '#/components/schemas/Message'
-        listings:
+            $ref: '#/components/schemas/Valuation'
+    Images:
+      type: object
+      properties:
+        images:
           type: array
           items:
-            $ref: '#/components/schemas/Listing'
-    SensitiveChange:
+            $ref: '#/components/schemas/Image'
+    Parcel:
+      type: object
+      properties:
+        area:
+          type: number
+          format: double
+        zoning:
+          $ref: '#/components/schemas/Zoning'
+        lpi:
+          $ref: '#/components/schemas/LPI'
+        titles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Title'
+    SensitivePrice:
       type: object
       properties:
         display:
@@ -3208,18 +2851,8 @@ components:
         rawValue:
           type: number
           format: double
-    Zoning:
-      type: object
-      properties:
-        description:
-          type: string
-        code:
-          type: string
-    Tools:
-      type: object
-      properties:
-        smartMaps:
-          $ref: '#/components/schemas/SmartMaps'
+        withheld:
+          type: boolean
     Listing:
       type: object
       properties:
@@ -3282,20 +2915,43 @@ components:
           $ref: '#/components/schemas/SearchExtra'
         _self:
           type: string
-    SaleMetadata:
+    LandUse:
       type: object
       properties:
-        governmentSale:
-          type: boolean
-        pending:
-          type: boolean
-    SaleParticipantsSummary:
+        code:
+          type: string
+        display:
+          type: string
+    SaleHistory:
       type: object
       properties:
-        vendorsSummary:
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+    PropertyEventType:
+      type: object
+      properties:
+        display:
           type: string
-        purchasersSummary:
+        key:
           type: string
+    ListingListingHistory:
+      type: object
+      properties:
+        originalPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        originalPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        daysOnMarket:
+          type: integer
+          format: int64
+        lowAskPrice:
+          type: integer
+          format: int64
+        highAskPrice:
+          type: integer
+          format: int64
     PropertyIdentifier:
       type: object
       properties:
@@ -3314,6 +2970,362 @@ components:
           type: boolean
         _self:
           type: string
+    Properties:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Property'
+    Title:
+      type: object
+    Tools:
+      type: object
+      properties:
+        smartMaps:
+          $ref: '#/components/schemas/SmartMaps'
+    DevelopmentApplication:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        description:
+          type: string
+        infoUrl:
+          type: string
+        commentUrl:
+          type: string
+        location:
+          $ref: '#/components/schemas/Point'
+        dateReceived:
+          type: string
+          format: date-time
+        planningAuthority:
+          $ref: '#/components/schemas/PlanningAuthority'
+        councilReference:
+          type: string
+    Sales:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+    Image:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date-time
+        mainImage:
+          type: boolean
+        priority:
+          type: integer
+          format: int32
+        floorplan:
+          type: boolean
+        _self:
+          type: string
+    SensitiveDate:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: string
+          format: date-time
+        rawValue:
+          type: string
+          format: date-time
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        price:
+          $ref: '#/components/schemas/SensitivePrice'
+        listingHistory:
+          $ref: '#/components/schemas/SaleListingHistory'
+        saleDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        settlementDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        contractDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        property:
+          $ref: '#/components/schemas/PropertyIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        propertyType:
+          type: string
+        saleType:
+          type: string
+        agency:
+          $ref: '#/components/schemas/Agency'
+        agent:
+          $ref: '#/components/schemas/Agent'
+        location:
+          $ref: '#/components/schemas/Point'
+        metadata:
+          $ref: '#/components/schemas/SaleMetadata'
+        address:
+          $ref: '#/components/schemas/Address'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        propertyFeatures:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        rpd:
+          type: string
+        dealingNumber:
+          type: string
+        streetDisplay:
+          type: string
+        lowAskPrice:
+          type: integer
+          format: int64
+        highAskPrice:
+          type: integer
+          format: int64
+        extra:
+          $ref: '#/components/schemas/SearchExtra'
+        saleParticipants:
+          $ref: '#/components/schemas/SaleParticipantsSummary'
+        _self:
+          type: string
+    SearchExtra:
+      type: object
+      properties:
+        distance:
+          type: number
+          format: double
+        nameMatchType:
+          type: string
+        matchedName:
+          type: string
+    Agency:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        phoneNumber:
+          type: string
+    ListingIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rental:
+          type: boolean
+        _self:
+          type: string
+    SaleParticipantsSummary:
+      type: object
+      properties:
+        vendorsSummary:
+          type: string
+        purchasersSummary:
+          type: string
+    School:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        educationLevel:
+          type: string
+        lowYear:
+          type: string
+        highYear:
+          type: string
+        gender:
+          type: string
+        government:
+          type: boolean
+        primary:
+          type: boolean
+        secondary:
+          type: boolean
+        location:
+          $ref: '#/components/schemas/Point'
+    ExtendedProperty:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        address:
+          $ref: '#/components/schemas/ExtendedAddress'
+        features:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedAddress'
+        landDetails:
+          $ref: '#/components/schemas/ExtendedLandDetails'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        map:
+          $ref: '#/components/schemas/PropertyMapIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        type:
+          type: string
+        rpd:
+          type: string
+        marketStatus:
+          $ref: '#/components/schemas/MarketStatus'
+        lastModified:
+          type: string
+          format: date-time
+        valuationDetails:
+          $ref: '#/components/schemas/ValuationDetails'
+        saleHistory:
+          $ref: '#/components/schemas/SaleHistory'
+        listingHistory:
+          $ref: '#/components/schemas/PropertyListingHistory'
+        rentalHistory:
+          $ref: '#/components/schemas/PropertyListingHistory'
+        ownership:
+          $ref: '#/components/schemas/Ownership'
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+        tools:
+          $ref: '#/components/schemas/Tools'
+        tenureType:
+          type: string
+        _self:
+          type: string
+    DevelopmentApplications:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        note:
+          type: string
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/DevelopmentApplication'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    PlanningAuthority:
+      type: object
+      properties:
+        name:
+          type: string
+    PropertyEventSubscription:
+      type: object
+      properties:
+        propertyId:
+          type: integer
+          format: int64
+        subscriptionDate:
+          type: string
+          format: date-time
+        eventTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyEventType'
+    MarketStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        recentlySold:
+          type: boolean
+        recentlyForSale:
+          type: boolean
+        recentlyForRent:
+          type: boolean
+        forSale:
+          type: boolean
+        forRent:
+          type: boolean
+        likelyToList:
+          type: boolean
+        lastMarketEvent:
+          $ref: '#/components/schemas/MarketStatusEventObject'
+    ListingStatus:
+      type: object
+      properties:
+        historic:
+          type: boolean
+        underOffer:
+          type: boolean
+        listingStatus:
+          type: string
+    MarketStatusEventObject:
+      type: object
+      properties:
+        type:
+          type: string
+        event:
+          type: object
+    SaleMetadata:
+      type: object
+      properties:
+        governmentSale:
+          type: boolean
+        pending:
+          type: boolean
     LandDetails:
       type: object
       properties:
@@ -3325,36 +3337,36 @@ components:
           format: double
         volumeFolio:
           type: string
-    Pov:
+    SuburbIdentifier:
       type: object
       properties:
-        zoom:
-          type: number
-          format: double
-        pitch:
-          type: number
-          format: double
-        heading:
-          type: number
-          format: double
-    MarketStatusEventObject:
+        id:
+          type: string
+        _self:
+          type: string
+    Zoning:
       type: object
       properties:
-        type:
+        description:
           type: string
-        event:
-          type: object
-    LPI:
+        code:
+          type: string
+    AVM:
       type: object
       properties:
-        lot:
+        disclaimer:
           type: string
-        plan:
-          type: string
-        section:
-          type: string
-        part:
-          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        rentalYield:
+          type: number
+          format: double
+        rentalAVM:
+          $ref: '#/components/schemas/RentalAVM'
+        salesAVM:
+          $ref: '#/components/schemas/SalesAVM'
     Agent:
       type: object
       properties:
@@ -3364,114 +3376,128 @@ components:
           type: string
         agency:
           $ref: '#/components/schemas/AgencyIdentifier'
-    ExtendedPropertyFeatures:
+    Owner:
       type: object
       properties:
-        bedrooms:
-          type: integer
-          format: int64
-        bathrooms:
-          type: integer
-          format: int64
-        carParks:
-          type: integer
-          format: int64
-        rumpusRoom:
-          type: boolean
-        airConditioning:
-          type: boolean
-        doubleStorey:
-          type: boolean
-        highSet:
-          type: boolean
-        multiLevel:
-          type: boolean
-        splitLevel:
-          type: boolean
-        brickTile:
-          type: boolean
-        contemporary:
-          type: boolean
-        postWar:
-          type: boolean
-        queenslander:
-          type: boolean
-        ensuite:
-          type: boolean
-        study:
-          type: boolean
-        verandah:
-          type: boolean
-        builtIn:
-          type: boolean
-        modernKitchen:
-          type: boolean
-        pool:
-          type: boolean
-        scenicViews:
-          type: boolean
-        waterFrontage:
-          type: boolean
-        closeSchools:
-          type: boolean
-        closeTransport:
-          type: boolean
-        lowSet:
-          type: boolean
-        colonial:
-          type: boolean
-        entertainmentArea:
-          type: boolean
-        sleepout:
-          type: boolean
-        boreWater:
-          type: boolean
-        dams:
-          type: boolean
-        fullyFenced:
-          type: boolean
-        otherFeatures:
+        firstName:
           type: string
-        sheds:
+        surname:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        type:
+          type: string
+    OwnershipSummary:
+      type: object
+      properties:
+        names:
+          type: string
+        ownerOccupied:
           type: boolean
-        balcony:
-          type: boolean
-        mainRooms:
-          type: integer
-          format: int64
-        style:
+        ownerAddress:
           type: string
-        buildYear:
-          type: integer
-          format: int64
-        buildType:
+    StreetViewParameters:
+      type: object
+      properties:
+        lonlat:
+          $ref: '#/components/schemas/Point'
+        pov:
+          $ref: '#/components/schemas/Pov'
+    SensitiveChange:
+      type: object
+      properties:
+        display:
           type: string
-        storeys:
-          type: integer
-          format: int64
-        roofStyle:
-          type: string
-        nathersRating:
+        value:
           type: number
           format: double
-    SaleListingHistory:
+        rawValue:
+          type: number
+          format: double
+    Schools:
       type: object
       properties:
-        originalListingId:
-          $ref: '#/components/schemas/ListingIdentifier'
-        originalPrice:
-          $ref: '#/components/schemas/SensitivePrice'
-        originalPricePercentChange:
-          $ref: '#/components/schemas/SensitiveChange'
-        lastListingId:
-          $ref: '#/components/schemas/ListingIdentifier'
-        lastPrice:
-          $ref: '#/components/schemas/SensitivePrice'
-        lastPricePercentChange:
-          $ref: '#/components/schemas/SensitiveChange'
-        daysToSell:
+        schools:
+          type: array
+          items:
+            $ref: '#/components/schemas/School'
+    StreetIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+    RentalAVM:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        pricePerWeek:
+          type: number
+          format: double
+        confidence:
+          type: string
+          enum:
+          - RecentlySold
+          - VeryHigh
+          - High
+          - Medium
+          - Low
+          - VeryLow
+          - DoNotUse
+    PropertyMapIdentifier:
+      type: object
+      properties:
+        id:
           type: integer
           format: int64
-x-refined-from:
-- pricefinder-api-swagger.json
-- pricefinder-api-swagger.yml
+        _self:
+          type: string
+    PropertyListingHistory:
+      type: object
+      properties:
+        listings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Listing'
+    Phone:
+      type: object
+      properties:
+        surname:
+          type: string
+        initials:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        number:
+          type: string
+        doNotCall:
+          type: boolean
+        doNotCallWashDate:
+          type: string
+          format: date-time
+    SalesAVM:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        price:
+          type: number
+          format: double
+        priceRangeMaximum:
+          type: number
+          format: double
+        priceRangeMinimum:
+          type: number
+          format: double
+        confidence:
+          type: string
+          enum:
+          - RecentlySold
+          - VeryHigh
+          - High
+          - Medium
+          - Low
+          - VeryLow
+          - DoNotUse

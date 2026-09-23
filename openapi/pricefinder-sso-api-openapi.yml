@@ -1,22 +1,22 @@
 openapi: 3.2.0
 info:
-  title: Pricefinder SSO API
+  description: Pricefinder API provides access to property, sale and listing searches as well as suburb statistics and SSO to the Pricefinder website capabilities.
   version: 1.13.1
+  title: PriceFinder API v1.13.1 SSO API
   contact:
     name: Pricefinder
   license:
     name: Terms and Conditions
     url: https://www.domain.com.au/group/api-terms-and-conditions/
-  description: 'Operations tagged sso across 2 of this provider''s published API definitions: pricefinder-api-swagger.json, pricefinder-api-swagger.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: /v1
 tags:
-- name: sso
+- name: SSO
 paths:
   /sso:
     get:
       tags:
-      - sso
+      - SSO
       description: ''
       operationId: home
       responses:
@@ -27,12 +27,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SSOLink'
-    servers:
-    - url: /v1
+      summary: Home
+      x-summary-source: derived
   /sso/properties/{propertyId}:
     get:
       tags:
-      - sso
+      - SSO
       description: ''
       operationId: property
       parameters:
@@ -55,12 +55,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SSOLink'
-    servers:
-    - url: /v1
+      summary: Property
+      x-summary-source: derived
   /sso/properties/{propertyId}/appraisals/rentalcma:
     get:
       tags:
-      - sso
+      - SSO
       description: ''
       operationId: appraisalsRentalCma
       parameters:
@@ -83,12 +83,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SSOLink'
-    servers:
-    - url: /v1
+      summary: Appraisals rental cma
+      x-summary-source: derived
   /sso/properties/{propertyId}/appraisals/salecma:
     get:
       tags:
-      - sso
+      - SSO
       description: ''
       operationId: appraisalsSaleCma
       parameters:
@@ -111,12 +111,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SSOLink'
-    servers:
-    - url: /v1
+      summary: Appraisals sale cma
+      x-summary-source: derived
   /sso/properties/{propertyId}/appraisals/soi:
     get:
       tags:
-      - sso
+      - SSO
       description: ''
       operationId: appraisalsSoi
       parameters:
@@ -139,12 +139,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SSOLink'
-    servers:
-    - url: /v1
+      summary: Appraisals soi
+      x-summary-source: derived
   /sso/properties/{propertyId}/cma:
     get:
       tags:
-      - sso
+      - SSO
       description: ''
       operationId: cma
       parameters:
@@ -168,12 +168,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/SSOLink'
       deprecated: true
-    servers:
-    - url: /v1
+      summary: Cma
+      x-summary-source: derived
   /sso/properties/{propertyId}/pricefinder:
     get:
       tags:
-      - sso
+      - SSO
       description: ''
       operationId: propertyPricefinder
       parameters:
@@ -196,12 +196,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SSOLink'
-    servers:
-    - url: /v1
+      summary: Property pricefinder
+      x-summary-source: derived
   /sso/properties/{propertyId}/radial/sales:
     get:
       tags:
-      - sso
+      - SSO
       description: ''
       operationId: radialSales
       parameters:
@@ -224,12 +224,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SSOLink'
-    servers:
-    - url: /v1
+      summary: Radial sales
+      x-summary-source: derived
   /sso/properties/{propertyId}/titles:
     get:
       tags:
-      - sso
+      - SSO
       description: ''
       operationId: titles
       parameters:
@@ -252,8 +252,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SSOLink'
-    servers:
-    - url: /v1
+      summary: Titles
+      x-summary-source: derived
 components:
   schemas:
     SSOLink:
@@ -261,6 +261,3 @@ components:
       properties:
         link:
           type: string
-x-refined-from:
-- pricefinder-api-swagger.json
-- pricefinder-api-swagger.yml
