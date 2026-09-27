@@ -24,17 +24,14 @@
     "pricefinder-suburbs-api-openapi.yml",
     "pricefinder-suggest-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
     "1 archived document(s) dropped as subsets of other archived documents",
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "pricefinder-api-swagger.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
-    "superseded outputs removed: pricefinder-o-auth2-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 19 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "_original/pricefinder-api-swagger.yml: archived document superseded by a larger archived document",
@@ -44,7 +41,7 @@
     "pricefinder-images-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "pricefinder-listings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "pricefinder-names-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "pricefinder-o-auth2-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pricefinder-oauth2-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "pricefinder-postcodes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "pricefinder-properties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "pricefinder-references-api-openapi.yml: previously refined output, superseded by openapi/_original/",

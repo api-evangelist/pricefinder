@@ -50,7 +50,7 @@ accessModel:
   method: derived
 image: https://www.pricefinder.com.au/favicon.ico
 tags:
-- Real-Estate
+- Real Estate
 - Australia
 - PropTech
 - Property Data
@@ -75,6 +75,7 @@ tags_raw:
 - Title
 - Mortgage
 - Market Data
+- Real-Estate
 created: '2026-07-26'
 modified: '2026-07-26'
 specificationVersion: '0.23'

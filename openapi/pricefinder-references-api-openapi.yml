@@ -510,7 +510,7 @@ paths:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesActDivisionsByDivisionSectionsBySectionProperties
       parameters:
       - name: division
         in: path
@@ -751,12 +751,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/act/divisions/{planNumber}/lots/{lot}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesActDivisionsByPlanNumberLotsByLotProperties
       parameters:
       - name: lot
         in: path
@@ -997,12 +999,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/nsw/plans/{planType}/{planNumber}/lots/{lot}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesNswPlansByPlanTypeByPlanNumberLotsByLotProperties
       parameters:
       - name: lot
         in: path
@@ -1253,6 +1257,8 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/nsw/plans/{planType}/{planNumber}/properties:
     get:
       tags:
@@ -1504,7 +1510,7 @@ paths:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesNswPlansByPlanTypeByPlanNumberSectionsBySectionLotsByLotProperties
       parameters:
       - name: lot
         in: path
@@ -1765,12 +1771,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/nsw/plans/{planType}/{planNumber}/sections/{section}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesNswPlansByPlanTypeByPlanNumberSectionsBySectionProperties
       parameters:
       - name: planNumber
         in: path
@@ -2021,12 +2029,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/nt/plans/{planNumber}/lots/{lot}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesNtPlansByPlanNumberLotsByLotProperties
       parameters:
       - name: lot
         in: path
@@ -2267,12 +2277,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/nt/plans/{planNumber}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: planProperties
+      operationId: getReferencesStatesNtPlansByPlanNumberProperties
       parameters:
       - name: planNumber
         in: path
@@ -2503,12 +2515,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Plan properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: planProperties
   /references/states/qld/plans/{planType}/{planNumber}/lots/{lot}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesQldPlansByPlanTypeByPlanNumberLotsByLotProperties
       parameters:
       - name: lot
         in: path
@@ -2759,12 +2773,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/qld/plans/{planType}/{planNumber}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: planProperties
+      operationId: getReferencesStatesQldPlansByPlanTypeByPlanNumberProperties
       parameters:
       - name: planNumber
         in: path
@@ -3005,6 +3021,8 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Plan properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: planProperties
   /references/states/qld/titles/{propertyId}:
     get:
       tags:
@@ -3038,7 +3056,7 @@ paths:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesSaPlansByPlanTypeByPlanNumberLotsByLotProperties
       parameters:
       - name: lot
         in: path
@@ -3289,12 +3307,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/sa/plans/{planType}/{planNumber}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: planProperties
+      operationId: getReferencesStatesSaPlansByPlanTypeByPlanNumberProperties
       parameters:
       - name: planNumber
         in: path
@@ -3535,12 +3555,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Plan properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: planProperties
   /references/states/tas/plans/{planNumber}/lots/{lot}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesTasPlansByPlanNumberLotsByLotProperties
       parameters:
       - name: lot
         in: path
@@ -3781,12 +3803,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/tas/plans/{planNumber}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: planProperties
+      operationId: getReferencesStatesTasPlansByPlanNumberProperties
       parameters:
       - name: planNumber
         in: path
@@ -4017,12 +4041,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Plan properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: planProperties
   /references/states/vic/plans/{planType}/{planNumber}/lots/{lot}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesVicPlansByPlanTypeByPlanNumberLotsByLotProperties
       parameters:
       - name: lot
         in: path
@@ -4273,12 +4299,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/vic/plans/{planType}/{planNumber}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: planProperties
+      operationId: getReferencesStatesVicPlansByPlanTypeByPlanNumberProperties
       parameters:
       - name: planNumber
         in: path
@@ -4519,12 +4547,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Plan properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: planProperties
   /references/states/vic/plans/{planType}/{planNumber}/sections/{section}/lots/{lot}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesVicPlansByPlanTypeByPlanNumberSectionsBySectionLotsByLotProperties
       parameters:
       - name: lot
         in: path
@@ -4785,12 +4815,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/vic/plans/{planType}/{planNumber}/sections/{section}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesVicPlansByPlanTypeByPlanNumberSectionsBySectionProperties
       parameters:
       - name: planNumber
         in: path
@@ -5041,6 +5073,8 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/vic/volumes/{volume}/folios/{folio}/properties:
     get:
       tags:
@@ -5292,7 +5326,7 @@ paths:
       tags:
       - References
       description: ''
-      operationId: properties
+      operationId: getReferencesStatesWaPlansByPlanTypeByPlanNumberLotsByLotProperties
       parameters:
       - name: lot
         in: path
@@ -5543,12 +5577,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: properties
   /references/states/wa/plans/{planType}/{planNumber}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: planProperties
+      operationId: getReferencesStatesWaPlansByPlanTypeByPlanNumberProperties
       parameters:
       - name: planNumber
         in: path
@@ -5789,12 +5825,14 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Plan properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: planProperties
   /references/states/wa/volumes/{volume}/folios/{folio}/properties:
     get:
       tags:
       - References
       description: ''
-      operationId: volumeFolioProperties
+      operationId: getReferencesStatesWaVolumesByVolumeFoliosByFolioProperties
       parameters:
       - name: folio
         in: path
@@ -6035,6 +6073,8 @@ paths:
                 $ref: '#/components/schemas/PropertyIdentifiers'
       summary: Volume folio properties
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: volumeFolioProperties
 components:
   schemas:
     PropertyIdentifiers:
@@ -6050,6 +6090,40 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PropertyIdentifier'
+    PropertyIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        _self:
+          type: string
+    PropertyTitle:
+      type: object
+      properties:
+        propertyId:
+          type: integer
+          format: int64
+        titles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Title'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
     Message:
       type: object
       properties:
@@ -6069,37 +6143,3 @@ components:
         lon:
           type: number
           format: double
-    PropertyTitle:
-      type: object
-      properties:
-        propertyId:
-          type: integer
-          format: int64
-        titles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Title'
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    PropertyIdentifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        matchlevel:
-          type: string
-          enum:
-          - suburb
-          - street
-          - property
-        location:
-          $ref: '#/components/schemas/Point'
-        parent:
-          type: boolean
-        _self:
-          type: string

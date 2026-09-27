@@ -181,11 +181,25 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    Error:
+    PropertyEventType:
       type: object
       properties:
-        error:
+        display:
           type: string
+        key:
+          type: string
+    EventSubcriptionParameters:
+      type: object
+      properties:
+        eventTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - ForRent
+            - ForSale
+            - SoldVerified
+            - Sold
     PropertyEventSubscription:
       type: object
       properties:
@@ -199,22 +213,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PropertyEventType'
-    EventSubcriptionParameters:
+    Error:
       type: object
       properties:
-        eventTypes:
-          type: array
-          items:
-            type: string
-            enum:
-            - ForRent
-            - ForSale
-            - SoldVerified
-            - Sold
-    PropertyEventType:
-      type: object
-      properties:
-        display:
-          type: string
-        key:
+        error:
           type: string
