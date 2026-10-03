@@ -181,12 +181,10 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PropertyEventType:
+    Error:
       type: object
       properties:
-        display:
-          type: string
-        key:
+        error:
           type: string
     EventSubcriptionParameters:
       type: object
@@ -213,8 +211,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PropertyEventType'
-    Error:
+    PropertyEventType:
       type: object
       properties:
-        error:
+        display:
+          type: string
+        key:
           type: string

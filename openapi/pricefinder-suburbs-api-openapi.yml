@@ -1967,6 +1967,98 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    StreetIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+    SuburbSummary:
+      type: object
+      properties:
+        suburb:
+          $ref: '#/components/schemas/Suburb'
+        house:
+          $ref: '#/components/schemas/SuburbStatisticsSummary'
+        unit:
+          $ref: '#/components/schemas/SuburbStatisticsSummary'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    SuburbRentalsByBedroomStatisticsWrapper:
+      type: object
+      properties:
+        beds:
+          $ref: '#/components/schemas/SuburbRentalsByBedroomStatistics'
+    SuburbIdentifier:
+      type: object
+      properties:
+        id:
+          type: string
+        _self:
+          type: string
+    Agent:
+      type: object
+      properties:
+        name:
+          type: string
+        phoneNumber:
+          type: string
+        agency:
+          $ref: '#/components/schemas/AgencyIdentifier'
+    SaleListingHistory:
+      type: object
+      properties:
+        originalListingId:
+          $ref: '#/components/schemas/ListingIdentifier'
+        originalPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        originalPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        lastListingId:
+          $ref: '#/components/schemas/ListingIdentifier'
+        lastPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        lastPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        daysToSell:
+          type: integer
+          format: int64
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        unit:
+          type: string
+        level:
+          type: string
+        lot:
+          type: string
+        streetNumber:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        streetLocation:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        countryCode:
+          type: string
+        streetName:
+          type: string
+        streetSuffix:
+          type: string
+        streetType:
+          type: string
+        lga:
+          type: string
     SuburbRentalsByBedroomStatistics:
       type: object
       properties:
@@ -1980,6 +2072,336 @@ components:
           $ref: '#/components/schemas/SuburbRentalsTimeseriesWrapper'
         fourPlus:
           $ref: '#/components/schemas/SuburbRentalsTimeseriesWrapper'
+    Listings:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        listings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Listing'
+    ListingStatus:
+      type: object
+      properties:
+        historic:
+          type: boolean
+        underOffer:
+          type: boolean
+        listingStatus:
+          type: string
+    SaleParticipantsSummary:
+      type: object
+      properties:
+        vendorsSummary:
+          type: string
+        purchasersSummary:
+          type: string
+    SuburbStatistics:
+      type: object
+      properties:
+        statisticsSummary:
+          $ref: '#/components/schemas/SuburbStatisticsSummary'
+        sales:
+          $ref: '#/components/schemas/SuburbSalesWrapper'
+        rentals:
+          $ref: '#/components/schemas/SuburbRentalsByBedroomStatisticsWrapper'
+    MarketStatusEventObject:
+      type: object
+      properties:
+        type:
+          type: string
+        event:
+          type: object
+    TimeSeriesPeriod:
+      type: object
+      properties:
+        year:
+          type: integer
+          format: int64
+        month:
+          type: integer
+          format: int64
+        interval:
+          type: integer
+          format: int64
+        count:
+          type: integer
+          format: int64
+    SuburbFlyover:
+      type: object
+      properties:
+        suburb:
+          $ref: '#/components/schemas/Suburb'
+        statistics:
+          $ref: '#/components/schemas/StatisticsWrapper'
+        demographics:
+          $ref: '#/components/schemas/Demographics'
+        recentSales:
+          $ref: '#/components/schemas/Sales'
+        recentRentals:
+          $ref: '#/components/schemas/Listings'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    LandDetails:
+      type: object
+      properties:
+        propertyArea:
+          type: number
+          format: double
+        buildingArea:
+          type: number
+          format: double
+        volumeFolio:
+          type: string
+    Streets:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        streets:
+          type: array
+          items:
+            $ref: '#/components/schemas/StreetIdentifier'
+    Demographics:
+      type: object
+      properties:
+        censusTopics:
+          type: array
+          items:
+            $ref: '#/components/schemas/CensusTopic'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    SuburbStatisticsSummary:
+      type: object
+      properties:
+        calculated:
+          type: string
+          format: date-time
+        medianSalePrice:
+          type: number
+          format: double
+        medianRentalPrice:
+          type: number
+          format: double
+        suburbGrowth:
+          type: number
+          format: double
+        saleCount:
+          type: integer
+          format: int64
+        rentalCount:
+          type: integer
+          format: int64
+        suburbRentalYield:
+          type: number
+          format: double
+    PriceRangeSegment2:
+      type: object
+      properties:
+        begin:
+          type: number
+          format: double
+        end:
+          type: number
+          format: double
+        label:
+          type: string
+        count:
+          type: integer
+          format: int64
+    PropertyMapIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        _self:
+          type: string
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        price:
+          $ref: '#/components/schemas/SensitivePrice'
+        listingHistory:
+          $ref: '#/components/schemas/SaleListingHistory'
+        saleDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        settlementDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        contractDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        property:
+          $ref: '#/components/schemas/PropertyIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        propertyType:
+          type: string
+        saleType:
+          type: string
+        agency:
+          $ref: '#/components/schemas/Agency'
+        agent:
+          $ref: '#/components/schemas/Agent'
+        location:
+          $ref: '#/components/schemas/Point'
+        metadata:
+          $ref: '#/components/schemas/SaleMetadata'
+        address:
+          $ref: '#/components/schemas/Address'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        propertyFeatures:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        rpd:
+          type: string
+        dealingNumber:
+          type: string
+        streetDisplay:
+          type: string
+        lowAskPrice:
+          type: integer
+          format: int64
+        highAskPrice:
+          type: integer
+          format: int64
+        extra:
+          $ref: '#/components/schemas/SearchExtra'
+        saleParticipants:
+          $ref: '#/components/schemas/SaleParticipantsSummary'
+        _self:
+          type: string
+    SensitiveDate:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: string
+          format: date-time
+        rawValue:
+          type: string
+          format: date-time
+    SalesTimeSeriesValue:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        median:
+          type: number
+          format: double
+        high:
+          type: number
+          format: double
+        low:
+          type: number
+          format: double
+        mean:
+          type: number
+          format: double
+        total:
+          type: number
+          format: double
+        firstQuartile:
+          type: number
+          format: double
+        thirdQuartile:
+          type: number
+          format: double
+        iqRange:
+          type: number
+          format: double
+        medianGrowth:
+          type: number
+          format: double
+    PriceRangeSegments2:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/TimeSeriesPeriod'
+        values:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/PriceRangeSegment2'
+        calculated:
+          type: string
+          format: date-time
+        description:
+          type: string
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    ListingIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rental:
+          type: boolean
+        _self:
+          type: string
+    CensusValue:
+      type: object
+      properties:
+        category:
+          type: string
+        count:
+          type: integer
+          format: int64
+    SuburbSalesWrapper:
+      type: object
+      properties:
+        timeseries:
+          $ref: '#/components/schemas/SuburbSalesTimeseriesWrapper'
+        priceRangeSegments:
+          $ref: '#/components/schemas/PriceRangeSegments'
+        peakSellingPeriods:
+          $ref: '#/components/schemas/PeakSellingPeriods'
+    SuburbRentalsTimeseriesWrapper:
+      type: object
+      properties:
+        calendarQuarterly:
+          $ref: '#/components/schemas/RentalsTimeSeries'
     StatisticLong:
       type: object
       properties:
@@ -1988,6 +2410,337 @@ components:
         value:
           type: integer
           format: int64
+    Properties:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Property'
+    PeakSellingPeriods:
+      type: object
+      properties:
+        calculated:
+          type: string
+          format: date-time
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        period:
+          $ref: '#/components/schemas/TimeSeriesPeriod'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatisticDouble'
+    MarketStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        recentlySold:
+          type: boolean
+        recentlyForSale:
+          type: boolean
+        recentlyForRent:
+          type: boolean
+        forSale:
+          type: boolean
+        forRent:
+          type: boolean
+        likelyToList:
+          type: boolean
+        lastMarketEvent:
+          $ref: '#/components/schemas/MarketStatusEventObject'
+    RentalTimeSeriesValueGroup:
+      type: object
+      properties:
+        all:
+          $ref: '#/components/schemas/RentalTimeseriesValue'
+        '1':
+          $ref: '#/components/schemas/RentalTimeseriesValue'
+        '2':
+          $ref: '#/components/schemas/RentalTimeseriesValue'
+        '3':
+          $ref: '#/components/schemas/RentalTimeseriesValue'
+        4+:
+          $ref: '#/components/schemas/RentalTimeseriesValue'
+    SuburbSalesTimeseriesWrapper:
+      type: object
+      properties:
+        rolling12Month:
+          $ref: '#/components/schemas/SalesTimeSeries'
+        calendar12Month:
+          $ref: '#/components/schemas/SalesTimeSeries'
+    StatisticsWrapper:
+      type: object
+      properties:
+        propertyType:
+          $ref: '#/components/schemas/StatisticsPropertyTypeWrapper'
+    StatisticDouble:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          type: number
+          format: double
+    Message:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int64
+        text:
+          type: string
+    SensitivePrice:
+      type: object
+      properties:
+        display:
+          type: string
+        value:
+          type: number
+          format: double
+        rawValue:
+          type: number
+          format: double
+        withheld:
+          type: boolean
+    ListingListingHistory:
+      type: object
+      properties:
+        originalPrice:
+          $ref: '#/components/schemas/SensitivePrice'
+        originalPricePercentChange:
+          $ref: '#/components/schemas/SensitiveChange'
+        daysOnMarket:
+          type: integer
+          format: int64
+        lowAskPrice:
+          type: integer
+          format: int64
+        highAskPrice:
+          type: integer
+          format: int64
+    RentalTimeseriesValue:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        median:
+          type: number
+          format: double
+        high:
+          type: number
+          format: double
+        low:
+          type: number
+          format: double
+    AgencyIdentifier:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    SaleMetadata:
+      type: object
+      properties:
+        governmentSale:
+          type: boolean
+        pending:
+          type: boolean
+    Suburb:
+      type: object
+      properties:
+        id:
+          type: string
+        suburbName:
+          type: string
+        postcode:
+          type: integer
+          format: int64
+        state:
+          type: string
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        _self:
+          type: string
+    YearByMonthStatisticsLong:
+      type: object
+      properties:
+        calculated:
+          type: string
+          format: date-time
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        period:
+          $ref: '#/components/schemas/TimeSeriesPeriod'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatisticLong'
+    PriceRangeSegments:
+      type: object
+      properties:
+        calculated:
+          type: string
+          format: date-time
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceRangeSegment'
+        period:
+          $ref: '#/components/schemas/TimeSeriesPeriod'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    Listing:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rental:
+          type: boolean
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agent'
+        agencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agency'
+        price:
+          $ref: '#/components/schemas/SensitivePrice'
+        listingHistory:
+          $ref: '#/components/schemas/ListingListingHistory'
+        startDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        property:
+          $ref: '#/components/schemas/PropertyIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        location:
+          $ref: '#/components/schemas/Point'
+        propertyLegalDescription:
+          type: string
+        propertyType:
+          type: string
+        type:
+          type: string
+        status:
+          $ref: '#/components/schemas/ListingStatus'
+        endDate:
+          $ref: '#/components/schemas/SensitiveDate'
+        lastModified:
+          $ref: '#/components/schemas/SensitiveDate'
+        propertyFeatures:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        address:
+          $ref: '#/components/schemas/Address'
+        originalListingAddress:
+          $ref: '#/components/schemas/Address'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        extra:
+          $ref: '#/components/schemas/SearchExtra'
+        _self:
+          type: string
+    CensusTopic:
+      type: object
+      properties:
+        topic:
+          type: string
+        title:
+          type: string
+        total:
+          type: integer
+          format: int64
+        year:
+          type: integer
+          format: int64
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CensusValue'
+    Agency:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        phoneNumber:
+          type: string
+    RentalsTimeSeries:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/TimeSeriesPeriod'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/RentalTimeseriesValue'
+        calculated:
+          type: string
+          format: date-time
+        description:
+          type: string
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    OwnershipSummary:
+      type: object
+      properties:
+        names:
+          type: string
+        ownerOccupied:
+          type: boolean
+        ownerAddress:
+          type: string
+    Point:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
     ImageIdentifier:
       type: object
       properties:
@@ -1996,6 +2749,142 @@ components:
           format: int64
         _self:
           type: string
+    Property:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        address:
+          $ref: '#/components/schemas/Address'
+        features:
+          $ref: '#/components/schemas/ExtendedPropertyFeatures'
+        alternativeAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        landDetails:
+          $ref: '#/components/schemas/LandDetails'
+        image:
+          $ref: '#/components/schemas/ImageIdentifier'
+        map:
+          $ref: '#/components/schemas/PropertyMapIdentifier'
+        street:
+          $ref: '#/components/schemas/StreetIdentifier'
+        suburb:
+          $ref: '#/components/schemas/SuburbIdentifier'
+        type:
+          type: string
+        rpd:
+          type: string
+        marketStatus:
+          $ref: '#/components/schemas/MarketStatus'
+        lastModified:
+          type: string
+          format: date-time
+        owners:
+          $ref: '#/components/schemas/OwnershipSummary'
+        ownership:
+          $ref: '#/components/schemas/OwnershipSummary'
+        lastSale:
+          $ref: '#/components/schemas/Sale'
+        recentListing:
+          $ref: '#/components/schemas/Listing'
+        recentRental:
+          $ref: '#/components/schemas/Listing'
+        extra:
+          $ref: '#/components/schemas/SearchExtra'
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+        _self:
+          type: string
+    PriceRangeSegment:
+      type: object
+      properties:
+        begin:
+          type: number
+          format: double
+        end:
+          type: number
+          format: double
+        label:
+          type: string
+        salesByMonth:
+          $ref: '#/components/schemas/YearByMonthStatisticsLong'
+    SalesTimeSeries:
+      type: object
+      properties:
+        period:
+          $ref: '#/components/schemas/TimeSeriesPeriod'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/SalesTimeSeriesValue'
+        calculated:
+          type: string
+          format: date-time
+        description:
+          type: string
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    Phone:
+      type: object
+      properties:
+        surname:
+          type: string
+        initials:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        number:
+          type: string
+        doNotCall:
+          type: boolean
+        doNotCallWashDate:
+          type: string
+          format: date-time
+    Sales:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+    StatisticsPropertyTypeWrapper:
+      type: object
+      properties:
+        house:
+          $ref: '#/components/schemas/SuburbStatistics'
+        unit:
+          $ref: '#/components/schemas/SuburbStatistics'
     ExtendedPropertyFeatures:
       type: object
       properties:
@@ -2086,161 +2975,6 @@ components:
         nathersRating:
           type: number
           format: double
-    AgencyIdentifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-    Suburb:
-      type: object
-      properties:
-        id:
-          type: string
-        suburbName:
-          type: string
-        postcode:
-          type: integer
-          format: int64
-        state:
-          type: string
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        _self:
-          type: string
-    Message:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int64
-        text:
-          type: string
-    StatisticDouble:
-      type: object
-      properties:
-        label:
-          type: string
-        value:
-          type: number
-          format: double
-    SaleParticipantsSummary:
-      type: object
-      properties:
-        vendorsSummary:
-          type: string
-        purchasersSummary:
-          type: string
-    SalesTimeSeriesValue:
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int64
-        median:
-          type: number
-          format: double
-        high:
-          type: number
-          format: double
-        low:
-          type: number
-          format: double
-        mean:
-          type: number
-          format: double
-        total:
-          type: number
-          format: double
-        firstQuartile:
-          type: number
-          format: double
-        thirdQuartile:
-          type: number
-          format: double
-        iqRange:
-          type: number
-          format: double
-        medianGrowth:
-          type: number
-          format: double
-    SuburbStatistics:
-      type: object
-      properties:
-        statisticsSummary:
-          $ref: '#/components/schemas/SuburbStatisticsSummary'
-        sales:
-          $ref: '#/components/schemas/SuburbSalesWrapper'
-        rentals:
-          $ref: '#/components/schemas/SuburbRentalsByBedroomStatisticsWrapper'
-    Listings:
-      type: object
-      properties:
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        listings:
-          type: array
-          items:
-            $ref: '#/components/schemas/Listing'
-    Agent:
-      type: object
-      properties:
-        name:
-          type: string
-        phoneNumber:
-          type: string
-        agency:
-          $ref: '#/components/schemas/AgencyIdentifier'
-    SuburbRentalsTimeseriesWrapper:
-      type: object
-      properties:
-        calendarQuarterly:
-          $ref: '#/components/schemas/RentalsTimeSeries'
-    RentalsTimeSeries:
-      type: object
-      properties:
-        period:
-          $ref: '#/components/schemas/TimeSeriesPeriod'
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/RentalTimeseriesValue'
-        calculated:
-          type: string
-          format: date-time
-        description:
-          type: string
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    MarketStatusEventObject:
-      type: object
-      properties:
-        type:
-          type: string
-        event:
-          type: object
-    Agency:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        phoneNumber:
-          type: string
     SensitiveChange:
       type: object
       properties:
@@ -2252,435 +2986,6 @@ components:
         rawValue:
           type: number
           format: double
-    StreetIdentifier:
-      type: object
-      properties:
-        id:
-          type: string
-    SuburbStatisticsSummary:
-      type: object
-      properties:
-        calculated:
-          type: string
-          format: date-time
-        medianSalePrice:
-          type: number
-          format: double
-        medianRentalPrice:
-          type: number
-          format: double
-        suburbGrowth:
-          type: number
-          format: double
-        saleCount:
-          type: integer
-          format: int64
-        rentalCount:
-          type: integer
-          format: int64
-        suburbRentalYield:
-          type: number
-          format: double
-    LandDetails:
-      type: object
-      properties:
-        propertyArea:
-          type: number
-          format: double
-        buildingArea:
-          type: number
-          format: double
-        volumeFolio:
-          type: string
-    ListingIdentifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        rental:
-          type: boolean
-        _self:
-          type: string
-    StatisticsPropertyTypeWrapper:
-      type: object
-      properties:
-        house:
-          $ref: '#/components/schemas/SuburbStatistics'
-        unit:
-          $ref: '#/components/schemas/SuburbStatistics'
-    Address:
-      type: object
-      properties:
-        street:
-          type: string
-        unit:
-          type: string
-        level:
-          type: string
-        lot:
-          type: string
-        streetNumber:
-          type: string
-        streetAddress:
-          type: string
-        locality:
-          type: string
-        streetLocation:
-          type: string
-        state:
-          type: string
-        postcode:
-          type: string
-        countryCode:
-          type: string
-        streetName:
-          type: string
-        streetSuffix:
-          type: string
-        streetType:
-          type: string
-        lga:
-          type: string
-    SaleMetadata:
-      type: object
-      properties:
-        governmentSale:
-          type: boolean
-        pending:
-          type: boolean
-    SuburbSalesTimeseriesWrapper:
-      type: object
-      properties:
-        rolling12Month:
-          $ref: '#/components/schemas/SalesTimeSeries'
-        calendar12Month:
-          $ref: '#/components/schemas/SalesTimeSeries'
-    Properties:
-      type: object
-      properties:
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/Property'
-    ListingListingHistory:
-      type: object
-      properties:
-        originalPrice:
-          $ref: '#/components/schemas/SensitivePrice'
-        originalPricePercentChange:
-          $ref: '#/components/schemas/SensitiveChange'
-        daysOnMarket:
-          type: integer
-          format: int64
-        lowAskPrice:
-          type: integer
-          format: int64
-        highAskPrice:
-          type: integer
-          format: int64
-    Property:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        matchlevel:
-          type: string
-          enum:
-          - suburb
-          - street
-          - property
-        location:
-          $ref: '#/components/schemas/Point'
-        parent:
-          type: boolean
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        address:
-          $ref: '#/components/schemas/Address'
-        features:
-          $ref: '#/components/schemas/ExtendedPropertyFeatures'
-        alternativeAddresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/Address'
-        landDetails:
-          $ref: '#/components/schemas/LandDetails'
-        image:
-          $ref: '#/components/schemas/ImageIdentifier'
-        map:
-          $ref: '#/components/schemas/PropertyMapIdentifier'
-        street:
-          $ref: '#/components/schemas/StreetIdentifier'
-        suburb:
-          $ref: '#/components/schemas/SuburbIdentifier'
-        type:
-          type: string
-        rpd:
-          type: string
-        marketStatus:
-          $ref: '#/components/schemas/MarketStatus'
-        lastModified:
-          type: string
-          format: date-time
-        owners:
-          $ref: '#/components/schemas/OwnershipSummary'
-        ownership:
-          $ref: '#/components/schemas/OwnershipSummary'
-        lastSale:
-          $ref: '#/components/schemas/Sale'
-        recentListing:
-          $ref: '#/components/schemas/Listing'
-        recentRental:
-          $ref: '#/components/schemas/Listing'
-        extra:
-          $ref: '#/components/schemas/SearchExtra'
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Phone'
-        _self:
-          type: string
-    CensusTopic:
-      type: object
-      properties:
-        topic:
-          type: string
-        title:
-          type: string
-        total:
-          type: integer
-          format: int64
-        year:
-          type: integer
-          format: int64
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CensusValue'
-    Point:
-      type: object
-      properties:
-        lat:
-          type: number
-          format: double
-        lon:
-          type: number
-          format: double
-    CensusValue:
-      type: object
-      properties:
-        category:
-          type: string
-        count:
-          type: integer
-          format: int64
-    PriceRangeSegments2:
-      type: object
-      properties:
-        period:
-          $ref: '#/components/schemas/TimeSeriesPeriod'
-        values:
-          type: array
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/PriceRangeSegment2'
-        calculated:
-          type: string
-          format: date-time
-        description:
-          type: string
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    RentalTimeSeriesValueGroup:
-      type: object
-      properties:
-        all:
-          $ref: '#/components/schemas/RentalTimeseriesValue'
-        '1':
-          $ref: '#/components/schemas/RentalTimeseriesValue'
-        '2':
-          $ref: '#/components/schemas/RentalTimeseriesValue'
-        '3':
-          $ref: '#/components/schemas/RentalTimeseriesValue'
-        4+:
-          $ref: '#/components/schemas/RentalTimeseriesValue'
-    PropertyMapIdentifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        _self:
-          type: string
-    PropertyIdentifier:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        matchlevel:
-          type: string
-          enum:
-          - suburb
-          - street
-          - property
-        location:
-          $ref: '#/components/schemas/Point'
-        parent:
-          type: boolean
-        _self:
-          type: string
-    RentalTimeseriesValue:
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int64
-        median:
-          type: number
-          format: double
-        high:
-          type: number
-          format: double
-        low:
-          type: number
-          format: double
-    SensitiveDate:
-      type: object
-      properties:
-        display:
-          type: string
-        value:
-          type: string
-          format: date-time
-        rawValue:
-          type: string
-          format: date-time
-    Streets:
-      type: object
-      properties:
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        streets:
-          type: array
-          items:
-            $ref: '#/components/schemas/StreetIdentifier'
-    SaleListingHistory:
-      type: object
-      properties:
-        originalListingId:
-          $ref: '#/components/schemas/ListingIdentifier'
-        originalPrice:
-          $ref: '#/components/schemas/SensitivePrice'
-        originalPricePercentChange:
-          $ref: '#/components/schemas/SensitiveChange'
-        lastListingId:
-          $ref: '#/components/schemas/ListingIdentifier'
-        lastPrice:
-          $ref: '#/components/schemas/SensitivePrice'
-        lastPricePercentChange:
-          $ref: '#/components/schemas/SensitiveChange'
-        daysToSell:
-          type: integer
-          format: int64
-    Sales:
-      type: object
-      properties:
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        sales:
-          type: array
-          items:
-            $ref: '#/components/schemas/Sale'
-    PriceRangeSegment:
-      type: object
-      properties:
-        begin:
-          type: number
-          format: double
-        end:
-          type: number
-          format: double
-        label:
-          type: string
-        salesByMonth:
-          $ref: '#/components/schemas/YearByMonthStatisticsLong'
-    SuburbFlyover:
-      type: object
-      properties:
-        suburb:
-          $ref: '#/components/schemas/Suburb'
-        statistics:
-          $ref: '#/components/schemas/StatisticsWrapper'
-        demographics:
-          $ref: '#/components/schemas/Demographics'
-        recentSales:
-          $ref: '#/components/schemas/Sales'
-        recentRentals:
-          $ref: '#/components/schemas/Listings'
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    Demographics:
-      type: object
-      properties:
-        censusTopics:
-          type: array
-          items:
-            $ref: '#/components/schemas/CensusTopic'
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    MarketStatus:
-      type: object
-      properties:
-        status:
-          type: string
-        recentlySold:
-          type: boolean
-        recentlyForSale:
-          type: boolean
-        recentlyForRent:
-          type: boolean
-        forSale:
-          type: boolean
-        forRent:
-          type: boolean
-        likelyToList:
-          type: boolean
-        lastMarketEvent:
-          $ref: '#/components/schemas/MarketStatusEventObject'
     RentalsTimeSeries2:
       type: object
       properties:
@@ -2701,329 +3006,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Message'
-    SuburbRentalsByBedroomStatisticsWrapper:
-      type: object
-      properties:
-        beds:
-          $ref: '#/components/schemas/SuburbRentalsByBedroomStatistics'
-    SuburbSummary:
-      type: object
-      properties:
-        suburb:
-          $ref: '#/components/schemas/Suburb'
-        house:
-          $ref: '#/components/schemas/SuburbStatisticsSummary'
-        unit:
-          $ref: '#/components/schemas/SuburbStatisticsSummary'
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    ListingStatus:
-      type: object
-      properties:
-        historic:
-          type: boolean
-        underOffer:
-          type: boolean
-        listingStatus:
-          type: string
-    SuburbSalesWrapper:
-      type: object
-      properties:
-        timeseries:
-          $ref: '#/components/schemas/SuburbSalesTimeseriesWrapper'
-        priceRangeSegments:
-          $ref: '#/components/schemas/PriceRangeSegments'
-        peakSellingPeriods:
-          $ref: '#/components/schemas/PeakSellingPeriods'
-    YearByMonthStatisticsLong:
-      type: object
-      properties:
-        calculated:
-          type: string
-          format: date-time
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        period:
-          $ref: '#/components/schemas/TimeSeriesPeriod'
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/StatisticLong'
-    SensitivePrice:
-      type: object
-      properties:
-        display:
-          type: string
-        value:
-          type: number
-          format: double
-        rawValue:
-          type: number
-          format: double
-        withheld:
-          type: boolean
-    PeakSellingPeriods:
-      type: object
-      properties:
-        calculated:
-          type: string
-          format: date-time
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        period:
-          $ref: '#/components/schemas/TimeSeriesPeriod'
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/StatisticDouble'
-    Sale:
+    PropertyIdentifier:
       type: object
       properties:
         id:
           type: integer
           format: int64
-        disclaimer:
+        matchlevel:
           type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        price:
-          $ref: '#/components/schemas/SensitivePrice'
-        listingHistory:
-          $ref: '#/components/schemas/SaleListingHistory'
-        saleDate:
-          $ref: '#/components/schemas/SensitiveDate'
-        settlementDate:
-          $ref: '#/components/schemas/SensitiveDate'
-        contractDate:
-          $ref: '#/components/schemas/SensitiveDate'
-        image:
-          $ref: '#/components/schemas/ImageIdentifier'
-        property:
-          $ref: '#/components/schemas/PropertyIdentifier'
-        street:
-          $ref: '#/components/schemas/StreetIdentifier'
-        suburb:
-          $ref: '#/components/schemas/SuburbIdentifier'
-        propertyType:
-          type: string
-        saleType:
-          type: string
-        agency:
-          $ref: '#/components/schemas/Agency'
-        agent:
-          $ref: '#/components/schemas/Agent'
+          enum:
+          - suburb
+          - street
+          - property
         location:
           $ref: '#/components/schemas/Point'
-        metadata:
-          $ref: '#/components/schemas/SaleMetadata'
-        address:
-          $ref: '#/components/schemas/Address'
-        alternativeAddresses:
-          type: array
-          items:
-            $ref: '#/components/schemas/Address'
-        propertyFeatures:
-          $ref: '#/components/schemas/ExtendedPropertyFeatures'
-        landDetails:
-          $ref: '#/components/schemas/LandDetails'
-        rpd:
-          type: string
-        dealingNumber:
-          type: string
-        streetDisplay:
-          type: string
-        lowAskPrice:
-          type: integer
-          format: int64
-        highAskPrice:
-          type: integer
-          format: int64
-        extra:
-          $ref: '#/components/schemas/SearchExtra'
-        saleParticipants:
-          $ref: '#/components/schemas/SaleParticipantsSummary'
+        parent:
+          type: boolean
         _self:
           type: string
-    StatisticsWrapper:
-      type: object
-      properties:
-        propertyType:
-          $ref: '#/components/schemas/StatisticsPropertyTypeWrapper'
-    Listing:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        rental:
-          type: boolean
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        agents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Agent'
-        agencies:
-          type: array
-          items:
-            $ref: '#/components/schemas/Agency'
-        price:
-          $ref: '#/components/schemas/SensitivePrice'
-        listingHistory:
-          $ref: '#/components/schemas/ListingListingHistory'
-        startDate:
-          $ref: '#/components/schemas/SensitiveDate'
-        image:
-          $ref: '#/components/schemas/ImageIdentifier'
-        property:
-          $ref: '#/components/schemas/PropertyIdentifier'
-        street:
-          $ref: '#/components/schemas/StreetIdentifier'
-        suburb:
-          $ref: '#/components/schemas/SuburbIdentifier'
-        location:
-          $ref: '#/components/schemas/Point'
-        propertyLegalDescription:
-          type: string
-        propertyType:
-          type: string
-        type:
-          type: string
-        status:
-          $ref: '#/components/schemas/ListingStatus'
-        endDate:
-          $ref: '#/components/schemas/SensitiveDate'
-        lastModified:
-          $ref: '#/components/schemas/SensitiveDate'
-        propertyFeatures:
-          $ref: '#/components/schemas/ExtendedPropertyFeatures'
-        address:
-          $ref: '#/components/schemas/Address'
-        originalListingAddress:
-          $ref: '#/components/schemas/Address'
-        landDetails:
-          $ref: '#/components/schemas/LandDetails'
-        extra:
-          $ref: '#/components/schemas/SearchExtra'
-        _self:
-          type: string
-    PriceRangeSegments:
-      type: object
-      properties:
-        calculated:
-          type: string
-          format: date-time
-        segments:
-          type: array
-          items:
-            $ref: '#/components/schemas/PriceRangeSegment'
-        period:
-          $ref: '#/components/schemas/TimeSeriesPeriod'
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    TimeSeriesPeriod:
-      type: object
-      properties:
-        year:
-          type: integer
-          format: int64
-        month:
-          type: integer
-          format: int64
-        interval:
-          type: integer
-          format: int64
-        count:
-          type: integer
-          format: int64
-    SalesTimeSeries:
-      type: object
-      properties:
-        period:
-          $ref: '#/components/schemas/TimeSeriesPeriod'
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/SalesTimeSeriesValue'
-        calculated:
-          type: string
-          format: date-time
-        description:
-          type: string
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    SuburbIdentifier:
-      type: object
-      properties:
-        id:
-          type: string
-        _self:
-          type: string
-    OwnershipSummary:
-      type: object
-      properties:
-        names:
-          type: string
-        ownerOccupied:
-          type: boolean
-        ownerAddress:
-          type: string
-    PriceRangeSegment2:
-      type: object
-      properties:
-        begin:
-          type: number
-          format: double
-        end:
-          type: number
-          format: double
-        label:
-          type: string
-        count:
-          type: integer
-          format: int64
-    Phone:
-      type: object
-      properties:
-        surname:
-          type: string
-        initials:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address'
-        number:
-          type: string
-        doNotCall:
-          type: boolean
-        doNotCallWashDate:
-          type: string
-          format: date-time
     SearchExtra:
       type: object
       properties:

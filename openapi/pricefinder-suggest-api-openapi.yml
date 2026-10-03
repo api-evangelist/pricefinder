@@ -237,139 +237,21 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    SuggestMatches:
+    Rectangle:
       type: object
       properties:
-        matches:
-          type: array
-          items:
-            $ref: '#/components/schemas/SuggestMatch'
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-    TypeAheadSuggestions:
+        min:
+          $ref: '#/components/schemas/LonLat'
+        max:
+          $ref: '#/components/schemas/LonLat'
+    MainImage:
       type: object
       properties:
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        suggestions:
-          type: array
-          items:
-            $ref: '#/components/schemas/TypeAheadSuggestion'
-    StreetIdentifier:
-      type: object
-      properties:
-        id:
-          type: string
-    PropertyIdentifier:
-      type: object
-      properties:
-        id:
+        imageId:
           type: integer
           format: int64
-        matchlevel:
+        imageScheme:
           type: string
-          enum:
-          - suburb
-          - street
-          - property
-        location:
-          $ref: '#/components/schemas/Point'
-        parent:
-          type: boolean
-        _self:
-          type: string
-    StreetLocation:
-      type: object
-      properties:
-        streetId:
-          type: string
-        fullCompleteAddress:
-          type: string
-        fullStreetName:
-          type: string
-        streetName:
-          type: string
-        streetAddress:
-          type: string
-        postcode:
-          type: string
-        localityId:
-          type: string
-        localityName:
-          type: string
-        lgaId:
-          type: string
-        lgaName:
-          type: string
-        state:
-          type: string
-    Message:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int64
-        text:
-          type: string
-    Address:
-      type: object
-      properties:
-        street:
-          type: string
-        unit:
-          type: string
-        level:
-          type: string
-        lot:
-          type: string
-        streetNumber:
-          type: string
-        streetAddress:
-          type: string
-        locality:
-          type: string
-        streetLocation:
-          type: string
-        state:
-          type: string
-        postcode:
-          type: string
-        countryCode:
-          type: string
-        streetName:
-          type: string
-        streetSuffix:
-          type: string
-        streetType:
-          type: string
-        lga:
-          type: string
-    SuggestLonLatResultPropertyByLonLat:
-      type: object
-      properties:
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        matchesCount:
-          type: integer
-          format: int64
-        latLon:
-          $ref: '#/components/schemas/Point'
-        matches:
-          type: array
-          items:
-            $ref: '#/components/schemas/PropertyByLonLat'
     PropertyByLonLat:
       type: object
       properties:
@@ -442,23 +324,29 @@ components:
           type: string
         propertyType:
           type: string
-    MainImage:
+    StreetIdentifier:
       type: object
       properties:
-        imageId:
+        id:
+          type: string
+    SuggestLonLatResultPropertyByLonLat:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        matchesCount:
           type: integer
           format: int64
-        imageScheme:
-          type: string
-    LonLat:
-      type: object
-      properties:
-        lon:
-          type: number
-          format: double
-        lat:
-          type: number
-          format: double
+        latLon:
+          $ref: '#/components/schemas/Point'
+        matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyByLonLat'
     SuggestMatch:
       type: object
       properties:
@@ -485,6 +373,28 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Address'
+    SuggestMatches:
+      type: object
+      properties:
+        matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/SuggestMatch'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    Point:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
     SuburbIdentifier:
       type: object
       properties:
@@ -492,13 +402,74 @@ components:
           type: string
         _self:
           type: string
-    Rectangle:
+    PropertyIdentifier:
       type: object
       properties:
-        min:
-          $ref: '#/components/schemas/LonLat'
-        max:
-          $ref: '#/components/schemas/LonLat'
+        id:
+          type: integer
+          format: int64
+        matchlevel:
+          type: string
+          enum:
+          - suburb
+          - street
+          - property
+        location:
+          $ref: '#/components/schemas/Point'
+        parent:
+          type: boolean
+        _self:
+          type: string
+    Message:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int64
+        text:
+          type: string
+    LonLat:
+      type: object
+      properties:
+        lon:
+          type: number
+          format: double
+        lat:
+          type: number
+          format: double
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        unit:
+          type: string
+        level:
+          type: string
+        lot:
+          type: string
+        streetNumber:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        streetLocation:
+          type: string
+        state:
+          type: string
+        postcode:
+          type: string
+        countryCode:
+          type: string
+        streetName:
+          type: string
+        streetSuffix:
+          type: string
+        streetType:
+          type: string
+        lga:
+          type: string
     LonLatElevation:
       type: object
       properties:
@@ -548,12 +519,41 @@ components:
           type: object
           additionalProperties:
             type: object
-    Point:
+    StreetLocation:
       type: object
       properties:
-        lat:
-          type: number
-          format: double
-        lon:
-          type: number
-          format: double
+        streetId:
+          type: string
+        fullCompleteAddress:
+          type: string
+        fullStreetName:
+          type: string
+        streetName:
+          type: string
+        streetAddress:
+          type: string
+        postcode:
+          type: string
+        localityId:
+          type: string
+        localityName:
+          type: string
+        lgaId:
+          type: string
+        lgaName:
+          type: string
+        state:
+          type: string
+    TypeAheadSuggestions:
+      type: object
+      properties:
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        suggestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TypeAheadSuggestion'
