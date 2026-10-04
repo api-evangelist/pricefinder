@@ -181,11 +181,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
     EventSubcriptionParameters:
       type: object
       properties:
@@ -217,4 +212,9 @@ components:
         display:
           type: string
         key:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
           type: string

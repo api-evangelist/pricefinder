@@ -6077,24 +6077,6 @@ paths:
       x-operation-id-original: volumeFolioProperties
 components:
   schemas:
-    Title:
-      type: object
-    PropertyTitle:
-      type: object
-      properties:
-        propertyId:
-          type: integer
-          format: int64
-        titles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Title'
-        disclaimer:
-          type: string
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
     Point:
       type: object
       properties:
@@ -6125,6 +6107,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PropertyIdentifier'
+    PropertyTitle:
+      type: object
+      properties:
+        propertyId:
+          type: integer
+          format: int64
+        titles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Title'
+        disclaimer:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+    Title:
+      type: object
     PropertyIdentifier:
       type: object
       properties:
