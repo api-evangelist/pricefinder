@@ -218,6 +218,8 @@ apis:
   humanURL: https://api.pricefinder.com.au/v1/swagger/index.html
   baseURL: https://api.pricefinder.com.au/v1
   tags:
+  - Postcodes
+  tags_raw:
   - postcodes
   properties:
   - type: OpenAPI
