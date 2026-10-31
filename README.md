@@ -1,4 +1,4 @@
-# Pricefinder (pricefinder)
+# Pricefinder
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,241 +66,124 @@
 
 Pricefinder is an Australian property intelligence and valuation platform operating at pricefinder.com.au, supplying property records, comparable sales and rental history, suburb statistics, AVM-powered price estimates and CMA/appraisal reports to real estate agencies, mortgage brokers, banks and lenders, valuers, property developers, advisory firms and government. Its home market is Australia and it sits on the data side of the value chain rather than the portal side — it blends Domain and Allhomes first-party listing feeds with state and territory government land valuation and sales data plus third-party mapping, then resells that as reports, a web application and an API. Pricefinder is a brand of Domain Holdings Australia, which CoStar Group completed the acquisition of in August 2025, so it now sits inside the same group as Domain, Allhomes and Commercial Real Estate. Its API posture is unusually honest for this sector — the full machine-readable contract is genuinely public. A complete Swagger 2.0 document (v1.13.1, 112 paths, 188 definitions, 19 tags) and an interactive Swagger UI are served anonymously from api.pricefinder.com.au, and OAuth 2.0 client_credentials, authorization_code and refresh_token flows are documented in full. But every data path returns 401 without credentials, and credentials are not self-serve — there is no developer signup, only industry "Get started" forms that route to sales for a custom, minimum-one-month commercial subscription governed by the Domain Group API Terms and Conditions. Australia has no MLS system and no RESO regime — no RESO Web API or Data Dictionary certification, no OData $metadata document and no Universal Property Identifier appears anywhere in Pricefinder's contract or documentation. The land-registry seam shows up instead as state-specific title reference lookups (NSW/VIC/QLD/SA/WA/TAS/NT/ACT plan, lot, section, volume and folio paths).
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/pricefinder/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/pricefinder/refs/heads/main/apis.yml)
+**Areas:** Real Estate · Australia · PropTech · Property Data · Valuation · AVM · Property Listings · Rentals · Land Registry · Title · Mortgage · Market Data
 
-## Tags
+## Pricefinder on APIs.io
 
-- Real Estate
-- Australia
-- PropTech
-- Property Data
-- Valuation
-- AVM
-- Property Listings
-- Rentals
-- Land Registry
-- Title
-- Mortgage
-- Market Data
+Everything profiled for Pricefinder is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/pricefinder/](https://apis.io/providers/pricefinder/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (19)
 
-- **Created:** 2026-07-26
-- **Modified:** 2026-07-26
+- [Pricefinder Appraisals API](https://apis.io/apis/pricefinder/pricefinder-appraisals-api/) — The appraisals API from Pricefinder — 11 operation(s) for appraisals.
+- [Pricefinder Events API](https://apis.io/apis/pricefinder/pricefinder-events-api/) — The events API from Pricefinder — 1 operation(s) for events.
+- [Pricefinder Features API](https://apis.io/apis/pricefinder/pricefinder-features-api/) — The features API from Pricefinder — 1 operation(s) for features.
+- [Pricefinder Images API](https://apis.io/apis/pricefinder/pricefinder-images-api/) — The images API from Pricefinder — 1 operation(s) for images.
+- [Pricefinder Listings API](https://apis.io/apis/pricefinder/pricefinder-listings-api/) — The listings API from Pricefinder — 1 operation(s) for listings.
+- [Pricefinder Names API](https://apis.io/apis/pricefinder/pricefinder-names-api/) — The names API from Pricefinder — 3 operation(s) for names.
+- [Pricefinder Postcodes API](https://apis.io/apis/pricefinder/pricefinder-postcodes-api/) — The postcodes API from Pricefinder — 4 operation(s) for postcodes.
+- [Pricefinder Properties API](https://apis.io/apis/pricefinder/pricefinder-properties-api/) — The properties API from Pricefinder — 20 operation(s) for properties.
+- [Pricefinder References API](https://apis.io/apis/pricefinder/pricefinder-references-api/) — The references API from Pricefinder — 25 operation(s) for references.
+- [Pricefinder Rentals API](https://apis.io/apis/pricefinder/pricefinder-rentals-api/) — The rentals API from Pricefinder — 1 operation(s) for rentals.
+- [Pricefinder Sales API](https://apis.io/apis/pricefinder/pricefinder-sales-api/) — The sales API from Pricefinder — 1 operation(s) for sales.
+- [Pricefinder Spatial API](https://apis.io/apis/pricefinder/pricefinder-spatial-api/) — The spatial API from Pricefinder — 4 operation(s) for spatial.
+- [Pricefinder SSO API](https://apis.io/apis/pricefinder/pricefinder-sso-api/) — The sso API from Pricefinder — 9 operation(s) for sso.
+- [Pricefinder Streets API](https://apis.io/apis/pricefinder/pricefinder-streets-api/) — The streets API from Pricefinder — 4 operation(s) for streets.
+- [Pricefinder Stubs API](https://apis.io/apis/pricefinder/pricefinder-stubs-api/) — The stubs API from Pricefinder — 1 operation(s) for stubs.
+- [Pricefinder Subscriptions API](https://apis.io/apis/pricefinder/pricefinder-subscriptions-api/) — The subscriptions API from Pricefinder — 3 operation(s) for subscriptions.
+- [Pricefinder Suburbs API](https://apis.io/apis/pricefinder/pricefinder-suburbs-api/) — The suburbs API from Pricefinder — 15 operation(s) for suburbs.
+- [Pricefinder Suggest API](https://apis.io/apis/pricefinder/pricefinder-suggest-api/) — The suggest API from Pricefinder — 6 operation(s) for suggest.
+- [Pricefinder Oauth2 API](https://apis.io/apis/pricefinder/pricefinder-oauth2-api/) — The oauth2 API from Pricefinder — 1 operation(s) for oauth2.
 
-## APIs
+### Published properties
 
-### Pricefinder Property API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Property record retrieval for Australian properties — core and extended property detail, images, floorplans, street view, maps, schools, radial searches for nearby sales, rentals, listings, properties and development applications, and PDF property reports. 22 documented operations under the `properties` tag, plus image, feature and localisation stub endpoints.
+#### MCP servers (1)
 
-- **Human URL:** [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html)
-- **Base URL:** `https://api.pricefinder.com.au/v1`
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [pricefinder](https://apis.io/servers/pricefinder/pricefinder/)
 
-- Property Records
-- Real Estate
-- Australia
+#### Collections (1)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [OpenAPI](openapi/pricefinder-api-swagger.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI](openapi/pricefinder-api-swagger.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-- [Documentation](https://www.pricefinder.com.au/our-data/)
-- [Terms of Service](https://www.domain.com.au/group/api-terms-and-conditions/)
+- [PriceFinder API v1.13.1](https://apis.io/collections/pricefinder/open-pricefinder-api-swagger/)
 
-### Pricefinder AVM & Valuation API
+#### Overlays (1)
 
-Automated valuation model output for a property, returned as JSON via GET /properties/{propertyId}/avm against the AVM schema, and as a rendered PDF via /properties/{propertyId}/avm/pdf. Auto-CMA sale and rental PDFs are generated from the same property identifier. This is the valuation surface Pricefinder markets to lenders, valuers and advisory firms.
+OpenAPI overlays, including conversational phrasing for each operation.
 
-- **Human URL:** [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html)
-- **Base URL:** `https://api.pricefinder.com.au/v1`
+- [Pricefinder Api Swagger Overlay](https://apis.io/overlays/pricefinder/pricefinder-api-swagger-overlay/)
 
-#### Tags
+#### Security (2)
 
-- Valuation
-- AVM
-- Australia
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Properties
+- [Pricefinder Authentication](https://apis.io/security/pricefinder/pricefinder-authentication/)
+- [Pricefinder Domain Security](https://apis.io/security/pricefinder/pricefinder-domain-security/)
 
-- [OpenAPI](openapi/pricefinder-api-swagger.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-- [Documentation](https://www.pricefinder.com.au/get-started/)
+## Where to find this API
 
-### Pricefinder Sales, Rentals & Listings API
-
-Retrieval of individual sale, rental and listing records by identifier, and enumeration of sales, rentals and listings scoped by suburb, postcode, street or spatial boundary. Backed by Domain and Allhomes first-party listing feeds and government sale transaction data.
-
-- **Human URL:** [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html)
-- **Base URL:** `https://api.pricefinder.com.au/v1`
-
-#### Tags
-
-- Property Listings
-- Rentals
-- Transactions
-
-#### Properties
-
-- [OpenAPI](openapi/pricefinder-api-swagger.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-
-### Pricefinder Suburb & Market Statistics API
-
-Suburb-level market intelligence — suburb detail and summary, demographics, flyover reports and PDFs, street enumeration, peak selling periods, sale price segmentation, and time series for sales, rentals and price segmentation by property type. 15 documented operations under the `suburbs` tag.
-
-- **Human URL:** [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html)
-- **Base URL:** `https://api.pricefinder.com.au/v1`
-
-#### Tags
-
-- Market Data
-- Statistics
-- Australia
-
-#### Properties
-
-- [OpenAPI](openapi/pricefinder-api-swagger.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-
-### Pricefinder Title & Land Reference API
-
-State-by-state resolution of Australian land title references to Pricefinder property records — NSW, VIC, QLD, SA, WA, TAS, NT and ACT plan/planType, lot, section, volume, folio and division lookups, plus QLD title retrieval by property identifier. 25 documented operations under the `references` tag; this is the land-registry seam expressed as an API.
-
-- **Human URL:** [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html)
-- **Base URL:** `https://api.pricefinder.com.au/v1`
-
-#### Tags
-
-- Land Registry
-- Title
-- Australia
-
-#### Properties
-
-- [OpenAPI](openapi/pricefinder-api-swagger.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-
-### Pricefinder Search & Suggest API
-
-Address, street, suburb and typeahead suggestion endpoints, lon/lat reverse suggestion, owner-name search across properties and sales, and spatial queries returning properties, sales, rentals and listings within a supplied geometry.
-
-- **Human URL:** [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html)
-- **Base URL:** `https://api.pricefinder.com.au/v1`
-
-#### Tags
-
-- Search
-- Geospatial
-
-#### Properties
-
-- [OpenAPI](openapi/pricefinder-api-swagger.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-
-### Pricefinder Appraisals & CMA API
-
-Comparative market analysis and appraisal artifacts — sales CMA, rental CMA and statement-of-information retrieval by appraisal share identifier (standard and extended), appraisal listing and insights, agent, office and logo imagery, and CMA event posting.
-
-- **Human URL:** [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html)
-- **Base URL:** `https://api.pricefinder.com.au/v1`
-
-#### Tags
-
-- Appraisals
-- CMA
-- Real Estate
-
-#### Properties
-
-- [OpenAPI](openapi/pricefinder-api-swagger.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-
-### Pricefinder Property Event Subscriptions API
-
-Subscribe, list and delete property event alerts for ForSale, ForRent, Sold and SoldVerified event types, per property or for the current user. The documentation states these are delivered as email notifications only — there is no webhook callback or push delivery documented anywhere in the contract.
-
-- **Human URL:** [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html)
-- **Base URL:** `https://api.pricefinder.com.au/v1`
-
-#### Tags
-
-- Events
-- Subscriptions
-- Notifications
-
-#### Properties
-
-- [OpenAPI](openapi/pricefinder-api-swagger.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-
-### Pricefinder SSO API
-
-Single sign-on deep links that hand an authenticated user into the Pricefinder web application at a specific context — a property, its CMA, sales or rental appraisal, statement of information, radial sales, or titles view. 9 documented operations under the `sso` tag.
-
-- **Human URL:** [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html)
-- **Base URL:** `https://api.pricefinder.com.au/v1`
-
-#### Tags
-
-- SSO
-- Authentication
-
-#### Properties
-
-- [OpenAPI](openapi/pricefinder-api-swagger.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-
-### Pricefinder OAuth 2.0 Token API
-
-POST /oauth2/token issuing access and refresh tokens for three documented grant types: client_credentials (API user's own username and password, HTTP Basic accepted as an alternative to form parameters), authorization_code (third-party delegated access via the hosted authorize page at /v1/auth/authorize.html) and refresh_token. Tokens are presented as an `Authorization: Bearer` header or an `access_token` query parameter. No OpenID Connect discovery document is served.
-
-- **Human URL:** [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html)
-- **Base URL:** `https://api.pricefinder.com.au/v1`
-
-#### Tags
-
-- OAuth
-- Authentication
-- Security
-
-#### Properties
-
-- [OpenAPI](openapi/pricefinder-api-swagger.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-- [Authentication](https://api.pricefinder.com.au/v1/auth/authorize.html)
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.pricefinder.com.au/)
-- [API Reference](https://api.pricefinder.com.au/v1/swagger/index.html)
-- [OpenAPI](https://api.pricefinder.com.au/v1/swagger.json)
-- [Sign Up](https://www.pricefinder.com.au/get-started/)
-- [Support](https://help.pricefinder.com.au/)
 - [Documentation](https://www.pricefinder.com.au/our-data/)
-- [Integrations](https://www.pricefinder.com.au/integrations/)
-- [Terms of Service](https://www.domain.com.au/group/api-terms-and-conditions/)
+- [API reference](https://api.pricefinder.com.au/v1/swagger/index.html)
+- [Sign up](https://www.pricefinder.com.au/get-started/)
+- [Support](https://help.pricefinder.com.au/)
+- [Terms of service](https://www.domain.com.au/group/api-terms-and-conditions/)
+- [Privacy policy](https://www.domain.com.au/group/privacy-policy/)
 
-## Access & RESO Posture
+## API Evangelist rating
 
-| Question | Answer |
-| --- | --- |
-| Home market | Australia (national — NSW, VIC, QLD, SA, WA, TAS, NT, ACT) |
-| RESO posture | No RESO reference found — Australia has no MLS and no RESO regime |
-| RESO certified | No |
-| OData `$metadata` | None — `https://api.pricefinder.com.au/$metadata` returns HTTP 404 |
-| RESO UPI | Not used — identity is a proprietary integer `propertyId` joined to per-state land-title references |
-| Access gate | `application-approval` — industry "Get started" form → sales → custom commercial plan, one-month minimum |
-| Membership required | No MLS, board or association membership; no agent/broker licence requirement |
-| Open data | No — commercial licence only, even over government-sourced land valuation data |
-| Auth model | OAuth 2.0 (`client_credentials`, `authorization_code`, `refresh_token`); Bearer token or `access_token` query param; HTTP Basic accepted at the token endpoint; no OIDC discovery |
-| Developer portal | [https://api.pricefinder.com.au/v1/swagger/index.html](https://api.pricefinder.com.au/v1/swagger/index.html) — live public Swagger UI, HTTP 200, but no self-serve key issuance |
-| Machine-readable contract | Swagger 2.0 v1.13.1 — 112 paths, 188 definitions, 19 tags, served anonymously at HTTP 200 |
-| Webhooks | None — event subscriptions deliver by **email only** |
-| SDKs | None official; a third-party Ruby client exists at `realhub/pricefinder-ruby` |
-| Postman | None found |
+**Kin Score 34.3** — thin · rubric 0.24.0 · scored 2026-10-17
 
-The headline finding is the split between contract and data: anyone can download the complete Pricefinder API contract without authenticating, and nobody can call it without a negotiated commercial subscription. Full probe log, HTTP statuses and provenance are in [review.yml](review.yml).
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 35.8 |
+| Contract governance | 4.5 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 51.8 |
+| Access clarity | 34.2 |
+
+**Agent readiness 17.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 28.7** — Securities & Market Data
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/pricefinder/](https://apis.io/providers/pricefinder/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Pricefinder: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/pricefinder/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
